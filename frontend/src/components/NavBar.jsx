@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import assets from "../assets/assets";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
+    <header className=" top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Left: Brand */}
         <div className="flex items-center gap-3">
           <img
             src={assets.logo}
@@ -24,41 +24,39 @@ const NavBar = () => {
           </div>
         </div>
 
-        {/* Center: Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <a
-            href="#"
+          <Link
+            to="/"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Home
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/members"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Members
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/documents"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Documents
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/about"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             About us
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="contact"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Contact us
-          </a>
+          </Link>
         </div>
 
-        {/* Right: Sign in */}
         <div className="hidden md:block">
           <button
             type="button"
@@ -68,7 +66,7 @@ const NavBar = () => {
           </button>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile  */}
         <button
           onClick={() => setOpen((v) => !v)}
           className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"

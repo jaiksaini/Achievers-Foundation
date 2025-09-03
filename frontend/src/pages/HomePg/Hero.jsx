@@ -1,23 +1,34 @@
-import React from 'react'
+import React from "react";
+import assets from "../../assets/assets";
 
 const Hero = () => {
   return (
-    <section className="relative isolate bg- bg-center bg-cover">
-     
+    <section className="relative isolate max-h-[92vh] sm:h-[75vh] lg:h-[92vh] overflow-hidden">
+      {/* Background image */}
+      <img
+        src={assets.homeBg}
+        alt="Hero background"
+        className="absolute inset-0 h-[100vh] w-[100vw] object-cover"
+      />
+
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
-     
+
+      {/* Content container */}
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="min-h-[70vh] sm:min-h-[75vh] lg:min-h-[80vh] flex items-center">
           <div className="max-w-2xl">
-            <h1 className="text-white font-extrabold leading-tight tracking-tight text-4xl sm:text-5xl lg:text-6xl">
+            <h1 className="text-white font-roboto-bold leading-tight tracking-tight text-4xl sm:text-5xl lg:text-6xl">
               Foundation of nation
-              <br /> building- education
+              <br /> building – education
               <br /> and research!
             </h1>
+
             <p className="mt-6 text-white/85 text-sm sm:text-base max-w-md">
-              Now donating is not just a virtue, it is also a wisdom - get tax
+              Now donating is not just a virtue, it is also a wisdom – get tax
               exemption.
             </p>
+
             <div className="mt-6">
               <a
                 href="#donate"
@@ -30,7 +41,7 @@ const Hero = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
