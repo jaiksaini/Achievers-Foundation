@@ -5,7 +5,7 @@ const Banner = () => {
   return (
     <section className="relative isolate h-1/20 sm:h-[50vh] lg:h-[60vh] overflow-hidden">
       <img
-        src={assets.homeBg}
+        src={assets.Banner}
         alt="Children"
         className="absolute inset-0 w-full h-full object-cover"
       />

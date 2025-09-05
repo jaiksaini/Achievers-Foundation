@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <header className=" top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -25,40 +26,41 @@ const NavBar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link
+          <NavLink
             to="/"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Home
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/members"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Members
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/documents"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Documents
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/about"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             About us
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="contact"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Contact us
-          </Link>
+          </NavLink>
         </div>
 
         <div className="hidden md:block">
           <button
+            onClick={() => navigate("/signin", { replace: true })}
             type="button"
             className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-300"
           >
@@ -109,6 +111,7 @@ const NavBar = () => {
               )
             )}
             <button
+              onClick={() => navigate("/signin", { replace: true })}
               type="button"
               className="mt-2 w-full inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black"
             >

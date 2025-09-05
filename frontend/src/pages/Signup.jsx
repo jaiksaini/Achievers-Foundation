@@ -1,18 +1,28 @@
-import { React } from "react";
-import { FaUser, FaLock } from "react-icons/fa";
+import React from "react";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FaMicrosoft } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  NavLink, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
 
-const SingInPg = () => {
+const Signup = () => {
   const navigate = useNavigate();
+
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">
       {/* Left Side  */}
-      <div className="flex flex-col justify-center items-center md:w-[35vw] p-6 md:p-0">
+      <div className="justify-center items-center  hidden md:flex">
+        <img
+          src={assets.ngo}
+          alt="NGO Logo"
+          className="max-w-[35vw] w-full"
+        />
+      </div>
+
+      {/* Right Side  */}
+      <div className=" flex flex-col justify-center items-center md:w-[35vw] p-6 md:p-0 ">
         <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-center mb-2">SIGN IN</h2>
+          <h2 className="text-2xl font-bold text-center mb-2">SIGNUP</h2>
           <p className="text-center text-gray-500 mb-6">
             Let’s Get Started With Your NGO account
           </p>
@@ -28,6 +38,14 @@ const SingInPg = () => {
               />
             </div>
             <div className="flex items-center bg-gray-100 rounded-lg px-3">
+              <FaEnvelope className="text-gray-400 mr-2" />
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full p-3 bg-transparent focus:outline-none"
+              />
+            </div>
+            <div className="flex items-center bg-gray-100 rounded-lg px-3">
               <FaLock className="text-gray-400 mr-2" />
               <input
                 type="password"
@@ -38,14 +56,14 @@ const SingInPg = () => {
           </div>
 
           <button className="w-full mt-5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 rounded-lg shadow-lg hover:opacity-90 transition">
-            Sign In Now
+            SignUp Now
           </button>
 
           {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-grow border-t border-gray-300"></div>
             <span className="mx-4 text-gray-500 text-sm">
-              Sign In with Others
+              SignUp with Others
             </span>
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
@@ -54,41 +72,32 @@ const SingInPg = () => {
             <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FcGoogle className="text-xl mr-2" />
               <span>
-                Sign In with <strong>Google</strong>{" "}
+                SignUp with <strong>Google</strong>
               </span>
             </button>
             <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FaMicrosoft className="text-blue-500 text-xl mr-2" />
               <span>
-                Sign In with <strong>Microsoft</strong>
+                SignUp with <strong>Microsoft</strong>
               </span>
             </button>
           </div>
 
           {/* Redirect to Signin */}
           <p className="text-center text-gray-600 mt-6">
-            Create an account?{" "}
+            Do you have any account?{" "}
             <NavLink
               href="/signin"
               className="text-blue-600 font-medium hover:underline"
-              onClick={() => navigate("/signup", { replace: true })}
+              onClick={() => navigate("/signin", { replace: true })}
             >
-              Sign Up
+              Sign in
             </NavLink>
           </p>
         </div>
-      </div>
-
-      {/* Right Side  */}
-      <div className="justify-center items-center hidden md:flex">
-        <img
-          src={assets.ngo}
-          alt="NGO Logo"
-          className="max-w-[32vw] w-full"
-        />
       </div>
     </div>
   );
 };
 
-export default SingInPg;
+export default Signup;

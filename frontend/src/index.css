@@ -22,3 +22,7 @@
   font-variation-settings:
     "wdth" 100;
 }
+
+a.active {
+  color: #1E88E5;
+}

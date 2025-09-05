@@ -5,6 +5,7 @@ import Contribution from "./HomePg/Contribution";
 import Banner1 from "./HomePg/Banner1";
 import Banner from "./HomePg/Banner";
 import Footer from "../components/Footer";
+import TeamSection from "./HomePg/TeamSection";
 // import License from "./HomePg/License";
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
       <ReasonForHelp/>
       <Contribution/>
       <Banner1/>
+      <TeamSection/>
       <Banner/>
       <Footer/>
       
