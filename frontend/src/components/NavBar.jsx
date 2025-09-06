@@ -8,7 +8,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   return (
     <header className=" top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <nav className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
             src={assets.logo}

@@ -4,17 +4,14 @@ import assets from "../../assets/assets";
 const Hero = () => {
   return (
     <section className="relative isolate max-h-[92vh] sm:h-[75vh] lg:h-[92vh] overflow-hidden">
-      {/* Background image */}
       <img
         src={assets.homeBg}
         alt="Hero background"
         className="absolute inset-0 h-[100vh] w-[100vw] object-cover"
       />
 
-      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
 
-      {/* Content container */}
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="min-h-[70vh] sm:min-h-[75vh] lg:min-h-[80vh] flex items-center">
           <div className="max-w-2xl">

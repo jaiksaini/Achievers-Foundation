@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Banner1 = () => {
-return (
+  return (
     <section className="bg-[#fef3c7] py-16 px-4 sm:px-6 lg:px-12">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         <div>
@@ -47,6 +47,6 @@ return (
       </div>
     </section>
   );
-}
+};
 
-export default Banner1
+export default Banner1;

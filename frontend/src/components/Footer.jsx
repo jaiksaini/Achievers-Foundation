@@ -1,5 +1,11 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -9,7 +15,8 @@ const Footer = () => {
           <div>
             <p className="font-semibold">Stay informed</p>
             <p className="mt-2 text-sm">
-              Stay informed about our latest features and releases by joining our newsletter.
+              Stay informed about our latest features and releases by joining
+              our newsletter.
             </p>
             <div className="mt-4 flex">
               <input
@@ -22,7 +29,8 @@ const Footer = () => {
               </button>
             </div>
             <p className="mt-2 text-xs text-gray-400">
-              By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+              By subscribing, you agree to our Privacy Policy and consent to
+              receive updates from our company.
             </p>
           </div>
 
@@ -51,11 +59,21 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold">Follow us</h3>
             <div className="mt-4 flex space-x-4 text-xl">
-              <a href="#" className="hover:text-white"><FaFacebook /></a>
-              <a href="#" className="hover:text-white"><FaInstagram /></a>
-              <a href="#" className="hover:text-white"><FaTwitter /></a>
-              <a href="#" className="hover:text-white"><FaLinkedin /></a>
-              <a href="#" className="hover:text-white"><FaYoutube /></a>
+              <a href="#" className="hover:text-white">
+                <FaFacebook />
+              </a>
+              <a href="#" className="hover:text-white">
+                <FaInstagram />
+              </a>
+              <a href="#" className="hover:text-white">
+                <FaTwitter />
+              </a>
+              <a href="#" className="hover:text-white">
+                <FaLinkedin />
+              </a>
+              <a href="#" className="hover:text-white">
+                <FaYoutube />
+              </a>
             </div>
           </div>
         </div>

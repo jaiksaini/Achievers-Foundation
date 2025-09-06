@@ -9,7 +9,6 @@ const SingInPg = () => {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">
-      {/* Left Side  */}
       <div className="flex flex-col justify-center items-center md:w-[35vw] p-6 md:p-0">
         <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
           <h2 className="text-2xl font-bold text-center mb-2">SIGN IN</h2>
@@ -17,7 +16,6 @@ const SingInPg = () => {
             Let’s Get Started With Your NGO account
           </p>
 
-          {/* Inputs */}
           <div className="space-y-4">
             <div className="flex items-center bg-gray-100 rounded-lg px-3">
               <FaUser className="text-gray-400 mr-2" />
@@ -41,7 +39,6 @@ const SingInPg = () => {
             Sign In Now
           </button>
 
-          {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-grow border-t border-gray-300"></div>
             <span className="mx-4 text-gray-500 text-sm">
@@ -65,7 +62,6 @@ const SingInPg = () => {
             </button>
           </div>
 
-          {/* Redirect to Signin */}
           <p className="text-center text-gray-600 mt-6">
             Create an account?{" "}
             <NavLink
@@ -79,13 +75,8 @@ const SingInPg = () => {
         </div>
       </div>
 
-      {/* Right Side  */}
       <div className="justify-center items-center hidden md:flex">
-        <img
-          src={assets.ngo}
-          alt="NGO Logo"
-          className="max-w-[32vw] w-full"
-        />
+        <img src={assets.ngo} alt="NGO Logo" className="max-w-[32vw] w-full" />
       </div>
     </div>
   );

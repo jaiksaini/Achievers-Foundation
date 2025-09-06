@@ -20,7 +20,6 @@ const ContactUs = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-        {/* Left Side */}
         <div className="bg-gray-50 p-8 rounded-lg shadow-sm">
           <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
           <p className="text-gray-600 mb-6">
@@ -57,7 +56,6 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* Right Side */}
         <form className="space-y-6 relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -118,9 +116,7 @@ const ContactUs = () => {
           >
             Send Message
           </button>
-          <button
-            className="flex px-6 mt-10 py-3 bg-white text-white"
-          >
+          <button className="flex px-6 mt-10 py-3 bg-white text-white">
             &nbsp; &nbsp; &nbsp;
           </button>
         </form>

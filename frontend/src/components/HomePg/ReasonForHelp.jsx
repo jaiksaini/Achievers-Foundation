@@ -1,8 +1,8 @@
-import React from 'react'
-import assets from '../../assets/assets';
+import React from "react";
+import assets from "../../assets/assets";
 
 const ReasonForHelp = () => {
-    const reasons = [
+  const reasons = [
     {
       img: assets.RfH_Img_1,
       title: "Inspiration for Future Generations",
@@ -21,7 +21,6 @@ const ReasonForHelp = () => {
   ];
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      
       <div className="text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
           Reason for Helping
@@ -32,7 +31,6 @@ const ReasonForHelp = () => {
         </p>
       </div>
 
-      
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {reasons.map((reason, index) => (
           <div key={index} className="flex flex-col items-center text-center">
@@ -52,6 +50,6 @@ const ReasonForHelp = () => {
       </div>
     </section>
   );
-}
+};
 
-export default ReasonForHelp
+export default ReasonForHelp;

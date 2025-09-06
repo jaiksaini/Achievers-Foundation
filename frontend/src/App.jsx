@@ -5,7 +5,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
-  Routes,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import RootLayout from "./layout/RootLayout";
@@ -15,6 +14,19 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Signup from "./pages/Signup";
 import SingInPg from "./pages/SingInPg";
+import AdmDashboard from "./pages/AdmDashboard";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AdminMembers from "./components/Admin/AdminMembers";
+import AdminDoc from "./components/Admin/AdminDoc";
+import AdminDonations from "./components/Admin/AdminDonations";
+import AdminSetting from "./components/Admin/AdminSetting";
+import MemberRequests from "./components/Admin/MemberRequests";
+import MemDashboard from "./pages/MemDashboard";
+import MemberDonationHistory from "./components/Member/MemberDonationHistory";
+import MemberIDCard from "./components/Member/MemberIDCard";
+import MemberNotifications from "./components/Member/MemberNotifications";
+import MemberOverview from "./components/Member/MemberOverview";
+import MemberSettings from "./components/Member/MemberSettings";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -27,9 +39,30 @@ const App = () => {
           <Route path="documents" element={<Documents />} />
           <Route path="about" element={<AboutUs />} />
           <Route path="contact" element={<ContactUs />} />
+          <Route path="admin" element={<AdmDashboard />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/members" element={<AdminMembers />} />
+            <Route
+              path="/admin/members/requests"
+              element={<MemberRequests />}
+            />
+            <Route path="/admin/document" element={<AdminDoc />} />
+            <Route path="/admin/donations" element={<AdminDonations />} />
+            <Route path="/admin/settings" element={<AdminSetting />} />
+          </Route>
+          <Route path="member" element={<MemDashboard />}>
+            <Route path="/member/overview" element={<MemberOverview />} />
+            <Route
+              path="/member/donationhistory"
+              element={<MemberDonationHistory />}
+            />
+            <Route path="/member/setting" element={<MemberSettings />} />
+            <Route path="/member/idcard" element={<MemberIDCard />} />
+            <Route path="/member/noti" element={<MemberNotifications />} />
+          </Route>
         </Route>
         <Route path="signup" element={<Signup />} />
-        <Route path="signin" element={<SingInPg/>} />
+        <Route path="signin" element={<SingInPg />} />
       </>
     )
   );
