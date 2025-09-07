@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Banner1 = () => {
   return (
@@ -30,18 +31,18 @@ const Banner1 = () => {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href="#learn"
+            <Link
+              to="/about"
               className="inline-flex items-center justify-center border border-gray-900 px-5 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-100"
             >
               Learn More
-            </a>
-            <a
-              href="#donate"
+            </Link>
+            <Link
+              to="/donation"
               className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
             >
               Donate Now <span className="ml-2">➝</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

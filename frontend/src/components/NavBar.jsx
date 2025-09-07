@@ -1,79 +1,77 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+
+  const navLinks = [
+    { path: "/", label: "Home" },
+    { path: "/members", label: "Members" },
+    { path: "/documents", label: "Documents" },
+    { path: "/about", label: "About us" },
+    { path: "/contact", label: "Contact us" },
+  ];
+
   return (
-    <header className=" top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
+    <header className="top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <nav className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        {/* Logo + Title */}
+        <div
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           <img
             src={assets.logo}
             alt="Academics Achievers Foundation"
-            className="h-8 w-8 rounded-full object-cover"
+            className="h-10 w-10 rounded-full object-cover border border-gray-200"
           />
           <div className="flex flex-col leading-none">
-            <span className="text-xs font-semibold tracking-wide uppercase">
+            <span className="text-sm font-bold tracking-wide uppercase text-gray-900">
               Achievers
             </span>
-            <span className="text-[10px] text-gray-500">
+            <span className="text-[11px] text-gray-500">
               Education and Research Foundation
             </span>
           </div>
         </div>
 
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          <NavLink
-            to="/"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/members"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Members
-          </NavLink>
-          <NavLink
-            to="/documents"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Documents
-          </NavLink>
-          <NavLink
-            to="/about"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            About us
-          </NavLink>
-          <NavLink
-            to="contact"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Contact us
-          </NavLink>
+          {navLinks.map((link, idx) => (
+            <NavLink
+              key={idx}
+              to={link.path}
+              className={({ isActive }) =>
+                `text-sm font-medium transition ${
+                  isActive
+                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                    : "text-gray-700 hover:text-blue-600"
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
         </div>
 
+        {/* Desktop Sign in */}
         <div className="hidden md:block">
           <button
             onClick={() => navigate("/signin", { replace: true })}
             type="button"
-            className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
           >
             Sign in
           </button>
         </div>
 
-        {/* Mobile  */}
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
           aria-label="Toggle navigation"
-          aria-expanded={open}
         >
           <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none">
             {open ? (
@@ -95,25 +93,33 @@ const NavBar = () => {
         </button>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden border-t border-gray-100">
+        <div
+          className="md:hidden border-t border-gray-100 bg-white shadow-md animate-slide-down"
+          onClick={() => setOpen(false)} // close menu when clicking outside links
+        >
           <div className="px-4 py-3 space-y-2">
-            {["Home", "Members", "Documents", "About us", "Contact us"].map(
-              (item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="block rounded-md px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
-                >
-                  {item}
-                </a>
-              )
-            )}
+            {navLinks.map((link, idx) => (
+              <NavLink
+                key={idx}
+                to={link.path}
+                className={({ isActive }) =>
+                  `block rounded-md px-2 py-2 text-sm font-medium ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+
             <button
               onClick={() => navigate("/signin", { replace: true })}
               type="button"
-              className="mt-2 w-full inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black"
+              className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
             >
               Sign in
             </button>

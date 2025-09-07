@@ -14,8 +14,6 @@ const MemberSettings = () => {
 
   return (
     <div className="p-2">
-      <h2 className="text-xl md:text-2xl font-bold mb-6">Admin Settings</h2>
-
       <div className="grid gap-6 md:grid-cols-2">
         <div className="bg-white rounded-xl shadow p-6">
           <h3 className="text-lg font-semibold mb-4">Profile Settings</h3>

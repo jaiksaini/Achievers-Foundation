@@ -1,7 +1,10 @@
 import React from "react";
 import assets from "../../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative isolate max-h-[92vh] sm:h-[75vh] lg:h-[92vh] overflow-hidden">
       <img
@@ -28,7 +31,7 @@ const Hero = () => {
 
             <div className="mt-6">
               <a
-                href="#donate"
+                onClick={() => navigate("/donation")}
                 className="inline-flex items-center rounded-md bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white/60"
               >
                 Make a Donation

@@ -27,6 +27,8 @@ import MemberIDCard from "./components/Member/MemberIDCard";
 import MemberNotifications from "./components/Member/MemberNotifications";
 import MemberOverview from "./components/Member/MemberOverview";
 import MemberSettings from "./components/Member/MemberSettings";
+import Donation from "./pages/Donation";
+import JoinUs from "./pages/JoinUs";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -39,7 +41,9 @@ const App = () => {
           <Route path="documents" element={<Documents />} />
           <Route path="about" element={<AboutUs />} />
           <Route path="contact" element={<ContactUs />} />
+          <Route path="joinus" element={<JoinUs />} />
           <Route path="admin" element={<AdmDashboard />}>
+            <Route path="/admin/" element={<AdminDashboard />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/members" element={<AdminMembers />} />
             <Route
@@ -51,6 +55,7 @@ const App = () => {
             <Route path="/admin/settings" element={<AdminSetting />} />
           </Route>
           <Route path="member" element={<MemDashboard />}>
+            <Route path="/member/" element={<MemberOverview />} />
             <Route path="/member/overview" element={<MemberOverview />} />
             <Route
               path="/member/donationhistory"
@@ -60,12 +65,14 @@ const App = () => {
             <Route path="/member/idcard" element={<MemberIDCard />} />
             <Route path="/member/noti" element={<MemberNotifications />} />
           </Route>
+          <Route path="donation" element={<Donation />} />
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
       </>
     )
   );
+
   return <RouterProvider router={router} />;
 };
 

@@ -1,86 +1,111 @@
 import React from "react";
 import {
-  FaFacebook,
-  FaInstagram,
+  FaFacebookF,
   FaTwitter,
-  FaLinkedin,
-  FaYoutube,
+  FaInstagram,
+  FaLinkedinIn,
 } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-gray-300 py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-10">
+    <footer className="bg-black text-gray-300">
+      <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div>
+          <h2 className="text-xl font-bold text-white mb-4">
+            AAEAR Foundation
+          </h2>
+          <p className="text-sm">
+            Academics Achievers Education and Research Foundation is committed
+            to advancing education, research, and innovation for a brighter
+            tomorrow.
+          </p>
+        </div>
+        <div className="md:col-span-2 grid grid-cols-2 gap-10">
           <div>
-            <p className="font-semibold">Stay informed</p>
-            <p className="mt-2 text-sm">
-              Stay informed about our latest features and releases by joining
-              our newsletter.
-            </p>
-            <div className="mt-4 flex">
-              <input
-                type="email"
-                placeholder="Enter email address"
-                className="w-full px-4 py-2 rounded-l-md text-white bg-gray-800 focus:outline-none"
-              />
-              <button className="bg-gray-700 px-4 py-2 rounded-r-md hover:bg-gray-600">
-                Subscribe
-              </button>
-            </div>
-            <p className="mt-2 text-xs text-gray-400">
-              By subscribing, you agree to our Privacy Policy and consent to
-              receive updates from our company.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold">Column One</h3>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>About Us</li>
-              <li>Our Impact</li>
-              <li>Get Involved</li>
-              <li>Contact Us</li>
-              <li>Donate</li>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Quick Links
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <NavLink to="/" className="hover:text-white">
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/about" className="hover:text-white">
+                  About Us
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/members" className="hover:text-white">
+                  Members
+                </NavLink>
+              </li>
+              {/* <li>
+              <NavLink to="/projects" className="hover:text-white">Projects</NavLink>
+            </li> */}
+              <li>
+                <NavLink to="/documents" className="hover:text-white">
+                  Documents
+                </NavLink>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold">Column Two</h3>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>Link Six</li>
-              <li>Link Seven</li>
-              <li>Link Eight</li>
-              <li>Link Nine</li>
-              <li>Link Ten</li>
+            <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <NavLink to="/donation" className="hover:text-white">
+                  Donate
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/joinus" className="hover:text-white">
+                  Become a Member
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/contact" className="hover:text-white">
+                  Contact Us
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/documents" className="hover:text-white">
+                  Licenses
+                </NavLink>
+              </li>
             </ul>
           </div>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-4">
+            Get in Touch
+          </h3>
+          <p className="text-sm mb-1">📍 New Delhi, India</p>
+          <p className="text-sm mb-1">📧 info@aaearfoundation.org</p>
+          <p className="text-sm">📞 +91 9999 99999</p>
 
-          <div>
-            <h3 className="font-semibold">Follow us</h3>
-            <div className="mt-4 flex space-x-4 text-xl">
-              <a href="#" className="hover:text-white">
-                <FaFacebook />
-              </a>
-              <a href="#" className="hover:text-white">
-                <FaInstagram />
-              </a>
-              <a href="#" className="hover:text-white">
-                <FaTwitter />
-              </a>
-              <a href="#" className="hover:text-white">
-                <FaLinkedin />
-              </a>
-              <a href="#" className="hover:text-white">
-                <FaYoutube />
-              </a>
-            </div>
+          <div className="flex space-x-4 mt-4">
+            <a href="#" className="hover:text-white">
+              <FaFacebookF />
+            </a>
+            <a href="#" className="hover:text-white">
+              <FaTwitter />
+            </a>
+            <a href="#" className="hover:text-white">
+              <FaInstagram />
+            </a>
+            <a href="#" className="hover:text-white">
+              <FaLinkedinIn />
+            </a>
           </div>
         </div>
+      </div>
 
-        <div className="mt-12 text-center text-sm text-gray-500">
-          © 2025 Achievers-Foundation. All rights reserved.
-        </div>
+      <div className="my-6 text-center text-sm text-gray-400">
+        © {new Date().getFullYear()} AAEAR Foundation. All rights reserved.
       </div>
     </footer>
   );

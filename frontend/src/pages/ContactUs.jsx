@@ -10,7 +10,7 @@ import {
 
 const ContactUs = () => {
   return (
-    <section className="py-12 px-6 md:px-16 bg-white">
+    <section className="py-12 min-h-screen px-6 md:px-16 bg-white">
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-bold">Contact Us</h2>
         <br />

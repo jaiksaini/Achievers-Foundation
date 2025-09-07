@@ -4,9 +4,8 @@ import ReasonForHelp from "../components/HomePg/ReasonForHelp";
 import Contribution from "../components/HomePg/Contribution";
 import Banner1 from "../components/HomePg/Banner1";
 import Banner from "../components/HomePg/Banner";
-import Footer from "../components/Footer";
 import TeamSection from "../components/HomePg/TeamSection";
-// import License from "./HomePg/License";
+// import Projects from "../components/HomePg/Projects";
 
 const Home = () => {
   return (
@@ -17,7 +16,6 @@ const Home = () => {
       <Banner1 />
       <TeamSection />
       <Banner />
-      <Footer />
     </>
   );
 };

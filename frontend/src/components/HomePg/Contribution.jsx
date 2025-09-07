@@ -1,7 +1,9 @@
 import React from "react";
 import assets from "../../assets/assets";
+import { Link } from "react-router-dom";
 
 const Contribution = () => {
+
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -34,19 +36,19 @@ const Contribution = () => {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href="#donate"
+            <Link
+              to="/donation"
               className="inline-flex items-center justify-center border border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-100"
             >
               Donate
-            </a>
-            <a
-              href="#learn"
+            </Link>
+            <Link
+             to="/about"
               className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
             >
               Learn More
               <span className="ml-2">➝</span>
-            </a>
+            </Link>
           </div>
         </div>
 

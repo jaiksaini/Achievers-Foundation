@@ -1,5 +1,6 @@
 import React from "react";
 import assets from "../../assets/assets";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -16,18 +17,18 @@ const Banner = () => {
           You can contribute to provide a place for children with special needs!
         </h1>
         <div className="mt-6 flex flex-wrap gap-4 justify-center">
-          <a
-            href="#join"
+          <Link
+            to="/joinus"
             className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
           >
             Join as a Member
-          </a>
-          <a
-            href="#donate"
+          </Link>
+          <Link
+          to="/donation"
             className="bg-white text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-gray-200"
           >
             Donate
-          </a>
+          </Link>
         </div>
       </div>
     </section>
