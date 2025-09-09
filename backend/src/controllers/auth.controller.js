@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { generateToken } from "../utils/generateCookie.js";
 
 // User Signup
 
@@ -15,12 +15,10 @@ export const SignUp = async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(420)
-        .json({
-          status: "failed",
-          message: "User Already exists with this Email.",
-        });
+      return res.status(420).json({
+        status: "failed",
+        message: "User Already exists with this Email.",
+      });
     }
 
     // Hashing a User Password..
@@ -33,13 +31,11 @@ export const SignUp = async (req, res) => {
       password: hashedPassword,
     }).save();
     // Send Email Verifaction Mail with OTP..
-    res
-      .status(201)
-      .json({
-        status: "success",
-        message: " SignUp Successful",
-        user: { id: newuser._id, email: newuser.email },
-      });
+    res.status(201).json({
+      status: "success",
+      message: " SignUp Successful",
+      user: { id: newuser._id, email: newuser.email },
+    });
   } catch (error) {
     console.log(error);
 
@@ -80,6 +76,8 @@ export const LogIn = async (req, res) => {
         message: " Invalid Mail or password",
       });
     }
+
+    generateToken(user._id, res);
 
     res.status(200).json({
       user: {
