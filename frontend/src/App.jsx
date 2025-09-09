@@ -29,6 +29,7 @@ import MemberOverview from "./components/Member/MemberOverview";
 import MemberSettings from "./components/Member/MemberSettings";
 import Donation from "./pages/Donation";
 import JoinUs from "./pages/JoinUs";
+import EmailVerification from "./pages/EmailVerification";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -69,6 +70,7 @@ const App = () => {
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
+        <Route path="verify" element={<EmailVerification/>} />
       </>
     )
   );
