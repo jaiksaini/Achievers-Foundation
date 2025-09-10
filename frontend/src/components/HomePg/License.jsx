@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaDownload, FaEye } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 
 const License = () => {
   const [licenses] = useState([
@@ -26,19 +26,22 @@ const License = () => {
     },
   ]);
 
+  const [selectedDoc, setSelectedDoc] = useState(null);
+
   return (
     <div className="bg-gray-50 py-12 px-6">
+      {/* Header Section */}
       <section className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
           NGO Licenses & Certificates
         </h1>
         <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
           Transparency is our priority. Below are the official licenses and
-          certificates of AAEAR Foundation that validate our work and
-          compliance.
+          certificates of AAEAR Foundation that validate our work and compliance.
         </p>
       </section>
 
+      {/* License Cards */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
         {licenses.map((doc) => (
           <div
@@ -51,25 +54,39 @@ const License = () => {
             <p className="text-gray-600 flex-1">{doc.description}</p>
 
             <div className="flex gap-3 mt-6">
-              <a
-                href={doc.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-              >
-                <FaEye /> View
-              </a>
-              <a
-                href={doc.fileUrl}
-                download
+              <button
+                onClick={() => setSelectedDoc(doc)}
                 className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
               >
-                <FaDownload /> Download
-              </a>
+                <FaEye /> View
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Modal for PDF preview */}
+      {selectedDoc && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white w-[90%] md:w-[70%] h-[80%] rounded-lg shadow-lg overflow-hidden relative">
+            <div className="flex justify-between items-center p-4 bg-gray-100 border-b">
+              <h2 className="text-lg font-semibold">{selectedDoc.title}</h2>
+              <button
+                onClick={() => setSelectedDoc(null)}
+                className="text-red-600 font-bold text-lg"
+              >
+                ✖
+              </button>
+            </div>
+
+            <embed
+              src={selectedDoc.fileUrl + "#toolbar=0&navpanes=0&scrollbar=0"}
+              type="application/pdf"
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

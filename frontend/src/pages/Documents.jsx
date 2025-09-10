@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  FaDownload,
-  FaFilePdf,
-  FaFileWord,
-  FaFileAlt,
-  FaEye,
-} from "react-icons/fa";
+import { FaEye, FaFilePdf, FaFileAlt } from "react-icons/fa";
 import pdf from "../assets/Doc/pdf";
 import License from "../components/HomePg/License";
 
@@ -43,7 +37,7 @@ const Documents = () => {
       id: 5,
       title: "e-MOA",
       type: "pdf",
-      description: "	INC-13_1-16603026552",
+      description: "INC-13_1-16603026552",
       fileUrl: pdf.e_MOA,
     },
     {
@@ -64,7 +58,7 @@ const Documents = () => {
       id: 8,
       title: "INC-9",
       type: "pdf",
-      description: "	INC-9_28_02_2025_signed",
+      description: "INC-9_28_02_2025_signed",
       fileUrl: pdf.INC_9,
     },
   ]);
@@ -75,8 +69,6 @@ const Documents = () => {
     switch (type) {
       case "pdf":
         return <FaFilePdf className="text-red-500 text-3xl" />;
-      case "docx":
-        return <FaFileWord className="text-blue-500 text-3xl" />;
       default:
         return <FaFileAlt className="text-gray-500 text-3xl" />;
     }
@@ -104,26 +96,12 @@ const Documents = () => {
             <p className="text-gray-600 text-sm flex-1">{doc.description}</p>
 
             <div className="flex flex-wrap gap-3 mt-4">
-              {doc.type === "pdf" ? (
-                <button
-                  onClick={() => setSelectedDoc(doc)}
-                  className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
-                >
-                  <FaEye /> View
-                </button>
-              ) : (
-                <p className="text-sm text-gray-500">
-                  (Word file - download to view)
-                </p>
-              )}
-
-              <a
-                href={doc.fileUrl}
-                download
-                className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              <button
+                onClick={() => setSelectedDoc(doc)}
+                className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
               >
-                <FaDownload /> Download
-              </a>
+                <FaEye /> View
+              </button>
             </div>
           </div>
         ))}
@@ -147,11 +125,12 @@ const Documents = () => {
                 ✖
               </button>
             </div>
-            <iframe
-              src={selectedDoc.fileUrl}
-              title={selectedDoc.title}
+
+            <embed
+              src={selectedDoc.fileUrl + "#toolbar=0&navpanes=0&scrollbar=0"}
+              type="application/pdf"
               className="w-full h-full"
-            ></iframe>
+            />
           </div>
         </div>
       )}
