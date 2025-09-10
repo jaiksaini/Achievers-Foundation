@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     profilePic: { type: String, default: "" },
     role: { type: String, enum: ["admin", "user"], default: "user" },
+    is_verified: { type: Boolean, default: false },
     donations: [{ type: mongoose.Types.ObjectId, ref: "donation" }],
 
     createdAt: { type: Date, default: Date.now },
