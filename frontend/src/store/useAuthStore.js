@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import axiosInstance from "../lib/axios";
-import { toast } from "react-hot-toast";
+
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -45,16 +46,17 @@ export const useAuthStore = create((set) => ({
       const response = await axiosInstance.post("/api/user/login", data, {
         withCredentials: true,
       });
-      if(Cookies.get("is_auth")==="true"){
+      if (Cookies.get("is_auth") === "true") {
         set({
-            user: response.data?.user , isAuthenticated : true
-        })
-        toast.success(response?.data?.message ||"Logged in Successfully")
+          user: response.data?.user,
+          isAuthenticated: true,
+        });
+        toast.success(response?.data?.message || "Logged in Successfully");
       }
     } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to Log In")
-    }finally{
-        set({isLogin: false})
+      toast.error(error.response?.data?.message || "Failed to Log In");
+    } finally {
+      set({ isLogin: false });
     }
   },
 }));

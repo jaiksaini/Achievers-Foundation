@@ -35,7 +35,7 @@ import EmailVerification from "./pages/EmailVerification";
 const App = () => {
 
 
-  <Toaster position="top-right" reverseOrder={false} />
+ 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -74,12 +74,20 @@ const App = () => {
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
-        <Route path="verify-" element={<EmailVerification/>} />
+        <Route path="verify-email" element={<EmailVerification/>} />
       </>
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+  <RouterProvider router={router} />
+
+    <Toaster position="top-right" reverseOrder={false} />
+  </>
+
+  );
+  
 };
 
 export default App;

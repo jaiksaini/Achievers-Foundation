@@ -6,6 +6,7 @@ import { FaMicrosoft } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
 import { useAuthStore } from "../store/useAuthStore";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
