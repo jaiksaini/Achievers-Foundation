@@ -10,8 +10,8 @@ export const useAuthStore = create((set) => ({
   isSignup: false,
   setOtp: false,
   isLogin: false,
-  isAuthenticated: false,
-
+  
+  
   signup: async (data) => {
     set({ isSignup: true });
     try {
@@ -40,23 +40,43 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+  // Login
   login: async (data) => {
     set({ isLogin: true });
     try {
-      const response = await axiosInstance.post("/api/user/login", data, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.post("/api/user/login", data, { withCredentials: true });
+      
+      // Check if the 'is_auth' cookie is set
       if (Cookies.get("is_auth") === "true") {
-        set({
-          user: response.data?.user,
-          isAuthenticated: true,
-        });
-        toast.success(response?.data?.message || "Logged in Successfully");
+        set({ user: res.data?.user, isAuthenticated: true });
+        toast.success("Logged in successfully");
+      } else {
+        set({ isAuthenticated: false });
       }
+
+      return res.data;
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to Log In");
+      toast.error(error.response?.data?.message || "Failed to log in.");
     } finally {
       set({ isLogin: false });
+    }
+  },
+
+  logout: async () => {
+    try {
+      await axiosInstance.post("/api/user/logout");
+      
+      // Remove cookies related to authentication
+      Cookies.remove("is_auth");
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+
+      // Reset authentication state in Zustand
+      set({ user: null, isAuthenticated: false });
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Failed to log out.");
     }
   },
 }));

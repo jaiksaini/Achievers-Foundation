@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
+import { useAuthStore } from "../store/useAuthStore";
+
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated, logout, user } = useAuthStore()
+  const role = user?.role
+ 
+
+
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -44,10 +51,9 @@ const NavBar = () => {
               key={idx}
               to={link.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${
-                  isActive
-                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                    : "text-gray-700 hover:text-blue-600"
+                `text-sm font-medium transition ${isActive
+                  ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                  : "text-gray-700 hover:text-blue-600"
                 }`
               }
             >
@@ -58,13 +64,32 @@ const NavBar = () => {
 
         {/* Desktop Sign in */}
         <div className="hidden md:block">
-          <button
-            onClick={() => navigate("/signin", { replace: true })}
-            type="button"
-            className="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
-          >
-            Sign in
-          </button>
+          {!isAuthenticated ? (
+            <button
+              onClick={() => navigate("/signin", { replace: true })}
+              type="button"
+              className="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
+            >
+              Sign in
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => navigate("/admin/dashboard", { replace: true })}
+                type="button"
+                className="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
+              >
+                {role === "admin" ? "Admin DashBoard" : "Dashboard"}
+              </button>
+              <button
+                onClick={logout}
+                className="bg-white text-secondary px-4 py-1 rounded-md border-2 border-white hover:bg-secondary hover:text-white"
+              >
+                Logout
+              </button>
+            </>
+          )}
+
         </div>
 
         {/* Mobile Menu Button */}
@@ -105,10 +130,9 @@ const NavBar = () => {
                 key={idx}
                 to={link.path}
                 className={({ isActive }) =>
-                  `block rounded-md px-2 py-2 text-sm font-medium ${
-                    isActive
-                      ? "bg-blue-50 text-blue-600"
-                      : "text-gray-700 hover:bg-gray-100"
+                  `block rounded-md px-2 py-2 text-sm font-medium ${isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-700 hover:bg-gray-100"
                   }`
                 }
               >
