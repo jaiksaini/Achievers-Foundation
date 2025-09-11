@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaEnvelopeOpenText } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const EmailVerification = () => {
+  const navigate = useNavigate()
+  const [ formData, setformData]  = useState({
+    email: "",
+    otp: ""
+  });
+
+
+  const { verifyEmail, setOtp } = useAuthStore();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+   
+      verifyEmail(formData);
+
+      navigate("/");
+    
+  };
+
+
+
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 text-center">
@@ -17,18 +42,33 @@ const EmailVerification = () => {
           code below to verify your account.
         </p>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Enter Your Mail Address"
+            
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={formData.email}
+            onChange={(e) =>
+              setformData({ ...formData, email: e.target.value })
+            }
+          />
           <input
             type="text"
             placeholder="Enter 6-digit code"
             maxLength={6}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={formData.otp}
+            onChange={(e) => {
+              setformData({ ...formData, otp: e.target.value })
+            }}
           />
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition"
+            disabled={setOtp}
           >
-            Verify Email
+            {setOtp ? "Verifying ..." : "Verify Email"}
           </button>
         </form>
 

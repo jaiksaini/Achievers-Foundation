@@ -41,6 +41,7 @@ export const SignUp = async (req, res) => {
       message: " SignUp Successful",
       user: { id: newuser._id, email: newuser.email },
     });
+    // console.log("SignUp Successful");
 
     // Sending OTP via Mail
     sendEmailVerificationEmail(req, newuser);

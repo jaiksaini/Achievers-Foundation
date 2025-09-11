@@ -70,7 +70,7 @@ const App = () => {
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
-        <Route path="verify" element={<EmailVerification/>} />
+        <Route path="verify-" element={<EmailVerification/>} />
       </>
     )
   );
