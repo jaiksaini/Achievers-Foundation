@@ -14,13 +14,15 @@ const EmailVerification = () => {
 
   const { verifyEmail, setOtp } = useAuthStore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
    
-      verifyEmail(formData);
-
+     const response = await verifyEmail(formData);
+    if(response){
       navigate("/");
+    }
+     
     
   };
 

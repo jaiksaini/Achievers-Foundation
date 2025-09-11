@@ -188,6 +188,8 @@ export const LogIn = async (req, res) => {
       status: "Success",
       message: "Logged in SuccessFully",
     });
+    // console.log("succeessssssssssssssssssss");
+    
   } catch (error) {
     console.log(error);
     return res

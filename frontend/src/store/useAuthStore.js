@@ -8,7 +8,8 @@ export const useAuthStore = create((set) => ({
   isAuthenticated: false,
   isSignup: false,
   setOtp: false,
-  
+  isLogin: false,
+  isAuthenticated: false,
 
   signup: async (data) => {
     set({ isSignup: true });
@@ -35,6 +36,25 @@ export const useAuthStore = create((set) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ setOtp: false });
+    }
+  },
+
+  login: async (data) => {
+    set({ isLogin: true });
+    try {
+      const response = await axiosInstance.post("/api/user/login", data, {
+        withCredentials: true,
+      });
+      if(Cookies.get("is_auth")==="true"){
+        set({
+            user: response.data?.user , isAuthenticated : true
+        })
+        toast.success(response?.data?.message ||"Logged in Successfully")
+      }
+    } catch (error) {
+        toast.error(error.response?.data?.message || "Failed to Log In")
+    }finally{
+        set({isLogin: false})
     }
   },
 }));

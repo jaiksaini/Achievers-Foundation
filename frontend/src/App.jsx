@@ -6,6 +6,7 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import RootLayout from "./layout/RootLayout";
 import Members from "./pages/Members";
@@ -32,6 +33,9 @@ import JoinUs from "./pages/JoinUs";
 import EmailVerification from "./pages/EmailVerification";
 
 const App = () => {
+
+
+  <Toaster position="top-right" reverseOrder={false} />
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
