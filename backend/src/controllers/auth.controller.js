@@ -8,8 +8,9 @@ import sendEmailVerificationEmail from "../utils/sendEmailVerificationEmail.js";
 import EmailVerificationModel from "../models/emailVerification.js";
 import cloudinary from "../config/cloudinary.js";
 
+// -----------------------------------------------------
 // User Signup
-
+// -----------------------------------------------------
 export const SignUp = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -55,7 +56,9 @@ export const SignUp = async (req, res) => {
   }
 };
 
+// -----------------------------------------------------
 // Verify
+// -----------------------------------------------------
 export const verifyEmail = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -129,9 +132,9 @@ export const verifyEmail = async (req, res) => {
     });
   }
 };
-
+// -----------------------------------------------------
 // User Login
-
+// -----------------------------------------------------
 export const LogIn = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -203,7 +206,11 @@ export const LogIn = async (req, res) => {
   }
 };
 
+
+
+// -----------------------------------------------------
 // Get New Access Token - its useless 
+
 export const getNewAccessToken = async (req, res) => {
   try {
     // Get new access token using Refresh Token
@@ -239,7 +246,10 @@ export const getNewAccessToken = async (req, res) => {
   }
 };
 
+
+// -----------------------------------------------------
 // Get User Profile
+// -----------------------------------------------------
 export const userProfile = async (req, res) => {
   const user = req.user;
   res.send({user: req.user})
@@ -275,7 +285,10 @@ export const Logout = async (req, res) => {
 };
 
 
+
+// -----------------------------------------------------
 // Update User ProfilePic..
+// -----------------------------------------------------
 export const updateProfile = async (req , res)=>{
   try {
       const {profilePic} = req.body;
@@ -297,7 +310,9 @@ export const updateProfile = async (req , res)=>{
   }
 }
 
+// -----------------------------------------------------
 // if User wants to change his password after Login..
+// -----------------------------------------------------
 export const changeUserPassword = async (req, res) => {
   try {
     const { password, confirmPassword } = req.body;
@@ -341,8 +356,9 @@ export const changeUserPassword = async (req, res) => {
 };
 
 
-
+// -----------------------------------------------------
 // Send a Mail if user forgot his password..
+// -----------------------------------------------------
 export const sendUserPasswordResetEmail = async (req, res) => {
   try {
     const { email } = req.body;
@@ -392,8 +408,9 @@ export const sendUserPasswordResetEmail = async (req, res) => {
   }
 };
 
-
+// --------------------------------------------------------------------------------
 // Create a new Password following reset Password link followed via Email..
+// --------------------------------------------------------------------------------
 export const  userPasswordReset = async (req, res) => {
   try {
     const { password, confirmPassword } = req.body;
@@ -457,7 +474,10 @@ export const  userPasswordReset = async (req, res) => {
   }
 };
 
+
+// -----------------------------------------------------
 // Update userRole from user to Member..
+// -----------------------------------------------------
 export const UpdateUserRole = async (req, res) => {
   const userId = req.params.id; // Extract user ID from URL parameters
 

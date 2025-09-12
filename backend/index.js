@@ -4,7 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import { connectDB } from "./src/config/connectDB.js";
-import userRoutes from "./src/routes/auth.routes.js"
+import userRoutes from "./src/routes/auth.routes.js";
+import donarRoutes from "./src/routes/donation.route.js";
 import './src/config/passport-jwt-strategy.js'
 dotenv.config();
 
@@ -24,11 +25,11 @@ app.use(passport.initialize());
 
 connectDB();
 
-// Middlewares...
-
 // Routes..
 
 app.use("/api/user",userRoutes);
+app.use("/api/donation",donarRoutes);
+
 
 
 

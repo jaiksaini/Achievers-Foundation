@@ -7,8 +7,9 @@ import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
 
 
 
-
+// -----------------------------------------------------
 // Public Routes..
+// -----------------------------------------------------
 
 router.post("/signup", SignUp);
 router.post("/login", LogIn);
@@ -19,9 +20,9 @@ router.post("/reset-password/:id/:token" ,userPasswordReset)
 
 
 
-
+// -----------------------------------------------------
 // Protected Routes..
-
+// -----------------------------------------------------
 
 router.get("/user-profile" ,accessTokenAutoRefresh, passport.authenticate("jwt", { session: false }),  userProfile)
 router.post("/logout" ,accessTokenAutoRefresh, passport.authenticate("jwt", { session: false }), Logout)
