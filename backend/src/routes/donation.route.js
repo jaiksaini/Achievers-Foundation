@@ -6,11 +6,11 @@ import {
   verifyDonation,
   getAllDonations,
   getDonationById,
-  updateDonationStatus,
+  // updateDonationStatus,
   deleteDonation,
   getUserDonations,
   getDonationStats,
-} from "../controllers/donationController.js";
+} from "../controllers/donation.controller.js";
 
 import passport from "passport";
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
@@ -46,12 +46,12 @@ router.get(
   getDonationById
 );
 
-router.put(
-  "/:id/status",
-  accessTokenAutoRefresh,
-  passport.authenticate("jwt", { session: false }),
-  updateDonationStatus
-);
+// router.put(
+//   "/:id/status",
+//   accessTokenAutoRefresh,
+//   passport.authenticate("jwt", { session: false }),
+//   updateDonationStatus
+// );
 
 router.delete(
   "/:id",

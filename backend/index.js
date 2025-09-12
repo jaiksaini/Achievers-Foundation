@@ -6,7 +6,8 @@ import passport from "passport";
 import { connectDB } from "./src/config/connectDB.js";
 import userRoutes from "./src/routes/auth.routes.js";
 import donarRoutes from "./src/routes/donation.route.js";
-import './src/config/passport-jwt-strategy.js'
+import memberRoutes from "./src/routes/member.routes.js";
+import "./src/config/passport-jwt-strategy.js";
 dotenv.config();
 
 const app = express();
@@ -18,7 +19,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-app.use(cookieParser( ))
+app.use(cookieParser());
 app.use(passport.initialize());
 
 // Database Connection..
@@ -27,13 +28,9 @@ connectDB();
 
 // Routes..
 
-app.use("/api/user",userRoutes);
-app.use("/api/donation",donarRoutes);
-
-
-
-
-
+app.use("/api/user", userRoutes);
+app.use("/api/donation", donarRoutes);
+app.use("/api/member", memberRoutes);
 
 // Start server
 

@@ -1,4 +1,4 @@
-import Donation from "../models/Donation.js";
+import Donation from "../models/donationModel.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
@@ -149,45 +149,6 @@ export const getDonationById = async (req, res) => {
   }
 };
 
-
-
-// -----------------------------------------------------
-// Update Donation Status (Admin)
-// -----------------------------------------------------
-export const updateDonationStatus = async (req, res) => {
-  try {
-    const { status } = req.body;
-    if (!status) {
-      return res
-        .status(400)
-        .json({ status: "failed", message: "Status is required" });
-    }
-
-    const donation = await Donation.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true }
-    );
-
-    if (!donation) {
-      return res
-        .status(404)
-        .json({ status: "failed", message: "Donation not found" });
-    }
-
-    res.status(200).json({
-      status: "success",
-      message: "Donation status updated",
-      donation,
-    });
-  } catch (error) {
-    console.error("Error updating donation:", error);
-    res.status(500).json({
-      status: "failed",
-      message: "Unable to update donation",
-    });
-  }
-};
 
 
 
