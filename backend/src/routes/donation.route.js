@@ -18,8 +18,8 @@ import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
 // ------------------------------------------------
 // Donor Routes.. 
 // ------------------------------------------------
-router.post("/create", accessTokenAutoRefresh, createDonation);           
-router.post("/verify",accessTokenAutoRefresh, verifyDonation);          
+router.post("/create-order", accessTokenAutoRefresh, createDonation);           
+router.post("/verify-payment",accessTokenAutoRefresh, verifyDonation);          
 router.get("/user/:userId",accessTokenAutoRefresh, getUserDonations);    
 
 // ------------------------------------------------

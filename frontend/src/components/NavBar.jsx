@@ -9,6 +9,8 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout, user } = useAuthStore()
   const role = user?.role
+  console.log(role);
+  
  
 
 

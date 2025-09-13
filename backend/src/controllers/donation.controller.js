@@ -37,7 +37,7 @@ export const createDonation = async (req, res) => {
       amount,
       paymentMethod,
       status: "pending",
-      transactionId: order.id,
+      transactionId: order.id, // ✅ store Razorpay orderId here
     }).save();
 
     res.status(201).json({
@@ -65,40 +65,53 @@ export const verifyDonation = async (req, res) => {
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
       return res.status(400).json({
-        status: "failed",
+        success: false,
         message: "All fields are required for verification",
       });
     }
 
-    // Verify signature
+    // Generate signature
     const body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body.toString())
       .digest("hex");
 
+    // Verify signature
     if (expectedSignature !== razorpay_signature) {
-      return res
-        .status(400)
-        .json({ status: "failed", message: "Invalid payment signature" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment signature",
+      });
     }
 
-    // Update donation status
+    // Update donation in DB
     const updatedDonation = await Donation.findOneAndUpdate(
-      { transactionId: razorpay_order_id },
-      { status: "completed", transactionId: razorpay_payment_id },
+      { transactionId: razorpay_order_id }, // ✅ matches createDonation
+      {
+        status: "completed",
+        paymentId: razorpay_payment_id,
+        signature: razorpay_signature,
+      },
       { new: true }
     );
 
+    if (!updatedDonation) {
+      return res.status(404).json({
+        success: false,
+        message: "Donation not found for this orderId",
+      });
+    }
+
     res.status(200).json({
-      status: "success",
+      success: true,
       message: "Payment verified successfully",
       donation: updatedDonation,
     });
   } catch (error) {
     console.error("Error verifying donation:", error);
     res.status(500).json({
-      status: "failed",
+      success: false,
       message: "Unable to verify payment",
     });
   }

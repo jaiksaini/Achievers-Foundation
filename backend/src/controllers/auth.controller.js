@@ -6,7 +6,7 @@ import refreshAccessToken from "../utils/refreshAccessToken.js";
 import UserRefreshTokenModel from "../models/UserRefreshToken.js";
 import sendEmailVerificationEmail from "../utils/sendEmailVerificationEmail.js";
 import EmailVerificationModel from "../models/emailVerification.js";
-import cloudinary from "../config/cloudinary.js";
+// import cloudinary from "../config/cloudinary.js";
 
 // -----------------------------------------------------
 // User Signup

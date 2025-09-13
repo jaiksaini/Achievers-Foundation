@@ -34,7 +34,7 @@ app.use("/api/member", memberRoutes);
 
 // Start server
 
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is Running on Port ${PORT}`);
 });
