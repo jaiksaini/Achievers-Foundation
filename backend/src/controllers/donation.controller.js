@@ -55,7 +55,6 @@ export const createDonation = async (req, res) => {
   }
 };
 
-
 // -----------------------------------------------------
 // Verify Payment
 // -----------------------------------------------------
@@ -105,8 +104,6 @@ export const verifyDonation = async (req, res) => {
   }
 };
 
-
-
 // -----------------------------------------------------
 // Get All Donations (Admin)
 // -----------------------------------------------------
@@ -122,8 +119,6 @@ export const getAllDonations = async (req, res) => {
     });
   }
 };
-
-
 
 // -----------------------------------------------------
 // Get Donation by ID
@@ -149,9 +144,6 @@ export const getDonationById = async (req, res) => {
   }
 };
 
-
-
-
 // -----------------------------------------------------
 // Delete Donation (Admin)
 // -----------------------------------------------------
@@ -175,9 +167,6 @@ export const deleteDonation = async (req, res) => {
   }
 };
 
-
-
-
 // -----------------------------------------------------
 // Get Donations by User
 // -----------------------------------------------------
@@ -195,10 +184,6 @@ export const getUserDonations = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 // -----------------------------------------------------
 // Donation Stats (Admin)
