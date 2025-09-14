@@ -7,10 +7,10 @@ const donationSchema = new mongoose.Schema({
   paymentMethod: { type: String, enum: ["card", "upi"], required: true },
   status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" },
   transactionId: { type: String },
-  createdAt: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now }
 }
 ,
-{ timestamps: true }
+// { timestamps: true }
 );
 
 

@@ -171,10 +171,41 @@ export const getPendingMembers = async (req, res) => {
       members,
     });
   } catch (error) {
-    console.error("Error in getPendingMembers:", error);
+    console.error("Error in getPending Members:", error);
     res.status(500).json({
       status: "failed",
       message: "Unable to fetch pending members",
+    });
+  }
+};
+
+
+
+// --------------------------
+// Delete Member (Admin Only)
+// --------------------------
+export const deleteMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const member = await Member.findByIdAndDelete(id);
+
+    if (!member) {
+      return res.status(404).json({
+        status: "failed",
+        message: "Member not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Member deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error in deleteMember:", error);
+    res.status(500).json({
+      status: "failed",
+      message: "Unable to delete member",
     });
   }
 };

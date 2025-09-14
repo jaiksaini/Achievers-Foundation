@@ -3,14 +3,16 @@ import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
 
 export const useDonationStore = create((set) => ({
+  donations: [],
   isDonating: false,
+  isLoading: false,
 
   donate: async (formData, userId) => {
     set({ isDonating: true });
     try {
       // 1️⃣ Call backend to create Razorpay order
       const { data: res } = await axiosInstance.post(
-        "/api/donation/create-order",   // ✅ match your controller route
+        "/api/donation/create-order", // ✅ match your controller route
         {
           donorId: userId,
           amount: formData.amount,
@@ -41,15 +43,12 @@ export const useDonationStore = create((set) => ({
                 // amount: formData.amount,
               }
             );
-            
-            
+
             if (verifyRes.data.success) {
-              toast.success( "✅ Donation successful! Receipt generated.");
+              toast.success("✅ Donation successful! Receipt generated.");
             } else {
               toast.error("❌ Payment verification failed.");
               console.log();
-              
-              
             }
           } catch (err) {
             console.error("Verification error:", err);
@@ -69,6 +68,18 @@ export const useDonationStore = create((set) => ({
       toast.error("Something went wrong, please try again.");
     } finally {
       set({ isDonating: false });
+    }
+  },
+
+  getDonations: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get("/api/donation/all");
+      set({ donations: res.data, isLoading: false });
+    } catch (error) {
+      console.error("Error fetching donations:", error);
+      toast.error("Failed to fetch donations");
+      set({ isLoading: false });
     }
   },
 }));

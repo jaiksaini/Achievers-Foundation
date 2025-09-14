@@ -122,7 +122,7 @@ export const verifyDonation = async (req, res) => {
 // -----------------------------------------------------
 export const getAllDonations = async (req, res) => {
   try {
-    const donations = await Donation.find().populate("donor", "name email");
+    const donations = await Donation.find().populate("donor", "name email ");
     res.status(200).json({ status: "success", donations });
   } catch (error) {
     console.error("Error fetching donations:", error);
