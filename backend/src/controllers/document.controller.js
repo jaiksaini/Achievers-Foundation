@@ -50,13 +50,19 @@ export const uploadDocument = async (req, res) => {
 // List Documents
 // -----------------------------------------------------
 export const listDocuments = async (req, res) => {
-    try {
-      const documents = await Document.find().sort({ uploadedAt: -1 });
-      res.json(documents);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch documents" });
-    }
-  };
+  try {
+    const documents = await Document.find().sort({ uploadedAt: -1 });
+    res.status(200).json({
+      status: "success",
+      message: "Documents fetched successfully",
+      documents,
+    });
+  } catch (error) {
+    console.error("Error fetching documents:", error);
+    res.status(500).json({ status: "failed", message: "Failed to fetch documents" });
+  }
+};
+
 
 // -----------------------------------------------------
 // Delete Document

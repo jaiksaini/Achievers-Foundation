@@ -4,15 +4,16 @@ import toast from "react-hot-toast";
 
 export const useDonationStore = create((set) => ({
   donations: [],
+  recentDonations:[],
   isDonating: false,
   isLoading: false,
 
   donate: async (formData, userId) => {
     set({ isDonating: true });
     try {
-      // 1️⃣ Call backend to create Razorpay order
+      
       const { data: res } = await axiosInstance.post(
-        "/api/donation/create-order", // ✅ match your controller route
+        "/api/donation/create-order", 
         {
           donorId: userId,
           amount: formData.amount,
@@ -23,7 +24,7 @@ export const useDonationStore = create((set) => ({
 
       const { order } = res;
 
-      // 2️⃣ Setup Razorpay payment options
+      
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
@@ -45,9 +46,9 @@ export const useDonationStore = create((set) => ({
             );
 
             if (verifyRes.data.success) {
-              toast.success("✅ Donation successful! Receipt generated.");
+              toast.success(" Donation successful! Receipt generated.");
             } else {
-              toast.error("❌ Payment verification failed.");
+              toast.error(" Payment verification failed.");
               console.log();
             }
           } catch (err) {
@@ -76,6 +77,19 @@ export const useDonationStore = create((set) => ({
     try {
       const res = await axiosInstance.get("/api/donation/all");
       set({ donations: res.data, isLoading: false });
+    } catch (error) {
+      console.error("Error fetching donations:", error);
+      toast.error("Failed to fetch donations");
+      set({ isLoading: false });
+    }
+  },
+
+
+  getRecentDonations: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get("/api/donation/recent-donations");
+      set({ recentDonations: res.data.donations, isLoading: false });
     } catch (error) {
       console.error("Error fetching donations:", error);
       toast.error("Failed to fetch donations");

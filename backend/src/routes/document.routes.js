@@ -8,18 +8,18 @@ import express from "express";
 const router = express.Router();
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
 
+
+// Public Route
+router.get( "/documents",  listDocuments);
+
+
 router.post(
   "/documents",
   accessTokenAutoRefresh,
   passport.authenticate("jwt", { session: false }),
   uploadDocument
 );
-router.get(
-  "/documents",
-  accessTokenAutoRefresh,
-  passport.authenticate("jwt", { session: false }),
-  listDocuments
-);
+
 router.delete(
   "/documents/:id",
   accessTokenAutoRefresh,

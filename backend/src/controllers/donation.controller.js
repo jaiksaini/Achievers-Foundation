@@ -122,7 +122,7 @@ export const verifyDonation = async (req, res) => {
 // -----------------------------------------------------
 export const getAllDonations = async (req, res) => {
   try {
-    const donations = await Donation.find().populate("donor", "name email ");
+    const donations = await Donation.find().sort({ date: -1 }).populate("donor", "name email ");
     res.status(200).json({ status: "success", donations });
   } catch (error) {
     console.error("Error fetching donations:", error);
@@ -219,6 +219,30 @@ export const getDonationStats = async (req, res) => {
     res.status(500).json({
       status: "failed",
       message: "Unable to fetch donation stats",
+    });
+  }
+};
+
+
+// // -----------------------------------------------------
+// // Get recent 5 donations
+// // -----------------------------------------------------
+export const getRecentDonations = async (req, res) => {
+  try {
+    const donations = await Donation.find()
+      .sort({ date: -1 }) // newest first
+      .limit(5) // only top 5
+      .populate("donor", "name");
+
+    res.status(200).json({
+      status: "success",
+      donations,
+    });
+  } catch (error) {
+    console.error("Error fetching recent donations:", error);
+    res.status(500).json({
+      status: "failed",
+      message: "Unable to fetch recent donations",
     });
   }
 };

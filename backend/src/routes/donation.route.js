@@ -10,6 +10,7 @@ import {
   deleteDonation,
   getUserDonations,
   getDonationStats,
+  getRecentDonations,
 } from "../controllers/donation.controller.js";
 
 import passport from "passport";
@@ -20,7 +21,10 @@ import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
 // ------------------------------------------------
 router.post("/create-order", accessTokenAutoRefresh, createDonation);           
 router.post("/verify-payment",accessTokenAutoRefresh, verifyDonation);          
-router.get("/user/:userId",accessTokenAutoRefresh, getUserDonations);    
+router.get("/user/:userId",accessTokenAutoRefresh, getUserDonations);
+router.get("/recent-donations",accessTokenAutoRefresh, getRecentDonations);
+
+
 
 // ------------------------------------------------
 // Admin Routes.. 

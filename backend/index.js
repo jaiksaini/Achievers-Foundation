@@ -7,6 +7,7 @@ import { connectDB } from "./src/config/connectDB.js";
 import userRoutes from "./src/routes/auth.routes.js";
 import donarRoutes from "./src/routes/donation.route.js";
 import memberRoutes from "./src/routes/member.routes.js";
+import documentRoutes from "./src/routes/document.routes.js"
 import "./src/config/passport-jwt-strategy.js";
 dotenv.config();
 
@@ -31,6 +32,7 @@ connectDB();
 app.use("/api/user", userRoutes);
 app.use("/api/donation", donarRoutes);
 app.use("/api/member", memberRoutes);
+app.use("/api/document",documentRoutes)
 
 // Start server
 

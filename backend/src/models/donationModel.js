@@ -8,6 +8,7 @@ const donationSchema = new mongoose.Schema({
   status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" },
   transactionId: { type: String },
   date: { type: Date, default: Date.now }
+  
 }
 ,
 // { timestamps: true }
