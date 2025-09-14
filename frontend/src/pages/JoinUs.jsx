@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useMemberStore } from "../store/useMemberStore";
 
 const JoinUs = () => {
+
+  const { becomeMember , isApplying} = useMemberStore()  
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     phone: "",
     address: "",
-    occupation: "",
-    message: "",
+    // occupation: "",
+    // message: "",
   });
 
   const handleChange = (e) => {
@@ -16,16 +19,17 @@ const JoinUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted: ", formData);
-    alert("Thank you for becoming a member! We will contact you soon.");
-    setFormData({
-      fullName: "",
-      email: "",
-      phone: "",
-      address: "",
-      occupation: "",
-      message: "",
-    });
+    // console.log("Form Submitted: ", formData);
+    // alert("Thank you for becoming a member! We will contact you soon.");
+    // setFormData({
+    //   name: "",
+    //   email: "",
+    //   phone: "",
+    //   address: "",
+    //   // occupation: "",
+    //   // message: "",
+    // });
+    becomeMember(formData);
   };
 
   return (
@@ -83,8 +87,8 @@ const JoinUs = () => {
           <div className="grid gap-6 md:grid-cols-2">
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
               required
@@ -110,14 +114,14 @@ const JoinUs = () => {
               required
               className="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <input
+            {/* <input
               type="text"
               name="occupation"
               value={formData.occupation}
               onChange={handleChange}
               placeholder="Occupation"
               className="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            /> */}
           </div>
           <textarea
             name="address"
@@ -128,19 +132,20 @@ const JoinUs = () => {
             rows="3"
             className="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <textarea
+          {/* <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder="Why do you want to join us?"
             rows="3"
             className="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          /> */}
           <button
             type="submit"
             className="w-full py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
-          >
-            Become a Member
+           disabled={isApplying}>
+            {isApplying ? "Applying..." : "Become a Member"}
+            
           </button>
         </form>
       </section>

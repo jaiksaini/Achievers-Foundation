@@ -1,83 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import asstes from "../assets/assets";
+import { useMemberStore } from "../store/useMemberStore";
+import { useEffect } from "react";
 
 const Members = () => {
   const navigate = useNavigate();
-  const [members] = useState([
-    {
-      id: 1,
-      name: "Jay",
-      role: "Volunteer",
-      avatar: asstes.user,
-    },
-    {
-      id: 2,
-      name: "Vinay",
-      role: "Coordinator",
-      avatar: asstes.user,
-    },
-    {
-      id: 3,
-      name: "Kartik",
-      role: "Member",
-      avatar: asstes.user,
-    },
-    {
-      id: 4,
-      name: "Jay",
-      role: "Supporter",
-      avatar: asstes.user,
-    },
-    {
-      id: 5,
-      name: "Vinay",
-      role: "Volunteer",
-      avatar: asstes.user,
-    },
-    {
-      id: 6,
-      name: "Kartik",
-      role: "Coordinator",
-      avatar: asstes.user,
-    },
-    {
-      id: 7,
-      name: "Jay",
-      role: "Member",
-      avatar: asstes.user,
-    },
-    {
-      id: 8,
-      name: "Vinay",
-      role: "Supporter",
-      avatar: asstes.user,
-    },
-    {
-      id: 9,
-      name: "Kartik",
-      role: "Volunteer",
-      avatar: asstes.user,
-    },
-    {
-      id: 10,
-      name: "Jay",
-      role: "Coordinator",
-      avatar: asstes.user,
-    },
-    {
-      id: 11,
-      name: "Vinay",
-      role: "Member",
-      avatar: asstes.user,
-    },
-    {
-      id: 12,
-      name: "Kartik",
-      role: "Supporter",
-      avatar: asstes.user,
-    },
-  ]);
+  const {members ,getApprovedMembers ,isLoading} = useMemberStore()
+
+  useEffect(() => {
+    getApprovedMembers();
+  }, [getApprovedMembers]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -98,6 +31,10 @@ const Members = () => {
         </button>
       </section>
 
+      {isLoading && (
+        <p className="text-center text-gray-500">Loading members...</p>
+      )}
+
       <section className="p-6 md:p-12">
         <h2 className="text-2xl font-bold text-center mb-8">
           Our Active Members
@@ -109,12 +46,12 @@ const Members = () => {
               className="bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center"
             >
               <img
-                src={member.avatar}
+                src={member.profilePic}
                 alt={member.name}
                 className="w-24 h-24 mx-auto rounded-full object-cover border-4 border-blue-100"
               />
               <h3 className="mt-4 text-lg font-semibold">{member.name}</h3>
-              <p className="text-gray-500">{member.role}</p>
+              <p className="text-gray-500">{member.address}</p>
             </div>
           ))}
         </div>

@@ -6,7 +6,9 @@ export const useMemberStore = create((set, get) => ({
   members: [],
   pendingRequest: [],
   isLoading: false,
+  isApplying: false,
 
+  // Admin Pages
   getAllMembers: async () => {
     set({ isLoading: true });
     try {
@@ -72,6 +74,32 @@ export const useMemberStore = create((set, get) => ({
     } catch (error) {
       console.error("Error deleting member:", error);
       toast.error(error.response?.data?.message || "Failed to delete member");
+    }
+  },
+
+  // Public Pages
+  getApprovedMembers: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get("/api/member/approved-members");
+      set({ members: res.data.members, isLoading: false });
+    } catch (error) {
+      console.error("Error fetching Members:", error);
+      toast.error(error.response?.data?.message || "Failed to fetch Members");
+      set({ isLoading: false });
+    }
+  },
+
+  becomeMember: async (data) => {
+    set({ isApplying: true });
+    try {
+      const res = await axiosInstance.post("/api/member/apply", data);
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log("Error in Applying ", error);
+      toast.error( "Failed to Apply. Please try again Later");
+    } finally {
+      set({ isApplying: false });
     }
   },
 }));
