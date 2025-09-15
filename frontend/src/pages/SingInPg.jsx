@@ -102,7 +102,7 @@ const SingInPg = () => {
       </div>
 
       <div className="justify-center items-center hidden md:flex">
-        <img src={assets.ngo} alt="NGO Logo" className="max-w-[32vw] w-full" />
+        <img src={assets.logo} alt="NGO Logo" className="max-w-[32vw] w-full" />
       </div>
     </div>
   );

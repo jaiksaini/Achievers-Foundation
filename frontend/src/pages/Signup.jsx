@@ -46,7 +46,7 @@ const Signup = () => {
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">
       <div className="justify-center items-center  hidden md:flex">
-        <img src={assets.ngo} alt="NGO Logo" className="max-w-[35vw] w-full" />
+        <img src={assets.logo} alt="NGO Logo" className="max-w-[35vw] w-full" />
       </div>
 
       <div className=" flex flex-col justify-center items-center md:w-[35vw] p-6 md:p-0 ">
