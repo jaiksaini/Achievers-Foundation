@@ -34,6 +34,7 @@ import Userdashboard from "./pages/Userdashboard";
 import UserOverview from "./components/User/UserOverview";
 import UserDonations from "./components/User/UserDonations";
 import UserSettings from "./components/User/UserSettings";
+import LoginAsMember from "./pages/LoginAsMember";
 
 const App = () => {
 
@@ -82,6 +83,7 @@ const App = () => {
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
+        <Route path="member-signin" element={<LoginAsMember/>} />
         <Route path="verify-email" element={<EmailVerification/>} />
       </>
     )
