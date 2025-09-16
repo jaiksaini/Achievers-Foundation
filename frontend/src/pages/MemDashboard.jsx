@@ -22,7 +22,6 @@ const MemDashboard = () => {
     },
     { to: "/member/setting", label: "Settings", icon: <FaUser /> },
     { to: "/member/idcard", label: "Member ID", icon: <FaIdCard /> },
-    { to: "/member/noti", label: "Notifications", icon: <FaBell /> },
   ];
 
   return (

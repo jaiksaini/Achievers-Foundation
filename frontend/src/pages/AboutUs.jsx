@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import assets from "../assets/assets";
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -96,19 +97,19 @@ const AboutUs = () => {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {[
             {
-              name: "Rajesh Kumar",
-              role: "Founder & President",
-              avatar: "https://i.pravatar.cc/150?img=10",
+              name: "Dr. Jaydip Kumar",
+              role: "Founder & Director",
+              avatar: assets.Founder,
             },
             {
-              name: "Anita Sharma",
-              role: "Vice President",
-              avatar: "https://i.pravatar.cc/150?img=11",
+              name: "Poonam Kumar",
+              role: "Director",
+              avatar: assets.Director,
             },
             {
-              name: "Ravi Verma",
-              role: "Treasurer",
-              avatar: "https://i.pravatar.cc/150?img=12",
+              name: "Roshan Lal",
+              role: "Board of Directors",
+              avatar: assets.Board_of_Directors,
             },
           ].map((person, idx) => (
             <div

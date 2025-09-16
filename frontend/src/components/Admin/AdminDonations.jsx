@@ -27,7 +27,7 @@ const AdminDonations = () => {
   };
 
   return (
-    <div className="p-2 space-y-6">
+    <div className="p-2 space-y-6 min-h-[78vh]">
       <h2 className="text-2xl font-bold">Donations</h2>
 
       {/* Stats Cards */}

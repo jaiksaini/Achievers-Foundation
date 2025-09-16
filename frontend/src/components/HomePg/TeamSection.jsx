@@ -15,19 +15,19 @@ const TeamSection = () => {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {[
             {
-              name: "Jay",
-              role: "Founder & President",
-              avatar: assets.user,
+              name: "Dr. Jaydip Kumar",
+              role: "Founder & Director",
+              avatar: assets.Founder,
             },
             {
-              name: "Vinay",
-              role: "Vice President",
-              avatar: assets.user,
+              name: "Poonam Kumar",
+              role: "Director",
+              avatar: assets.Director,
             },
             {
-              name: "Kartik",
-              role: "Board Of Directors",
-              avatar: assets.user,
+              name: "Roshan Lal",
+              role: "Board of Directors",
+              avatar: assets.Board_of_Directors,
             },
           ].map((person, idx) => (
             <div

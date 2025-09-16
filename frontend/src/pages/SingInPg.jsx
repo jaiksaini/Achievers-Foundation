@@ -13,7 +13,7 @@ const SingInPg = () => {
     email: "",
     password: "",
   });
-  const { login, isLogin } = useAuthStore()
+  const { login, isLogin } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,6 @@ const SingInPg = () => {
       navigate("/");
     }
   };
-
 
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">
@@ -60,7 +59,10 @@ const SingInPg = () => {
               </div>
             </div>
 
-            <button className="w-full mt-5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 rounded-lg shadow-lg hover:opacity-90 transition" disabled={isLogin}>
+            <button
+              className="w-full mt-5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 rounded-lg shadow-lg hover:opacity-90 transition"
+              disabled={isLogin}
+            >
               {/* Sign In Now */}
               {isLogin ? "Signing In..." : "SignIn Now"}
             </button>
@@ -88,6 +90,16 @@ const SingInPg = () => {
             </button>
           </div>
 
+          {/* New Member Sign In Button */}
+          <div className="mt-4">
+            <button
+              onClick={() => navigate("/member-signin", { replace: true })}
+              className="w-full flex items-center justify-center bg-green-600 text-white py-3 rounded-lg shadow-md hover:bg-green-700 transition"
+            >
+              Sign In as Member
+            </button>
+          </div>
+
           <p className="text-center text-gray-600 mt-6">
             Create an account?{" "}
             <NavLink
@@ -102,7 +114,7 @@ const SingInPg = () => {
       </div>
 
       <div className="justify-center items-center hidden md:flex">
-        <img src={assets.ngo} alt="NGO Logo" className="max-w-[32vw] w-full" />
+        <img src={assets.logo} alt="NGO Logo" className="max-w-[32vw] w-full" />
       </div>
     </div>
   );

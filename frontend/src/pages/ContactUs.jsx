@@ -29,16 +29,21 @@ const ContactUs = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-3 text-gray-700">
               <FaPhoneAlt className="text-lg" />
-              <span>+1012 3456 789</span>
+              <span>+91 90264 70888</span>
             </div>
             <div className="flex items-center gap-3 text-gray-700">
               <FaEnvelope className="text-lg" />
-              <span>demo@gmail.com</span>
+              <span
+                className="truncate max-w-[220px] md:max-w-xs"
+                title="academicsachieversfoundation@gmail.com"
+              >
+                academicsachieversfoundation@gmail.com
+              </span>
             </div>
             <div className="flex items-center gap-3 text-gray-700">
               <FaMapMarkerAlt className="text-lg" />
               <span>
-                132 Dartmouth Street Boston, Massachusetts 02156 United States
+                Umrapur, Ibrahimpur, Raebareli 229212, Uttar Pradesh, India
               </span>
             </div>
           </div>
