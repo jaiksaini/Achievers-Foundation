@@ -4,27 +4,27 @@ import toast from "react-hot-toast";
 
 export const useDonationStore = create((set) => ({
   donations: [],
-  recentDonations:[],
+  recentDonations: [],
   isDonating: false,
   isLoading: false,
 
   donate: async (formData, userId) => {
     set({ isDonating: true });
     try {
-      
       const { data: res } = await axiosInstance.post(
-        "/api/donation/create-order", 
+        "/api/donation/create-order",
         {
           donorId: userId,
           amount: formData.amount,
           paymentMethod: formData.paymentMethod,
+          phone: formData.phone,
+          address: formData.address,
         },
         { withCredentials: true }
       );
 
       const { order } = res;
 
-      
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
@@ -83,7 +83,6 @@ export const useDonationStore = create((set) => ({
       set({ isLoading: false });
     }
   },
-
 
   getRecentDonations: async () => {
     set({ isLoading: true });

@@ -1,6 +1,8 @@
 import Member from "../models/memberModel.js";
 import bcrypt from "bcrypt";
 import hbs from "hbs";
+import  path  from "path";
+import fs from "fs"
 import transporter from "../config/emailConfig.js";
 
 // function to generate random password

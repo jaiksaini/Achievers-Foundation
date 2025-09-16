@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { FaDonate, FaCreditCard, FaPaypal } from "react-icons/fa";
 import { useDonationStore } from "../store/useDonationStore";
 import { useAuthStore } from "../store/useAuthStore";
+import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
 
 const Donation = () => {
+
+
+  
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    // name: "",
+    // email: "",
     phone: "",
     address: "",
     amount: "",
@@ -24,8 +28,8 @@ const Donation = () => {
     e.preventDefault();
 
     if (
-      !formData.name ||
-      !formData.email ||
+      // !formData.name ||
+      // !formData.email ||
       !formData.phone ||
       !formData.address ||
       !formData.amount ||
@@ -42,6 +46,18 @@ const Donation = () => {
   useEffect(() => {
     getRecentDonations();
   }, [getRecentDonations]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const res = await axiosInstance.get("/api/user/user-profile", { withCredentials: true });
+      setFormData({
+        ...formData,
+        phone: res.data.user.phone || "",
+        address: res.data.user.address || "",
+      });
+    };
+    fetchProfile();
+  }, []);
 
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-8">
@@ -73,7 +89,7 @@ const Donation = () => {
           </h2>
           <form className="space-y-4" onSubmit={handleDonate}>
             {/* Name */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700">
                 Full Name
               </label>
@@ -86,10 +102,10 @@ const Donation = () => {
                 required
                 className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
               />
-            </div>
+            </div> */}
 
             {/* Email */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700">
                 Email
               </label>
@@ -102,7 +118,7 @@ const Donation = () => {
                 required
                 className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
               />
-            </div>
+            </div> */}
 
             {/* Phone */}
             <div>

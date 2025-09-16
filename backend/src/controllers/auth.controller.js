@@ -253,15 +253,16 @@ export const getNewAccessToken = async (req, res) => {
 // -----------------------------------------------------
 // Get User Profile
 // -----------------------------------------------------
-export const getUserProfile = async (req, res) => {
+export const userProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.user._id).select("-password"); // hide password
     if (!user) return res.status(404).json({ message: "User not found" });
-    res.json(user);
+    res.json({ user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // Logout..
 export const Logout = async (req, res) => {
@@ -296,7 +297,7 @@ export const Logout = async (req, res) => {
 // -----------------------------------------------------
 // Update User ProfilePic..
 // -----------------------------------------------------
-export const uploadProfilePic = async (req, res) => {
+export const uploadProfile = async (req, res) => {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId);

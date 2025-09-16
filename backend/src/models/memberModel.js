@@ -7,7 +7,7 @@ const memberSchema = new mongoose.Schema(
     password:{type: String },
     phone: { type: String },
     address: { type: String },
-    profilePic: { type: String, default: "https://i.pravatar.cc/40" },
+    profilePic: { type: String, default: "https://avatar.iran.liara.run/public/1" },
 
     status: {
       type: String,

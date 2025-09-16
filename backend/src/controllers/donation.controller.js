@@ -1,4 +1,7 @@
 import Donation from "../models/donationModel.js";
+import User from "../models/userModel.js";
+import transporter from "../config/emailConfig.js";
+import generateReceipt from "../utils/generateReceipt.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
@@ -13,7 +16,7 @@ const razorpay = new Razorpay({
 // -----------------------------------------------------
 export const createDonation = async (req, res) => {
   try {
-    const { donorId, amount, paymentMethod } = req.body;
+    const { donorId, amount, paymentMethod, phone, address } = req.body;
 
     if (!donorId || !amount || !paymentMethod) {
       return res.status(400).json({
@@ -31,11 +34,19 @@ export const createDonation = async (req, res) => {
 
     const order = await razorpay.orders.create(options);
 
+    const user = await User.findById(donorId);
+    if (user) {
+      if (!user.phone && phone) user.phone = phone;
+      if (!user.address && address) user.address = address;
+      await user.save();
+    }
+
     // Save donation with pending status
     const donation = await new Donation({
       donor: donorId,
       amount,
       paymentMethod,
+
       status: "pending",
       transactionId: order.id, // ✅ store Razorpay orderId here
     }).save();
@@ -103,6 +114,33 @@ export const verifyDonation = async (req, res) => {
       });
     }
 
+    const donation = await Donation.findOne({
+      transactionId: razorpay_order_id,
+    }).populate("donor");
+    const donor = donation.donor;
+
+    // Create PDF buffer
+    let chunks = [];
+    const doc = generateReceipt(donation, donor);
+    doc.on("data", (chunk) => chunks.push(chunk));
+    doc.on("end", async () => {
+      const pdfBuffer = Buffer.concat(chunks);
+
+      // Send email
+      await transporter.sendMail({
+        from: process.env.Email_USER,
+        to: donor.email,
+        subject: "Donation Receipt - Bharat Charity Trust",
+        text: "Thank you for your generous donation. Please find your receipt attached.",
+        attachments: [
+          {
+            filename: `receipt_${donation._id}.pdf`,
+            content: pdfBuffer,
+          },
+        ],
+      });
+    });
+
     res.status(200).json({
       success: true,
       message: "Payment verified successfully",
@@ -122,7 +160,9 @@ export const verifyDonation = async (req, res) => {
 // -----------------------------------------------------
 export const getAllDonations = async (req, res) => {
   try {
-    const donations = await Donation.find().sort({ date: -1 }).populate("donor", "name email ");
+    const donations = await Donation.find()
+      .sort({ date: -1 })
+      .populate("donor", "name email ");
     res.status(200).json({ status: "success", donations });
   } catch (error) {
     console.error("Error fetching donations:", error);
@@ -223,7 +263,6 @@ export const getDonationStats = async (req, res) => {
   }
 };
 
-
 // // -----------------------------------------------------
 // // Get recent 5 donations
 // // -----------------------------------------------------
@@ -245,4 +284,20 @@ export const getRecentDonations = async (req, res) => {
       message: "Unable to fetch recent donations",
     });
   }
+};
+
+
+
+
+// // -----------------------------------------------------
+// // Download Donation Receipt
+// // -----------------------------------------------------
+
+export const downloadReceipt = async (req, res) => {
+  const { id } = req.params;
+  const donation = await Donation.findById(id).populate("donor");
+
+  if (!donation) return res.status(404).json({ message: "Donation not found" });
+
+  generateReceipt(donation, donation.donor, res); // Streams directly
 };

@@ -7,7 +7,7 @@ import {
   getNewAccessToken,
   userProfile,
   Logout,
-  uploadProfilePic,
+  uploadProfile,
   changeUserPassword,
   sendUserPasswordResetEmail,
   userPasswordReset,
@@ -15,6 +15,7 @@ import {
 } from "../controllers/auth.controller.js";
 import passport from "passport";
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
+import { uploadProfilePic } from "../config/multerConfig.js";
 
 // -----------------------------------------------------
 // Public Routes..
@@ -59,8 +60,9 @@ router.post(
 router.post(
   "/upload/:id",
   accessTokenAutoRefresh,
-  passport.authenticate("jwt", { session: false }),uploadProfilePic.single("profilePic"),
-  uploadProfilePic
+  passport.authenticate("jwt", { session: false }),
+  uploadProfilePic.single("profilePic"),
+  uploadProfile
 );
 
 export default router;
