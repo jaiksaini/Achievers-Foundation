@@ -6,6 +6,10 @@ import toast from "react-hot-toast";
 
 const Donation = () => {
   const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
     amount: "",
     paymentMethod: "",
   });
@@ -19,8 +23,16 @@ const Donation = () => {
   const handleDonate = (e) => {
     e.preventDefault();
 
-    if (!formData.amount || !formData.paymentMethod) {
-      toast.error("Please enter amount and select payment method.");
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.amount ||
+      !formData.paymentMethod
+    ) {
+      toast.error("Please fill in all fields.");
+      return;
     }
 
     donate(formData, userId);
@@ -60,6 +72,69 @@ const Donation = () => {
             Make a Donation
           </h2>
           <form className="space-y-4" onSubmit={handleDonate}>
+            {/* Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                required
+                className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                required
+                className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
+                required
+                className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Address
+              </label>
+              <textarea
+                value={formData.address}
+                onChange={(e) =>
+                  setFormData({ ...formData, address: e.target.value })
+                }
+                required
+                className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+              ></textarea>
+            </div>
+
             {/* Amount */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -137,7 +212,12 @@ const Donation = () => {
                   key={donation._id}
                   className="flex justify-between border-b pb-2"
                 >
-                  <span>{donation.donor?.name || "Anonymous"}</span>
+                  <span>
+                    {donation.donor?.name || "Anonymous"} <br />
+                    <span className="text-xs text-gray-500">
+                      {donation.donor?.email}
+                    </span>
+                  </span>
                   <span className="text-blue-600 font-semibold">
                     ₹{donation.amount}
                   </span>

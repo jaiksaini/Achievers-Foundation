@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 import { FaEye } from "react-icons/fa";
+import pdf from "../../assets/Doc/pdf";
 
 const License = () => {
   const [licenses] = useState([
     {
       id: 1,
-      title: "Registration Certificate",
+      title: "Certificate of Incorporation",
       description:
         "Government-approved registration certificate of AAEAR Foundation.",
-      fileUrl: "/docs/registration-certificate.pdf",
+      fileUrl: pdf.Certificate_of_Incorporation,
     },
     {
       id: 2,
       title: "80G Certificate",
       description:
         "Tax exemption certificate under section 80G of Income Tax Act.",
-      fileUrl: "/docs/80g-certificate.pdf",
+      fileUrl: pdf.form80G,
     },
     {
       id: 3,
       title: "12A Certificate",
       description:
         "NGO 12A Registration certificate for charitable trust exemption.",
-      fileUrl: "/docs/12a-certificate.pdf",
+      fileUrl: pdf.Form12A,
     },
   ]);
 
