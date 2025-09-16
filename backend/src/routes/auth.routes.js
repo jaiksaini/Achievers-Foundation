@@ -7,7 +7,7 @@ import {
   getNewAccessToken,
   userProfile,
   Logout,
-  updateProfile,
+  uploadProfilePic,
   changeUserPassword,
   sendUserPasswordResetEmail,
   userPasswordReset,
@@ -43,12 +43,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   Logout
 );
-router.post(
-  "/update-profile-pic",
-  accessTokenAutoRefresh,
-  passport.authenticate("jwt", { session: false }),
-  updateProfile
-);
+
 router.post(
   "/change-password",
   accessTokenAutoRefresh,
@@ -60,6 +55,12 @@ router.post(
   accessTokenAutoRefresh,
   passport.authenticate("jwt", { session: false }),
   UpdateUserRole
+);
+router.post(
+  "/upload/:id",
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),uploadProfilePic.single("profilePic"),
+  uploadProfilePic
 );
 
 export default router;

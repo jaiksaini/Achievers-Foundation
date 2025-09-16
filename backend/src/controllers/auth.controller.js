@@ -1,5 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import fs from "fs";
+import path from "path";
 import generateTokens from "../utils/generateTokens.js";
 import setTokenCookies from "../utils/setTokenCookies.js";
 import refreshAccessToken from "../utils/refreshAccessToken.js";
@@ -188,6 +190,7 @@ export const LogIn = async (req, res) => {
         email: user.email,
         name: user.name,
         role: user.role,
+        profilePic : user.profilePic
       },
       status: "Success",
       message: "Logged in SuccessFully",
@@ -250,11 +253,15 @@ export const getNewAccessToken = async (req, res) => {
 // -----------------------------------------------------
 // Get User Profile
 // -----------------------------------------------------
-export const userProfile = async (req, res) => {
-  const user = req.user;
-  res.send({user: req.user})
-  
-}
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // Logout..
 export const Logout = async (req, res) => {
@@ -289,26 +296,31 @@ export const Logout = async (req, res) => {
 // -----------------------------------------------------
 // Update User ProfilePic..
 // -----------------------------------------------------
-export const updateProfile = async (req , res)=>{
+export const uploadProfilePic = async (req, res) => {
   try {
-      const {profilePic} = req.body;
-      const userId = req.user._id
+    const userId = req.params.id;
+    const user = await User.findById(userId);
 
-      if(!profilePic){
-          res.status(400).json({message:"Profile pic is Required"});
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // If user already has a profile picture, delete old one
+    if (user.profilePic) {
+      const oldPath = path.join(process.cwd(), "src", user.profilePic);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+        console.log("Deleted old profile pic:", oldPath);
       }
+    }
 
-      const uploadResponse = await cloudinary.uploader.upload(profilePic)
-      const updatedUser = await User.findByIdAndUpdate(userId,{profilePic:uploadResponse.secure_url},{new:true})
+    // Save new path in DB
+    user.profilePic = `uploads/profile_pics/${req.file.filename}`;
+    await user.save();
 
-      res.status(200).json(updatedUser)
-
-  } catch (error) {
-      console.log("error in updating profile", error);
-      
-      res.status(400).json({message:"Internal server Error"});
+    res.json({ message: "Profile picture updated", user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-}
+};
 
 // -----------------------------------------------------
 // if User wants to change his password after Login..

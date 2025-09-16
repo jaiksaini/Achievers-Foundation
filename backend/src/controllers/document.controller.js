@@ -1,48 +1,31 @@
-import s3 from "../config/s3.js";
 import Document from "../models/documentModel.js";
-import { v4 as uuidv4 } from "uuid";
 
-const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
-const AWS_REGION = process.env.AWS_REGION;
 
 // -----------------------------------------------------
 // Upload Document
 // -----------------------------------------------------
 export const uploadDocument = async (req, res) => {
   try {
-    const { title, fileName } = req.body;
+    if (!req.file) {
+      return res.status(400).json({ status: "failed", message: "No file uploaded" });
+    }
 
-    // Generate unique key for file
-    const key = `documents/${uuidv4()}-${fileName}`;
+    const { title } = req.body;
 
-    // Get a signed URL from S3
-    const params = {
-      Bucket: AWS_BUCKET_NAME,
-      Key: key,
-      ContentType: "application/pdf",
-      Expires: 60, // 1 min
-    };
-
-    const uploadUrl = await s3.getSignedUrlPromise("putObject", params);
-
-    // Save metadata in DB
     const document = await Document.create({
       title,
-      fileUrl: `https://${AWS_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${key}`,
-      key,
+      fileUrl: `/uploads/documents/${req.file.filename}`, // store relative path
+      key: req.file.filename, // optional unique reference
     });
 
-    res
-      .status(201)
-      .json({
-        status: "success",
-        message: "File Uploaded Successfully",
-        uploadUrl,
-        document,
-      });
+    res.status(201).json({
+      status: "success",
+      message: "Document uploaded successfully",
+      document,
+    });
   } catch (error) {
     console.error("Error uploading document:", error);
-    res.status(500).json({ error: "Upload failed" });
+    res.status(500).json({ status: "failed", message: "Error uploading document" });
   }
 };
 
@@ -68,25 +51,29 @@ export const listDocuments = async (req, res) => {
 // Delete Document
 // -----------------------------------------------------
 export const deleteDocument = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const document = await Document.findById(id);
-  
-      if (!document) return res.status(404).json({ error: "Document not found" });
-  
-      // Delete from S3
-      await s3
-        .deleteObject({
-          Bucket: AWS_BUCKET_NAME,
-          Key: document.key,
-        })
-        .promise();
-  
-      // Delete from DB
-      await document.deleteOne();
-  
-      res.json({ message: "Document deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to delete document" });
+  try {
+    const { id } = req.params;
+    const document = await Document.findById(id);
+
+    if (!document) {
+      return res.status(404).json({ status: "failed", message: "Document not found" });
     }
-  };
+
+    // Remove file from server
+    const filePath = path.join("src/uploads/documents", document.key);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Remove from DB
+    await document.deleteOne();
+
+    res.status(200).json({
+      status: "success",
+      message: "Document deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    res.status(500).json({ status: "failed", message: "Error deleting document" });
+  }
+};
