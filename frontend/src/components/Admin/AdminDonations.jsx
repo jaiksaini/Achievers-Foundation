@@ -9,22 +9,23 @@ import {
 import { useDonationStore } from "../../store/useDonationStore";
 
 const AdminDonations = () => {
-  const { getDonations, isLoading, donations } = useDonationStore();
+  const {
+    getAllDonations,
+    isLoading,
+    donations,
+    downloadReceipt,
+    isDownloading,
+  } = useDonationStore();
 
   useEffect(() => {
-    getDonations();
-  }, [getDonations]);
+    getAllDonations();
+  }, [getAllDonations]);
 
-
-  const filteredDonations = Array.isArray(donations) ? donations : donations?.donations || [];
-
+  const filteredDonations = Array.isArray(donations)
+    ? donations
+    : donations?.donations || [];
 
   const totalAmount = filteredDonations.reduce((sum, d) => sum + d.amount, 0);
-  // const recentDonations =filteredDonations.slice(-3);
-
-  const downloadReceipt = (receiptId) => {
-    alert("Downloading receipt: " + receiptId);
-  };
 
   return (
     <div className="p-2 space-y-6 min-h-[78vh]">
@@ -39,13 +40,6 @@ const AdminDonations = () => {
             <p className="text-xl font-bold">{filteredDonations.length}</p>
           </div>
         </div>
-        {/* <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
-          <FaClock className="text-green-600 text-3xl" />
-          <div>
-            <p className="text-gray-500">Recent Donations</p>
-            <p className="text-xl font-bold">{recentDonations.length}</p>
-          </div>
-        </div> */}
         <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
           <FaMoneyBillWave className="text-yellow-600 text-3xl" />
           <div>
@@ -55,7 +49,7 @@ const AdminDonations = () => {
         </div>
       </div>
 
-      {/* Search Bar (UI kept, but not filtering now) */}
+      {/* Search Bar */}
       <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row gap-2">
         <div className="relative flex-1">
           <input
@@ -67,7 +61,7 @@ const AdminDonations = () => {
         </div>
       </div>
 
-      {/* Table View (Desktop) */}
+      {/* Table View */}
       <div className="hidden md:block overflow-x-auto bg-white rounded shadow">
         <table className="min-w-full border">
           <thead>
@@ -94,10 +88,16 @@ const AdminDonations = () => {
                 </td>
                 <td className="p-3 border-b">
                   <button
-                    onClick={() => downloadReceipt(d.receipt)}
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 flex items-center gap-2"
+                    onClick={() => downloadReceipt(d._id)}
+                    disabled={isDownloading}
+                    className={`px-3 py-1 rounded text-white flex items-center gap-2 ${
+                      isDownloading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"
+                    }`}
                   >
-                    <FaFileDownload /> Download
+                    <FaFileDownload />
+                    {isDownloading ? "Downloading..." : "Download"}
                   </button>
                 </td>
               </tr>
@@ -113,7 +113,7 @@ const AdminDonations = () => {
         </table>
       </div>
 
-      {/* Card View (Mobile) */}
+      {/* Mobile Cards */}
       <div className="md:hidden grid gap-4">
         {filteredDonations.map((d) => (
           <div
@@ -129,10 +129,16 @@ const AdminDonations = () => {
               {new Date(d.date).toLocaleDateString()}
             </p>
             <button
-              onClick={() => downloadReceipt(d.receipt)}
-              className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 flex items-center gap-2 justify-center"
+              onClick={() => downloadReceipt(d._id)}
+              disabled={isDownloading}
+              className={`px-3 py-2 rounded text-white flex items-center gap-2 justify-center ${
+                isDownloading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
             >
-              <FaFileDownload /> Download Receipt
+              <FaFileDownload />
+              {isDownloading ? "Downloading..." : "Download Receipt"}
             </button>
           </div>
         ))}

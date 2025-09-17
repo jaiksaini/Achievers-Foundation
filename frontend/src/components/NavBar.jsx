@@ -3,17 +3,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
 import { useAuthStore } from "../store/useAuthStore";
 
-
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, logout, user } = useAuthStore()
-  const role = user?.role
-  // console.log(role);
-  
- 
+  const { isAuthenticated, logout, user } = useAuthStore();
 
-
+  // check role from user object
+  const role = user?.role; // can be "admin" or "user" if using User model
+  const isMember = !role; // if no role field exists → treat as Member
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -22,6 +19,17 @@ const NavBar = () => {
     { path: "/about", label: "About us" },
     { path: "/contact", label: "Contact us" },
   ];
+
+  // handle dashboard navigation
+  const handleDashboard = () => {
+    if (role === "admin") {
+      navigate("/admin/dashboard", { replace: true });
+    } else if (role === "user") {
+      navigate("/user/overview", { replace: true });
+    } else if (isMember) {
+      navigate("/member/overview", { replace: true });
+    }
+  };
 
   return (
     <header className="top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
@@ -53,9 +61,10 @@ const NavBar = () => {
               key={idx}
               to={link.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${isActive
-                  ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                  : "text-gray-700 hover:text-blue-600"
+                `text-sm font-medium transition ${
+                  isActive
+                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                    : "text-gray-700 hover:text-blue-600"
                 }`
               }
             >
@@ -64,7 +73,7 @@ const NavBar = () => {
           ))}
         </div>
 
-        {/* Desktop Sign in */}
+        {/* Desktop Sign in / Dashboard */}
         <div className="hidden md:block">
           {!isAuthenticated ? (
             <button
@@ -77,11 +86,15 @@ const NavBar = () => {
           ) : (
             <>
               <button
-                onClick={() => navigate("/admin/dashboard", { replace: true })}
+                onClick={handleDashboard}
                 type="button"
                 className="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
               >
-                {role === "admin" ? "Admin DashBoard" : "Dashboard"}
+                {role === "admin"
+                  ? "Admin Dashboard"
+                  : role === "user"
+                  ? "User Dashboard"
+                  : "Member Dashboard"}
               </button>
               <button
                 onClick={logout}
@@ -91,7 +104,6 @@ const NavBar = () => {
               </button>
             </>
           )}
-
         </div>
 
         {/* Mobile Menu Button */}
@@ -124,7 +136,7 @@ const NavBar = () => {
       {open && (
         <div
           className="md:hidden border-t border-gray-100 bg-white shadow-md animate-slide-down"
-          onClick={() => setOpen(false)} // close menu when clicking outside links
+          onClick={() => setOpen(false)}
         >
           <div className="px-4 py-3 space-y-2">
             {navLinks.map((link, idx) => (
@@ -132,9 +144,10 @@ const NavBar = () => {
                 key={idx}
                 to={link.path}
                 className={({ isActive }) =>
-                  `block rounded-md px-2 py-2 text-sm font-medium ${isActive
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-700 hover:bg-gray-100"
+                  `block rounded-md px-2 py-2 text-sm font-medium ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`
                 }
               >
@@ -142,13 +155,26 @@ const NavBar = () => {
               </NavLink>
             ))}
 
-            <button
-              onClick={() => navigate("/signin", { replace: true })}
-              type="button"
-              className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
-            >
-              Sign in
-            </button>
+            {!isAuthenticated ? (
+              <button
+                onClick={() => navigate("/signin", { replace: true })}
+                type="button"
+                className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
+              >
+                Sign in
+              </button>
+            ) : (
+              <button
+                onClick={handleDashboard}
+                className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
+              >
+                {role === "admin"
+                  ? "Admin Dashboard"
+                  : role === "user"
+                  ? "User Dashboard"
+                  : "Member Dashboard"}
+              </button>
+            )}
           </div>
         </div>
       )}

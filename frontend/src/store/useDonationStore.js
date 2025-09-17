@@ -7,6 +7,7 @@ export const useDonationStore = create((set) => ({
   recentDonations: [],
   isDonating: false,
   isLoading: false,
+  isDownloading:false,
 
   donate: async (formData, userId) => {
     set({ isDonating: true });
@@ -72,7 +73,7 @@ export const useDonationStore = create((set) => ({
     }
   },
 
-  getDonations: async () => {
+  getAllDonations: async () => {
     set({ isLoading: true });
     try {
       const res = await axiosInstance.get("/api/donation/all");
@@ -93,6 +94,43 @@ export const useDonationStore = create((set) => ({
       console.error("Error fetching donations:", error);
       toast.error("Failed to fetch donations");
       set({ isLoading: false });
+    }
+  },
+
+  getUserDonations: async (userId) => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get(`/api/donation/user/${userId}`);
+      set({ donations: res.data.donations, isLoading: false });
+    } catch (error) {
+      console.error("Error fetching user donations:", error);
+      toast.error("Failed to fetch donations");
+      set({ isLoading: false });
+    }
+  },
+
+
+  downloadReceipt: async (donationId) => {
+    set({isDownloading : true})
+    try {
+      const res = await axiosInstance.get(`/api/donation/receipt/${donationId}`, {
+        responseType: "blob", // important for file download
+      });
+
+      // Create blob link
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `receipt-${donationId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      toast.success("Receipt downloaded");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to download receipt");
+    }finally{
+      set({isDownloading:false})
     }
   },
 }));

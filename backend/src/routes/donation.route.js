@@ -11,23 +11,42 @@ import {
   getUserDonations,
   getDonationStats,
   getRecentDonations,
+  downloadReceipt,
 } from "../controllers/donation.controller.js";
 
 import passport from "passport";
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
 
 // ------------------------------------------------
-// Donor Routes.. 
+// Donor Routes..
 // ------------------------------------------------
-router.post("/create-order", accessTokenAutoRefresh, createDonation);           
-router.post("/verify-payment",accessTokenAutoRefresh, verifyDonation);          
-router.get("/user/:userId",accessTokenAutoRefresh, getUserDonations);
-router.get("/recent-donations",accessTokenAutoRefresh, getRecentDonations);
-
-
+router.post(
+  "/create-order",
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),
+  createDonation
+);
+router.post(
+  "/verify-payment",
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),
+  verifyDonation
+);
+router.get(
+  "/user/:userId",
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),
+  getUserDonations
+);
+router.get(
+  "/recent-donations",
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),
+  getRecentDonations
+);
 
 // ------------------------------------------------
-// Admin Routes.. 
+// Admin Routes..
 // ------------------------------------------------
 router.get(
   "/all",
@@ -62,6 +81,13 @@ router.delete(
   accessTokenAutoRefresh,
   passport.authenticate("jwt", { session: false }),
   deleteDonation
+);
+
+router.get(
+  "/receipt/:id",
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),
+  downloadReceipt
 );
 
 export default router;
