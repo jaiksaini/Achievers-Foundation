@@ -1,9 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
+import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const AboutUs = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { user } = useAuthStore();
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -137,12 +140,21 @@ const AboutUs = () => {
           Whether through volunteering, donating, or becoming a member, your
           support helps us continue our mission.
         </p>
-        <button
-          onClick={() => navigate("/joinus")}
-          className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg shadow hover:bg-gray-100 transition"
-        >
-          Get Involved
-        </button>
+        {user?.role === "admin" ? (
+          <Link
+            to="/admin/members"
+            className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
+          >
+            See Members
+          </Link>
+        ) : (
+          <Link
+            to="/joinus"
+            className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
+          >
+            Join as a Member
+          </Link>
+        )}
       </section>
     </div>
   );

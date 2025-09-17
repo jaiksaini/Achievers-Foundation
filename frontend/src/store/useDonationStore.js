@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 export const useDonationStore = create((set) => ({
   donations: [],
   recentDonations: [],
+  monthlyStats: [],   
+  totals: {},
   isDonating: false,
   isLoading: false,
   isDownloading:false,
@@ -131,6 +133,20 @@ export const useDonationStore = create((set) => ({
       toast.error(error.response?.data?.message || "Failed to download receipt");
     }finally{
       set({isDownloading:false})
+    }
+  },
+
+
+  getDashboardStats: async () => {
+    try {
+      const res = await axiosInstance.get("/api/donation/stats");
+      set({
+        monthlyStats: res.data.monthlyStats,
+        totals: res.data.totals,
+      });
+    } catch (error) {
+      console.error("Error fetching donation stats:", error);
+      toast.error("Failed to fetch donation stats");
     }
   },
 }));

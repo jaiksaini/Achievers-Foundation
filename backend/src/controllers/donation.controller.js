@@ -243,16 +243,51 @@ export const getUserDonations = async (req, res) => {
 // -----------------------------------------------------
 export const getDonationStats = async (req, res) => {
   try {
-    const totalDonations = await Donation.countDocuments();
-    const totalAmount = await Donation.aggregate([
+    
+    const totalDonations = await Donation.countDocuments({ status: "completed" });
+
+
+    const totalAmountAgg = await Donation.aggregate([
       { $match: { status: "completed" } },
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
+    const totalAmount = totalAmountAgg[0]?.total || 0;
+
+    
+    const monthlyStats = await Donation.aggregate([
+      { $match: { status: "completed" } },
+      {
+        $group: {
+          _id: { month: { $month: "$createdAt" } },
+          amount: { $sum: "$amount" },
+        },
+      },
+      { $sort: { "_id.month": 1 } },
+    ]);
+
+    // Map months properly (Jan–Dec)
+    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const formattedMonthlyStats = monthNames.map((m, idx) => {
+      const found = monthlyStats.find((stat) => stat._id.month === idx + 1);
+      return { month: m, amount: found ? found.amount : 0 };
+    });
+
+    // New donors (unique count of users who donated)
+    const newDonorsAgg = await Donation.distinct("donor", { status: "completed" });
+    const newDonors = newDonorsAgg.length;
+
+    // Active projects (fake for now – if you have Project model, count it)
+    const activeProjects = 12; // replace with Project.countDocuments({ active: true })
 
     res.status(200).json({
       status: "success",
-      totalDonations,
-      totalAmount: totalAmount[0]?.total || 0,
+      totals: {
+        totalDonations,
+        fundsRaised: totalAmount,
+        newDonors,
+        activeProjects,
+      },
+      monthlyStats: formattedMonthlyStats,
     });
   } catch (error) {
     console.error("Error fetching donation stats:", error);
@@ -262,6 +297,7 @@ export const getDonationStats = async (req, res) => {
     });
   }
 };
+
 
 // // -----------------------------------------------------
 // // Get recent 5 donations

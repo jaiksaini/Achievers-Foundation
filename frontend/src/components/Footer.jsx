@@ -9,8 +9,11 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const Footer = () => {
+  const { user } = useAuthStore();
+
   return (
     <footer className="bg-black text-gray-300">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -59,16 +62,33 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <NavLink to="/donation" className="hover:text-white">
-                  Donate
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/joinus" className="hover:text-white">
-                  Become a Member
-                </NavLink>
-              </li>
+              {user?.role === "admin" ? (
+                <>
+                  <li>
+                    <NavLink to="/admin/dashboard" className="hover:text-white">
+                      Admin DashBoard
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/admin/members" className="hover:text-white">
+                      See Members
+                    </NavLink>
+                  </li></>
+              ) : (
+                <>
+                  <li>
+                    <NavLink to="/donation" className="hover:text-white">
+                      Donate
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/joinus" className="hover:text-white">
+                      Become a Member
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
               <li>
                 <NavLink to="/contact" className="hover:text-white">
                   Contact Us

@@ -8,12 +8,12 @@ const UserSettings = () => {
 
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
-    if (file && user?.id) {
+    if (file && user?._id) {
       const imageURL = URL.createObjectURL(file);
       setPreview(imageURL);
   
       try {
-        await uploadProfilePic(user.id, file);  
+        await uploadProfilePic(user._id, file);  
       } catch (err) {
         console.error("Upload failed:", err);
       }

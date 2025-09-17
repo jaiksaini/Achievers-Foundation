@@ -1,8 +1,10 @@
 import React from "react";
 import assets from "../../assets/assets";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const Contribution = () => {
+  const { user } = useAuthStore();
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -36,12 +38,21 @@ const Contribution = () => {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4">
+          {user?.role === "admin" ? (
+            <Link
+              to="/admin/dashboard"
+              className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
+            >
+              Go to Admin Dashboard
+            </Link>
+          ) : (
             <Link
               to="/donation"
-              className="inline-flex items-center justify-center border border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-100"
+              className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
             >
               Donate
             </Link>
+          )}
             <Link
              to="/about"
               className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"

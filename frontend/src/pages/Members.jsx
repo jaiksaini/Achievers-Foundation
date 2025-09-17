@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import asstes from "../assets/assets";
+// import asstes from "../assets/assets";
 import { useMemberStore } from "../store/useMemberStore";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const Members = () => {
   const navigate = useNavigate();
   const {members ,getApprovedMembers ,isLoading} = useMemberStore()
+  const { user } = useAuthStore();
 
   useEffect(() => {
     getApprovedMembers();
@@ -14,21 +17,30 @@ const Members = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <section className="text-center py-12 px-4 bg-[#fef3c7] text-black">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+      <section className="text-center py-12 px-4  bg-[#fef3c7] text-black">
+        <h1 className="text-3xl md:text-4xl font-bold mb-6">
           Meet Our Members
         </h1>
-        <p className="max-w-2xl mx-auto text-lg">
+        <p className="max-w-2xl mx-auto text-lg mb-6">
           Our NGO family is growing with passionate individuals who are
           dedicated to making a difference. Join us and become part of our
           community today!
         </p>
-        <button
-          onClick={() => navigate("/joinus")}
-          className="mt-6 px-6 py-3 bg-white text-black font-semibold rounded-lg shadow hover:bg-gray-800 hover:text-white transition"
-        >
-          Become Member
-        </button>
+        {user?.role === "admin" ? (
+            <Link
+              to="/admin/members"
+              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+            >
+              See Members
+            </Link>
+          ) : (
+            <Link
+              to="/joinus"
+              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+            >
+              Join as a Member
+            </Link>
+          )}
       </section>
 
       {isLoading && (
@@ -65,12 +77,21 @@ const Members = () => {
           By becoming a member, you can contribute to meaningful causes, join
           events, and work together for a brighter future.
         </p>
-        <button
-          onClick={() => navigate("/joinus")}
-          className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
-        >
-          Become Member
-        </button>
+        {user?.role === "admin" ? (
+            <Link
+              to="/admin/members"
+              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+            >
+              See Members
+            </Link>
+          ) : (
+            <Link
+              to="/joinus"
+              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+            >
+              Join as a Member
+            </Link>
+          )}
       </section>
     </div>
   );

@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const Banner1 = () => {
+  const { user } = useAuthStore();
   return (
     <section className="bg-[#fef3c7] py-16 px-4 sm:px-6 lg:px-12">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
@@ -37,12 +39,22 @@ const Banner1 = () => {
             >
               Learn More
             </Link>
+            {user?.role === "admin" ? (
+            <Link
+              to="/admin/dashboard"
+              className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
+            >
+              Go to Admin Dashboard
+            </Link>
+          ) : (
             <Link
               to="/donation"
               className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
             >
               Donate Now <span className="ml-2">➝</span>
             </Link>
+          )}
+
           </div>
         </div>
       </div>

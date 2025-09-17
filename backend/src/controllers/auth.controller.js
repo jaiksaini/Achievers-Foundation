@@ -310,7 +310,7 @@ export const uploadProfile = async (req, res) => {
       const oldPath = path.join(process.cwd(), "src", user.profilePic);
       if (fs.existsSync(oldPath)) {
         fs.unlinkSync(oldPath);
-        console.log("Deleted old profile pic:", oldPath);
+        // console.log("Deleted old profile pic:", oldPath);
       }
     }
 

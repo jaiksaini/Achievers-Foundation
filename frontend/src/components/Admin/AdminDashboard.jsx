@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-
+import React, { useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -11,29 +9,21 @@ import {
 } from "recharts";
 import { useDonationStore } from "../../store/useDonationStore";
 
-const donationData = [
-  { month: "Jan", amount: 1500 },
-  { month: "Feb", amount: 2200 },
-  { month: "Mar", amount: 2800 },
-  { month: "Apr", amount: 2600 },
-  { month: "May", amount: 3500 },
-  { month: "Jun", amount: 4200 },
-  { month: "Jul", amount: 3100 },
-  { month: "Aug", amount: 4000 },
-  { month: "Sep", amount: 3700 },
-  { month: "Oct", amount: 3300 },
-  { month: "Nov", amount: 4500 },
-  { month: "Dec", amount: 4700 },
-];
-
 const AdminDashboard = () => {
-  const { recentDonations, getRecentDonations, isLoading } = useDonationStore();
-  // console.log(recentDonations);
-  
+  const {
+    recentDonations,
+    getRecentDonations,
+    monthlyStats,
+    totals,
+    getDashboardStats,
+    isLoading,
+  } = useDonationStore();
+
   // fetch on mount
   useEffect(() => {
     getRecentDonations();
-  }, [getRecentDonations]);
+    getDashboardStats();
+  }, [getRecentDonations, getDashboardStats]);
 
   return (
     <main className="flex-1 min-h-[78vh] overflow-y-auto">
@@ -50,20 +40,28 @@ const AdminDashboard = () => {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-          <h2 className="text-gray-500 text-sm">Total Donations</h2>
-          <p className="text-3xl font-extrabold text-blue-600">$25,350</p>
+          <h2 className="text-gray-500 text-sm">Total Donors</h2>
+          <p className="text-3xl font-extrabold text-blue-600">
+            {totals?.totalDonations || 0}
+          </p>
         </div>
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-gray-500 text-sm">Funds Raised</h2>
-          <p className="text-3xl font-extrabold text-green-600">$60,000</p>
+          <p className="text-3xl font-extrabold text-green-600">
+          ₹{totals?.fundsRaised || 0}
+          </p>
         </div>
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-gray-500 text-sm">New Donors</h2>
-          <p className="text-3xl font-extrabold text-purple-600">120</p>
+          <p className="text-3xl font-extrabold text-purple-600">
+            {totals?.newDonors || 0}
+          </p>
         </div>
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-gray-500 text-sm">Active Projects</h2>
-          <p className="text-3xl font-extrabold text-orange-500">12</p>
+          <p className="text-3xl font-extrabold text-orange-500">
+            {totals?.activeProjects || 0}
+          </p>
         </div>
       </div>
 
@@ -75,7 +73,7 @@ const AdminDashboard = () => {
             Donation Overview
           </h2>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={donationData}>
+            <BarChart data={monthlyStats}>
               <XAxis dataKey="month" stroke="#6B7280" />
               <YAxis stroke="#6B7280" />
               <Tooltip />
@@ -110,9 +108,7 @@ const AdminDashboard = () => {
                       <td className="py-3">
                         {donation.donor?.name || "Anonymous"}
                       </td>
-                      <td className="py-3 font-semibold">
-                        ${donation.amount}
-                      </td>
+                      <td className="py-3 font-semibold">${donation.amount}</td>
                       <td className="py-3">
                         {new Date(donation.createdAt).toLocaleDateString()}
                       </td>
@@ -131,3 +127,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
