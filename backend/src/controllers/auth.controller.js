@@ -190,7 +190,7 @@ export const LogIn = async (req, res) => {
         email: user.email,
         name: user.name,
         role: user.role,
-        profilePic : user.profilePic
+        profilePic: user.profilePic
       },
       status: "Success",
       message: "Logged in SuccessFully",
@@ -267,6 +267,7 @@ export const userProfile = async (req, res) => {
 // Logout..
 export const Logout = async (req, res) => {
   try {
+    const refreshToken = req.cookies.refreshToken;
 
     const userRefreshToken = await UserRefreshTokenModel.findOne({ token: refreshToken });
 

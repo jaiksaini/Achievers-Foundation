@@ -66,11 +66,11 @@ const Userdashboard  = () => {
             <FaBars size={20} />
           </button>
           <h2 className="text-lg font-bold">Welcome, User!</h2>
-          <img
+          {/* <img
             src={assets.user}
             alt="profile"
             className="w-10 h-10 rounded-full"
-          />
+          /> */}
         </header>
 
         <div className="flex-1 p-4 md:p-6">

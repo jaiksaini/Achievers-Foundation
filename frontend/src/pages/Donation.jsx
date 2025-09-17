@@ -19,7 +19,7 @@ const Donation = () => {
   });
 
   const { user } = useAuthStore();
-  const userId = user?.id;
+  const userId = user?._id;
 
   const { donate, isDonating, getRecentDonations, recentDonations, isLoading } =
     useDonationStore();

@@ -1,4 +1,5 @@
 import { React } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -13,15 +14,19 @@ const SingInPg = () => {
     email: "",
     password: "",
   });
-  const { login, isLogin } = useAuthStore();
+  const { login, isLogin , isAuthenticated} = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await login(formData);
-    if (response) {
-      navigate("/");
-    }
+    await login(formData);
+
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">

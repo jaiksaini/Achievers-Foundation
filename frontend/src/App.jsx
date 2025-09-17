@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import {
   Route,
   Navigate,
@@ -35,8 +36,16 @@ import UserOverview from "./components/User/UserOverview";
 import UserDonations from "./components/User/UserDonations";
 import UserSettings from "./components/User/UserSettings";
 import LoginAsMember from "./pages/LoginAsMember";
+import { useAuthStore } from "./store/useAuthStore";
+
 
 const App = () => {
+
+  const {getUserProfile , user} = useAuthStore()
+
+  useEffect(() => {
+    getUserProfile();
+  }, [getUserProfile]);
 
 
  

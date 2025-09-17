@@ -10,8 +10,25 @@ export const useAuthStore = create((set) => ({
   isSignup: false,
   setOtp: false,
   isLogin: false,
-  
-  
+  isUploading: false,
+
+  getUserProfile: async () => {
+    try {
+      const res = await axiosInstance.get("/api/user/user-profile", {
+        withCredentials: true,
+      });
+
+      if (res.data?.user) {
+        set({ user: res.data.user, isAuthenticated: true });
+      } else {
+        set({ user: null, isAuthenticated: false });
+      }
+    } catch (error) {
+      console.error("Error Getting Profile ", error);
+      set({ user: null, isAuthenticated: false });
+    }
+  },
+
   signup: async (data) => {
     set({ isSignup: true });
     try {
@@ -61,11 +78,12 @@ export const useAuthStore = create((set) => ({
       set({ isLogin: false });
     }
   },
-
+  
+  
   logout: async () => {
     try {
       await axiosInstance.post("/api/user/logout");
-      
+
       // Remove cookies related to authentication
       Cookies.remove("is_auth");
       Cookies.remove("accessToken");
@@ -77,6 +95,30 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       console.error("Logout failed:", error);
       toast.error("Failed to log out.");
+    }
+  },
+
+  uploadProfilePic: async (userId, file) => {
+    set({ isUploading: true });
+
+    try {
+      const formData = new FormData();
+      formData.append("profilePic", file);
+
+      const res = await axiosInstance.post(
+        `/api/user/upload/${userId}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      set({ user: res.data.user });
+      toast.success("Profile picture updated");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to upload picture");
+    } finally {
+      set({ isUploading: false });
     }
   },
 }));

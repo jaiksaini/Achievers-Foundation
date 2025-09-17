@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import { useDonationStore } from "../../store/useDonationStore"; // adjust path
-import { useAuthStore } from "../../store/useAuthStore"; // assuming you store logged in user here
-
+import { useDonationStore } from "../../store/useDonationStore";
+import { useAuthStore } from "../../store/useAuthStore";
 const UserDonations = () => {
   const { donations, isLoading, getUserDonations, downloadReceipt, isDownloading } = useDonationStore();
-  const { user } = useAuthStore(); // assuming user contains _id
-  // console.log(user?.id);
+  const { user } = useAuthStore();
+
+  // console.log(user?._id);
 
   useEffect(() => {
-    if (user?.id) {
-      getUserDonations(user.id);
+    if (user?._id) {
+      getUserDonations(user._id);
     }
   }, [user]);
 
