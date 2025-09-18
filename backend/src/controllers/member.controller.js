@@ -1,9 +1,11 @@
 import Member from "../models/memberModel.js";
 import bcrypt from "bcrypt";
 import hbs from "hbs";
-import  path  from "path";
-import fs from "fs"
+import path from "path";
+import fs from "fs";
 import transporter from "../config/emailConfig.js";
+import generateTokensMember from "../utils/generateTokens-member.js";
+import setTokensCookies from "../utils/setTokenCookies.js";
 
 // function to generate random password
 const generatePassword = (length = 8) => {
@@ -271,15 +273,14 @@ export const deleteMember = async (req, res) => {
   }
 };
 
-
 // ---------------------------------------------
 // Member Login
 // ---------------------------------------------
 
-
 export const MemberLogIn = async (req, res) => {
   try {
     const { email, password } = req.body;
+    // console.log(email,password);
 
     if (!email || !password) {
       return res.status(402).json({
@@ -289,13 +290,13 @@ export const MemberLogIn = async (req, res) => {
     }
 
     const member = await Member.findOne({ email });
+    // console.log(member);
 
     if (!member) {
       return res
         .status(401)
         .json({ status: "Failed", message: "Invalid Mail or Password" });
     }
-
 
     // Comparing passwords..
     const isMatch = await bcrypt.compare(password, member.password);
@@ -307,9 +308,9 @@ export const MemberLogIn = async (req, res) => {
     }
 
     const { accessToken, refreshToken, accessTokenExp, refreshTokenExp } =
-      await generateTokens(member);
+      await generateTokensMember(member);
 
-    setTokenCookies(
+    setTokensCookies(
       res,
       accessToken,
       refreshToken,
@@ -317,29 +318,38 @@ export const MemberLogIn = async (req, res) => {
       refreshTokenExp
     );
 
-    res.status(200).json({ 
-      member :{
+    res.status(200).json({
+      member: {
         id: member._id,
         email: member.email,
         name: member.name,
-        phone:member.phone,
+        phone: member.phone,
         address: member.address,
-        profilePic : member.profilePic,
-
+        profilePic: member.profilePic,
       },
       status: "Success",
       message: "Logged in SuccessFully",
-      is_auth: "true"
+      is_auth: "true",
     });
     // console.log("succeessssssssssssssssssss");
-    
   } catch (error) {
     console.log(error);
-    return res
-      .status(401)
-      .json({
-        status: "Failed ",
-        message: " Failed to Login... (Catch Block)",
-      });
+    return res.status(401).json({
+      status: "Failed ",
+      message: " Failed to Login... (Catch Block)",
+    });
   }
 };
+
+export const memberProfile = async (req, res) => {
+  try {
+    const member = await Member.findById(req.user._id).select("-password"); 
+    if (!member) {
+      return res.status(404).json({ status: "Failed", message: "Member not found" });
+    }
+    res.json({ member });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+

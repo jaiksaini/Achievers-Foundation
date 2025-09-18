@@ -8,17 +8,22 @@ import {
   getAllMembers,
   getApprovedMembers,
   getPendingMembers,
-  deleteMember
+  deleteMember,
+  MemberLogIn,
+  memberProfile
 } from "../controllers/member.controller.js";
 
 import passport from "passport";
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
+import accessTokenAutoRefreshMember from "../middlewares/accessTokenAutoRefreshMember.js";
 
 // ---------------------------------------
 // Public Routes
 // ---------------------------------------
 router.post("/apply", applyForMembership);
+router.post("/member-signin", MemberLogIn);
 router.get("/approved-members", getApprovedMembers);
+
 
 // ---------------------------------------
 // Protected Routes (Admin Only)
@@ -56,6 +61,14 @@ router.delete(
   accessTokenAutoRefresh,
   passport.authenticate("jwt", { session: false }),
   deleteMember
+);
+
+
+router.get(
+  "/member-profile",
+  accessTokenAutoRefreshMember,
+  passport.authenticate("member-jwt", { session: false }),
+  memberProfile
 );
 
 export default router;

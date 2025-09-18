@@ -10,10 +10,11 @@ export const uploadDocument = async (req, res) => {
       return res.status(400).json({ status: "failed", message: "No file uploaded" });
     }
 
-    const { title } = req.body;
+    const { title , description } = req.body;
 
     const document = await Document.create({
       title,
+      description,
       fileUrl: `/uploads/documents/${req.file.filename}`, // store relative path
       key: req.file.filename, // optional unique reference
     });

@@ -2,11 +2,13 @@ import { create } from "zustand";
 import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
 
+
 export const useMemberStore = create((set, get) => ({
   members: [],
   pendingRequest: [],
   isLoading: false,
   isApplying: false,
+
 
   // Admin Pages
   getAllMembers: async () => {
@@ -102,4 +104,8 @@ export const useMemberStore = create((set, get) => ({
       set({ isApplying: false });
     }
   },
+
+
+  
+
 }));
