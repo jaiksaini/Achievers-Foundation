@@ -42,7 +42,7 @@ const verifyRefreshTokenMember = async (refreshToken) => {
         message: "Valid Refresh Token",
       };
     } catch (err) {
-      console.error("verifyRefreshTokenMember error:", err.message);
+      console.error("verifyRefreshTokenMember error  (memberFile):", err.message);
       return { error: true, message: err.message }; // don't throw generic
     }
   };

@@ -1,9 +1,11 @@
 import Donation from "../models/donationModel.js";
 import User from "../models/userModel.js";
+import Member from "../models/memberModel.js";
 import transporter from "../config/emailConfig.js";
 import generateReceipt from "../utils/generateReceipt.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import mongoose from "mongoose";
 
 // ✅ Razorpay instance
 const razorpay = new Razorpay({
@@ -14,6 +16,59 @@ const razorpay = new Razorpay({
 // -----------------------------------------------------
 // Create Donation Order
 // -----------------------------------------------------
+// export const createDonation = async (req, res) => {
+//   try {
+//     const { donorId, amount, paymentMethod, phone, address } = req.body;
+
+//     if (!donorId || !amount || !paymentMethod) {
+//       return res.status(400).json({
+//         status: "failed",
+//         message: "DonorId, Amount, and Payment Method are required",
+//       });
+//     }
+
+//     // Create Razorpay order
+//     const options = {
+//       amount: amount * 100, // convert to paise
+//       currency: "INR",
+//       receipt: `receipt_${Date.now()}`,
+//     };
+
+//     const order = await razorpay.orders.create(options);
+
+//     const user = await User.findById(donorId);
+//     if (user) {
+//       if (!user.phone && phone) user.phone = phone;
+//       if (!user.address && address) user.address = address;
+//       await user.save();
+//     }
+
+//     // Save donation with pending status
+//     const donation = await new Donation({
+//       donor: donorId,
+//       donorModel: req.user.constructor.modelName,
+//       amount,
+//       paymentMethod,
+
+//       status: "pending",
+//       transactionId: order.id, // ✅ store Razorpay orderId here
+//     }).save();
+
+//     res.status(201).json({
+//       status: "success",
+//       message: "Donation order created",
+//       order,
+//       donation,
+//     });
+//   } catch (error) {
+//     console.error("Error creating donation:", error);
+//     res.status(500).json({
+//       status: "failed",
+//       message: "Unable to create donation order",
+//     });
+//   }
+// };
+
 export const createDonation = async (req, res) => {
   try {
     const { donorId, amount, paymentMethod, phone, address } = req.body;
@@ -34,21 +89,28 @@ export const createDonation = async (req, res) => {
 
     const order = await razorpay.orders.create(options);
 
-    const user = await User.findById(donorId);
-    if (user) {
-      if (!user.phone && phone) user.phone = phone;
-      if (!user.address && address) user.address = address;
-      await user.save();
+    // 🔹 Find donor (could be User or Member)
+    let donorDoc = null;
+    if (req.user.constructor.modelName === "User") {
+      donorDoc = await User.findById(donorId);
+    } else if (req.user.constructor.modelName === "Member") {
+      donorDoc = await Member.findById(donorId);
+    }
+
+    if (donorDoc) {
+      if (!donorDoc.phone && phone) donorDoc.phone = phone;
+      if (!donorDoc.address && address) donorDoc.address = address;
+      await donorDoc.save();
     }
 
     // Save donation with pending status
     const donation = await new Donation({
       donor: donorId,
+      donorModel: req.user.constructor.modelName, // ✅ dynamic ref
       amount,
       paymentMethod,
-
       status: "pending",
-      transactionId: order.id, // ✅ store Razorpay orderId here
+      transactionId: order.id, // ✅ store Razorpay orderId
     }).save();
 
     res.status(201).json({
@@ -243,9 +305,9 @@ export const getUserDonations = async (req, res) => {
 // -----------------------------------------------------
 export const getDonationStats = async (req, res) => {
   try {
-    
-    const totalDonations = await Donation.countDocuments({ status: "completed" });
-
+    const totalDonations = await Donation.countDocuments({
+      status: "completed",
+    });
 
     const totalAmountAgg = await Donation.aggregate([
       { $match: { status: "completed" } },
@@ -253,7 +315,6 @@ export const getDonationStats = async (req, res) => {
     ]);
     const totalAmount = totalAmountAgg[0]?.total || 0;
 
-    
     const monthlyStats = await Donation.aggregate([
       { $match: { status: "completed" } },
       {
@@ -266,14 +327,29 @@ export const getDonationStats = async (req, res) => {
     ]);
 
     // Map months properly (Jan–Dec)
-    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const formattedMonthlyStats = monthNames.map((m, idx) => {
       const found = monthlyStats.find((stat) => stat._id.month === idx + 1);
       return { month: m, amount: found ? found.amount : 0 };
     });
 
     // New donors (unique count of users who donated)
-    const newDonorsAgg = await Donation.distinct("donor", { status: "completed" });
+    const newDonorsAgg = await Donation.distinct("donor", {
+      status: "completed",
+    });
     const newDonors = newDonorsAgg.length;
 
     // Active projects (fake for now – if you have Project model, count it)
@@ -298,7 +374,6 @@ export const getDonationStats = async (req, res) => {
   }
 };
 
-
 // // -----------------------------------------------------
 // // Get recent 5 donations
 // // -----------------------------------------------------
@@ -322,9 +397,6 @@ export const getRecentDonations = async (req, res) => {
   }
 };
 
-
-
-
 // // -----------------------------------------------------
 // // Download Donation Receipt
 // // -----------------------------------------------------
@@ -336,4 +408,65 @@ export const downloadReceipt = async (req, res) => {
   if (!donation) return res.status(404).json({ message: "Donation not found" });
 
   generateReceipt(donation, donation.donor, res); // Streams directly
+};
+
+
+
+export const getUserDonationsMember = async (req, res) => {
+  try {
+    const donations = await Donation.find({ donor: req.params.memberId }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({ status: "success", donations });
+  } catch (error) {
+    console.error("Error fetching user donations:", error);
+    res.status(500).json({
+      status: "failed",
+      message: "Unable to fetch user donations",
+    });
+  }
+};
+
+
+
+export const getTotalCompletedDonations = async (req, res) => {
+  try {
+    const { donorId } = req.params; // or req.query / req.body depending on your route
+
+    if (!donorId) {
+      return res.status(400).json({
+        status: "failed",
+        message: "DonorId is required",
+      });
+    }
+
+    // Aggregate donations with status completed
+    const result = await Donation.aggregate([
+      {
+        $match: {
+          donor: new mongoose.Types.ObjectId(donorId),
+          status: "completed",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const totalAmount = result.length > 0 ? result[0].totalAmount : 0;
+
+    res.status(200).json({
+      status: "success",
+      total: totalAmount,
+    });
+  } catch (error) {
+    console.error("Error fetching total donations:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
 };

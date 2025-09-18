@@ -10,12 +10,15 @@ import {
   getPendingMembers,
   deleteMember,
   MemberLogIn,
-  memberProfile
+  memberProfile,
+  uploadProfile,
+  MemberLogout
 } from "../controllers/member.controller.js";
 
 import passport from "passport";
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
 import accessTokenAutoRefreshMember from "../middlewares/accessTokenAutoRefreshMember.js";
+import { uploadProfilePic } from "../config/multerConfig.js";
 
 // ---------------------------------------
 // Public Routes
@@ -69,6 +72,23 @@ router.get(
   accessTokenAutoRefreshMember,
   passport.authenticate("member-jwt", { session: false }),
   memberProfile
+);
+
+
+router.post(
+  "/upload/:id",
+  accessTokenAutoRefreshMember,
+  passport.authenticate("member-jwt", { session: false }),
+  uploadProfilePic.single("profilePic"),
+  uploadProfile
+);
+
+
+router.post(
+  "/member/logout",
+  accessTokenAutoRefreshMember,
+  passport.authenticate("member-jwt", { session: false }),
+  MemberLogout
 );
 
 export default router;

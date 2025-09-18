@@ -6,6 +6,7 @@ import fs from "fs";
 import transporter from "../config/emailConfig.js";
 import generateTokensMember from "../utils/generateTokens-member.js";
 import setTokensCookies from "../utils/setTokenCookies.js";
+import MemberRefreshTokenModel from "../models/MemberRefreshToken.js";
 
 // function to generate random password
 const generatePassword = (length = 8) => {
@@ -353,3 +354,58 @@ export const memberProfile = async (req, res) => {
   }
 };
 
+
+export const uploadProfile = async (req, res) => {
+  try {
+    const memberId = req.params.id;
+    const member = await Member.findById(memberId);
+
+    if (!member) return res.status(404).json({ message: "User not found" });
+
+    // If user already has a profile picture, delete old one
+    if (member.profilePic) {
+      const oldPath = path.join(process.cwd(), "src", member.profilePic);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+        // console.log("Deleted old profile pic:", oldPath);
+      }
+    }
+
+    // Save new path in DB
+    member.profilePic = `uploads/profile_pics/${req.file.filename}`;
+    await member.save();
+
+    res.json({ message: "Profile picture updated", member });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+export const MemberLogout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    const userRefreshToken = await MemberRefreshTokenModel.findOne({ token: refreshToken });
+
+    if (userRefreshToken) {
+      // Blacklist the refresh token
+      userRefreshToken.blacklisted = true;
+      await userRefreshToken.save();
+    } else {
+      console.log('Refresh token not found in database for blacklisting.');
+    }
+
+    // Clear access token and refresh token cookies
+    res.clearCookie("accessToken"); 
+    res.clearCookie("refreshToken"); 
+    res.clearCookie("is_auth"); 
+    res.status(200).json({ status: "success", message: "Logout successful" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({
+      status: "failed",
+      message: "Unable to logout, please try again later",
+    });
+  }
+};

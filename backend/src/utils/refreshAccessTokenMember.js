@@ -29,7 +29,7 @@ const refreshAccessTokenMember = async (req, res) => {
       oldRefreshToken !== userRefreshToken.token ||
       userRefreshToken.blacklisted
     ) {
-      throw new Error("Unauthorized Access");
+      throw new Error("Unauthorized Access  (memberFile)");
     }
 
     const { accessToken, refreshToken, accessTokenExp, refreshTokenExp } =
@@ -42,7 +42,7 @@ const refreshAccessTokenMember = async (req, res) => {
       newRefreshTokenExp: refreshTokenExp,
     };
   } catch (error) {
-    console.error("Error in RefreshAccessToken:", error.message);
+    console.error("Error in RefreshAccessToken (memberFile):", error.message);
     throw error;
   }
 };

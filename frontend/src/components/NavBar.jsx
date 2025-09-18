@@ -6,7 +6,7 @@ import { useAuthStore } from "../store/useAuthStore";
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, logout, user } = useAuthStore();
+  const { isAuthenticated, logout, user, memberlogout } = useAuthStore();
 
   // check role from user object
   const role = user?.role; // can be "admin" or "user" if using User model
@@ -61,10 +61,9 @@ const NavBar = () => {
               key={idx}
               to={link.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${
-                  isActive
-                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                    : "text-gray-700 hover:text-blue-600"
+                `text-sm font-medium transition ${isActive
+                  ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                  : "text-gray-700 hover:text-blue-600"
                 }`
               }
             >
@@ -93,15 +92,26 @@ const NavBar = () => {
                 {role === "admin"
                   ? "Admin Dashboard"
                   : role === "user"
-                  ? "User Dashboard"
-                  : "Member Dashboard"}
+                    ? "User Dashboard"
+                    : "Member Dashboard"}
               </button>
-              <button
-                onClick={logout}
-                className="bg-white text-secondary px-4 py-1 rounded-md border-2 border-white hover:bg-secondary hover:bg-pink-500  transition"
-              >
-                Logout
-              </button>
+
+
+              {user ? (
+                <button
+                  onClick={logout}
+                  className="bg-white text-secondary px-4 py-1 rounded-md border-2 border-white hover:bg-secondary hover:bg-pink-500  transition"
+                >
+                  Logout
+                </button>
+              ) : (
+                <button
+                  onClick={memberlogout}
+                  className="bg-white text-secondary px-4 py-1 rounded-md border-2 border-white hover:bg-secondary hover:bg-pink-500  transition"
+                >
+                  Logout
+                </button>
+              )}
             </>
           )}
         </div>
@@ -144,10 +154,9 @@ const NavBar = () => {
                 key={idx}
                 to={link.path}
                 className={({ isActive }) =>
-                  `block rounded-md px-2 py-2 text-sm font-medium ${
-                    isActive
-                      ? "bg-blue-50 text-blue-600"
-                      : "text-gray-700 hover:bg-gray-100"
+                  `block rounded-md px-2 py-2 text-sm font-medium ${isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-700 hover:bg-gray-100"
                   }`
                 }
               >
@@ -171,8 +180,8 @@ const NavBar = () => {
                 {role === "admin"
                   ? "Admin Dashboard"
                   : role === "user"
-                  ? "User Dashboard"
-                  : "Member Dashboard"}
+                    ? "User Dashboard"
+                    : "Member Dashboard"}
               </button>
             )}
           </div>

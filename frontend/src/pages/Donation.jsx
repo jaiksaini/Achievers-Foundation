@@ -8,21 +8,23 @@ import toast from "react-hot-toast";
 const Donation = () => {
 
 
-  
+
   const [formData, setFormData] = useState({
-    // name: "",
-    // email: "",
     phone: "",
     address: "",
     amount: "",
     paymentMethod: "",
   });
 
-  const { user } = useAuthStore();
+  const { user, member } = useAuthStore();
   const userId = user?._id;
+  const memberId = member?._id
+  // console.log(memberId);
 
-  const { donate, isDonating, getRecentDonations, recentDonations, isLoading } =
+
+  const { donate, donateMember, isDonating, getRecentDonations, recentDonations, isLoading } =
     useDonationStore();
+
 
   const handleDonate = (e) => {
     e.preventDefault();
@@ -38,8 +40,13 @@ const Donation = () => {
       toast.error("Please fill in all fields.");
       return;
     }
+    if (user) {
+      donate(formData, userId);
+    } else {
+      donateMember(formData, memberId)
+    }
 
-    donate(formData, userId);
+
   };
 
   // fetch recent donors on mount
@@ -88,37 +95,6 @@ const Donation = () => {
             Make a Donation
           </h2>
           <form className="space-y-4" onSubmit={handleDonate}>
-            {/* Name */}
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Full Name
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                required
-                className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div> */}
-
-            {/* Email */}
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                required
-                className="mt-1 block w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div> */}
 
             {/* Phone */}
             <div>
@@ -127,6 +103,8 @@ const Donation = () => {
               </label>
               <input
                 type="tel"
+                maxLength={10}
+                minLength={10}
                 value={formData.phone}
                 onChange={(e) =>
                   setFormData({ ...formData, phone: e.target.value })
@@ -178,11 +156,10 @@ const Donation = () => {
                   onClick={() =>
                     setFormData({ ...formData, paymentMethod: "card" })
                   }
-                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${
-                    formData.paymentMethod === "card"
-                      ? "bg-blue-600 text-white"
-                      : ""
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${formData.paymentMethod === "card"
+                    ? "bg-blue-600 text-white"
+                    : ""
+                    }`}
                 >
                   <FaCreditCard /> Card
                 </button>
@@ -191,11 +168,10 @@ const Donation = () => {
                   onClick={() =>
                     setFormData({ ...formData, paymentMethod: "upi" })
                   }
-                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${
-                    formData.paymentMethod === "upi"
-                      ? "bg-blue-600 text-white"
-                      : ""
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${formData.paymentMethod === "upi"
+                    ? "bg-blue-600 text-white"
+                    : ""
+                    }`}
                 >
                   <FaPaypal /> UPI
                 </button>

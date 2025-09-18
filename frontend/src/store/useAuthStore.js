@@ -208,4 +208,51 @@ export const useAuthStore = create((set) => ({
       set({ isLogin: false });
     }
   },
+
+
+  uploadProfilePicMember: async (memberId, file) => {
+    set({ isUploading: true });
+
+    try {
+      const formData = new FormData();
+      formData.append("profilePic", file);
+
+      const res = await axiosInstance.post(
+        `/api/member/upload/${memberId}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      set({ member: res.data.member });
+      // console.log(res.data);
+      
+      toast.success("Profile picture updated");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to upload picture");
+    } finally {
+      set({ isUploading: false });
+    }
+  },
+
+
+
+  memberlogout: async () => {
+    try {
+      await axiosInstance.post("/api/member/member/logout");
+
+      // Remove cookies related to authentication
+      Cookies.remove("is_auth");
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+
+      // Reset authentication state in Zustand
+      set({ member: null, isAuthenticated: false });
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Failed to log out.");
+    }
+  },
 }));

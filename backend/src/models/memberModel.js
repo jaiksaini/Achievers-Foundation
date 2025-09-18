@@ -8,6 +8,7 @@ const memberSchema = new mongoose.Schema(
     phone: { type: String },
     address: { type: String },
     profilePic: { type: String, default: "https://avatar.iran.liara.run/public/1" },
+    donations: [{ type: mongoose.Types.ObjectId, ref: "donation" }],
 
     status: {
       type: String,

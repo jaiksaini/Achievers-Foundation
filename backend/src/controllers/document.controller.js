@@ -1,16 +1,17 @@
 import Document from "../models/documentModel.js";
 
-
 // -----------------------------------------------------
 // Upload Document
 // -----------------------------------------------------
 export const uploadDocument = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ status: "failed", message: "No file uploaded" });
+      return res
+        .status(400)
+        .json({ status: "failed", message: "No file uploaded" });
     }
 
-    const { title , description } = req.body;
+    const { title, description } = req.body;
 
     const document = await Document.create({
       title,
@@ -26,7 +27,9 @@ export const uploadDocument = async (req, res) => {
     });
   } catch (error) {
     console.error("Error uploading document:", error);
-    res.status(500).json({ status: "failed", message: "Error uploading document" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Error uploading document" });
   }
 };
 
@@ -43,10 +46,11 @@ export const listDocuments = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching documents:", error);
-    res.status(500).json({ status: "failed", message: "Failed to fetch documents" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Failed to fetch documents" });
   }
 };
-
 
 // -----------------------------------------------------
 // Delete Document
@@ -57,7 +61,9 @@ export const deleteDocument = async (req, res) => {
     const document = await Document.findById(id);
 
     if (!document) {
-      return res.status(404).json({ status: "failed", message: "Document not found" });
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Document not found" });
     }
 
     // Remove file from server
@@ -75,6 +81,8 @@ export const deleteDocument = async (req, res) => {
     });
   } catch (error) {
     console.error("Error deleting document:", error);
-    res.status(500).json({ status: "failed", message: "Error deleting document" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Error deleting document" });
   }
 };

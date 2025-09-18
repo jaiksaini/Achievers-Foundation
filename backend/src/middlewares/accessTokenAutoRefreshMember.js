@@ -43,7 +43,7 @@ const accessTokenAutoRefreshMember = async (req, res, next) => {
       // Proceed with the next middleware
       next();
     } catch (error) {
-      console.error("Error adding access token to header:", error.message);
+      console.error("Error adding access token to header  (memberFile):", error.message);
   
       res.status(401).json({
         error: "Unauthorized",

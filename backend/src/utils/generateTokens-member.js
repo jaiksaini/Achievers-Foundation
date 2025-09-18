@@ -4,7 +4,7 @@ import MemberRefreshTokenModel from "../models/MemberRefreshToken.js"
 
 const generateTokensMember = async (user) => {
     try {
-      if (!user) throw new Error("User Not found in file generateTokens");
+      if (!user) throw new Error("User Not found in file generateTokens (memberFile)");
   
       const payload = { id: user._id, roles: user.roles }; // use `id` consistently everywhere
   
@@ -31,7 +31,7 @@ const generateTokensMember = async (user) => {
         refreshTokenExp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5, // 5 days
       };
     } catch (error) {
-      console.error("Error in generating Tokens:", error.message);
+      console.error("Error in generating Tokens  (memberFile) : ", error.message);
       throw error;
     }
   };
