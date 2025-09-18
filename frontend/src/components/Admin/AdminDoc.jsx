@@ -3,8 +3,13 @@ import { FaTrash, FaPlus, FaSearch, FaFileAlt, FaTimes } from "react-icons/fa";
 import { useDocumentStore } from "../../store/useDocumentStore";
 
 const AdminDoc = () => {
-  const { documents, isFetching, getAllDocuments, deleteDocument, addDocument } =
-    useDocumentStore();
+  const {
+    documents,
+    isFetching,
+    getAllDocuments,
+    deleteDocument,
+    addDocument,
+  } = useDocumentStore();
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [newDoc, setNewDoc] = useState({

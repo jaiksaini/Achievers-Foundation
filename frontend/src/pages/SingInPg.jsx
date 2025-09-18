@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FaMicrosoft } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import assets from "../assets/assets";
 import { useAuthStore } from "../store/useAuthStore";
 
@@ -58,7 +58,14 @@ const SingInPg = () => {
                 />
               </div>
             </div>
-
+            <div className="w-full flex flex-col mt-2 items-end">
+              <Link
+                to="/reset-password"
+                className="text-sm text-blue-600 underline underline-offset-2 cursor-pointer"
+              >
+                Forgot Password?
+              </Link>
+            </div>
             <button
               className="w-full mt-5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 rounded-lg shadow-lg hover:opacity-90 transition"
               disabled={isLogin}
@@ -74,7 +81,6 @@ const SingInPg = () => {
             </span>
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
-
           <div className="space-y-3">
             <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FcGoogle className="text-xl mr-2" />

@@ -8,6 +8,7 @@ import Board_of_Directors from "./Board_of_Directors.jpeg";
 import Director from "./Director.jpeg";
 import Founder from "./Founder.jpeg";
 const logo = "/logo.png";
+import ForgetPassword_img from "./ForgetPassword_img.svg";
 
 const assets = {
   homeBg,
@@ -20,6 +21,7 @@ const assets = {
   Board_of_Directors,
   Director,
   Founder,
+  ForgetPassword_img,
 };
 
 export default assets;

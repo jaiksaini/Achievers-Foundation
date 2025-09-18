@@ -38,7 +38,8 @@ const License = () => {
         </h1>
         <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
           Transparency is our priority. Below are the official licenses and
-          certificates of AAEAR Foundation that validate our work and compliance.
+          certificates of AAEAR Foundation that validate our work and
+          compliance.
         </p>
       </section>
 

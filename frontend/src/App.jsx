@@ -35,11 +35,10 @@ import UserOverview from "./components/User/UserOverview";
 import UserDonations from "./components/User/UserDonations";
 import UserSettings from "./components/User/UserSettings";
 import LoginAsMember from "./pages/LoginAsMember";
+import ResetPassword from "./pages/ResetPassword";
+import CodeRecived from "./pages/CodeRecived";
 
 const App = () => {
-
-
- 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -73,31 +72,31 @@ const App = () => {
             <Route path="/member/setting" element={<MemberSettings />} />
             <Route path="/member/idcard" element={<MemberIDCard />} />
           </Route>
-          <Route path="user" element={<Userdashboard/>}>
-            <Route path="/user/" element={<UserOverview/>} />
-            <Route path="/user/overview" element={<UserOverview/>} />
-            <Route path="/user/Donation" element={<UserDonations/>} />
-            <Route path="/user/setting" element={<UserSettings/>} />            
+          <Route path="user" element={<Userdashboard />}>
+            <Route path="/user/" element={<UserOverview />} />
+            <Route path="/user/overview" element={<UserOverview />} />
+            <Route path="/user/Donation" element={<UserDonations />} />
+            <Route path="/user/setting" element={<UserSettings />} />
           </Route>
           <Route path="donation" element={<Donation />} />
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
-        <Route path="member-signin" element={<LoginAsMember/>} />
-        <Route path="verify-email" element={<EmailVerification/>} />
+        <Route path="member-signin" element={<LoginAsMember />} />
+        <Route path="verify-email" element={<EmailVerification />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="CodeRecived" element={<CodeRecived />} />
       </>
     )
   );
 
   return (
     <>
-  <RouterProvider router={router} />
+      <RouterProvider router={router} />
 
-    <Toaster position="top-right" reverseOrder={false} />
-  </>
-
+      <Toaster position="top-right" reverseOrder={false} />
+    </>
   );
-  
 };
 
 export default App;

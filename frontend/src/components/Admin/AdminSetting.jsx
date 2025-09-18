@@ -17,6 +17,7 @@ const AdminSetting = () => {
       <h2 className="text-xl md:text-2xl font-bold mb-6">Admin Settings</h2>
 
       <div className="grid gap-6 md:grid-cols-2">
+        {/* Left Side - Profile Settings */}
         <div className="bg-white rounded-xl shadow p-6">
           <h3 className="text-lg font-semibold mb-4">Profile Settings</h3>
 
@@ -72,6 +73,56 @@ const AdminSetting = () => {
             </div>
             <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
               Save Changes
+            </button>
+          </form>
+        </div>
+
+        {/* Right Side - Change Password */}
+        <div className="bg-white rounded-xl shadow p-6">
+          <h3 className="text-lg font-semibold mb-4">Change Login Password</h3>
+
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Current Password
+              </label>
+              <div className="flex items-center border rounded px-3">
+                <FaLock className="text-gray-400 mr-2" />
+                <input
+                  type="password"
+                  placeholder="Enter current password"
+                  className="w-full p-2 outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                New Password
+              </label>
+              <div className="flex items-center border rounded px-3">
+                <FaLock className="text-gray-400 mr-2" />
+                <input
+                  type="password"
+                  placeholder="Enter new password"
+                  className="w-full p-2 outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Confirm New Password
+              </label>
+              <div className="flex items-center border rounded px-3">
+                <FaLock className="text-gray-400 mr-2" />
+                <input
+                  type="password"
+                  placeholder="Re-enter new password"
+                  className="w-full p-2 outline-none"
+                />
+              </div>
+            </div>
+            <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+              Update Password
             </button>
           </form>
         </div>
