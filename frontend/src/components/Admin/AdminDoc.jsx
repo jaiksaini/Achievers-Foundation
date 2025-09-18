@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { FaTrash, FaPlus, FaSearch, FaFileAlt } from "react-icons/fa";
+import { FaTrash, FaPlus, FaSearch, FaFileAlt, FaTimes } from "react-icons/fa";
 import { useDocumentStore } from "../../store/useDocumentStore";
 
 const AdminDoc = () => {
-  const { documents, isFetching, getAllDocuments, deleteDocument } =
+  const { documents, isFetching, getAllDocuments, deleteDocument, addDocument } =
     useDocumentStore();
   const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newDoc, setNewDoc] = useState({
+    name: "",
+    description: "",
+    type: "pdf",
+    file: null,
+  });
 
   // Fetch documents on mount
   useEffect(() => {
@@ -21,6 +28,24 @@ const AdminDoc = () => {
     if (window.confirm("Are you sure you want to delete this document?")) {
       await deleteDocument(id);
     }
+  };
+
+  const handleAddDocument = async (e) => {
+    e.preventDefault();
+    if (!newDoc.name || !newDoc.file) {
+      alert("Please fill all fields and upload a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", newDoc.name);
+    formData.append("description", newDoc.description); // ✅ Added description
+    formData.append("type", newDoc.type);
+    formData.append("file", newDoc.file);
+
+    await addDocument(formData); // Call from your store
+    setShowModal(false);
+    setNewDoc({ name: "", description: "", type: "pdf", file: null });
   };
 
   return (
@@ -42,9 +67,9 @@ const AdminDoc = () => {
             <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
 
-          {/* Add Document (future feature) */}
+          {/* Add Document */}
           <button
-            onClick={() => alert("Add Document functionality coming soon")}
+            onClick={() => setShowModal(true)}
             className="bg-green-600 text-white px-4 py-2 rounded-md text-center hover:bg-green-700 flex items-center gap-2"
           >
             <FaPlus /> Add Document
@@ -63,6 +88,7 @@ const AdminDoc = () => {
               <thead>
                 <tr className="bg-gray-100 text-left">
                   <th className="p-3 border">Document</th>
+                  <th className="p-3 border">Description</th>
                   <th className="p-3 border">Type</th>
                   <th className="p-3 border">Size</th>
                   <th className="p-3 border">Uploaded At</th>
@@ -75,6 +101,9 @@ const AdminDoc = () => {
                     <td className="p-3 flex items-center gap-3">
                       <FaFileAlt className="text-blue-500 text-xl" />
                       {doc.name}
+                    </td>
+                    <td className="p-3 border text-gray-600">
+                      {doc.description || "—"}
                     </td>
                     <td className="p-3 border">{doc.type || "N/A"}</td>
                     <td className="p-3 border">{doc.size || "-"}</td>
@@ -93,7 +122,7 @@ const AdminDoc = () => {
                 ))}
                 {filteredDocs.length === 0 && (
                   <tr>
-                    <td colSpan="5" className="text-center p-4 text-gray-500">
+                    <td colSpan="6" className="text-center p-4 text-gray-500">
                       No documents found.
                     </td>
                   </tr>
@@ -113,7 +142,9 @@ const AdminDoc = () => {
                   <FaFileAlt className="text-blue-500 text-2xl" />
                   <div>
                     <p className="font-semibold">{doc.name}</p>
-                    <p className="text-sm text-gray-500">{doc.type}</p>
+                    <p className="text-sm text-gray-500">
+                      {doc.description || "—"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex justify-between text-sm text-gray-600">
@@ -133,6 +164,86 @@ const AdminDoc = () => {
             )}
           </div>
         </>
+      )}
+
+      {/* Add Document Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-md w-[90%] md:w-[500px] shadow-lg relative">
+            <button
+              className="absolute top-3 right-3 text-gray-600 hover:text-red-600"
+              onClick={() => setShowModal(false)}
+            >
+              <FaTimes />
+            </button>
+            <h2 className="text-xl font-bold mb-4">Add New Document</h2>
+            <form className="space-y-4" onSubmit={handleAddDocument}>
+              <div>
+                <label className="block text-sm font-medium mb-1">Name</label>
+                <input
+                  type="text"
+                  value={newDoc.name}
+                  onChange={(e) =>
+                    setNewDoc({ ...newDoc, name: e.target.value })
+                  }
+                  className="border rounded w-full p-2"
+                  placeholder="Enter document name"
+                />
+              </div>
+
+              {/* ✅ Description field */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Description
+                </label>
+                <textarea
+                  value={newDoc.description}
+                  onChange={(e) =>
+                    setNewDoc({ ...newDoc, description: e.target.value })
+                  }
+                  className="border rounded w-full p-2"
+                  placeholder="Enter short description"
+                  rows="3"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Type</label>
+                <select
+                  value={newDoc.type}
+                  onChange={(e) =>
+                    setNewDoc({ ...newDoc, type: e.target.value })
+                  }
+                  className="border rounded w-full p-2"
+                >
+                  <option value="pdf">PDF</option>
+                  <option value="doc">DOC</option>
+                  <option value="docx">DOCX</option>
+                  <option value="ppt">PPT</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Upload File
+                </label>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx,.ppt,.pptx"
+                  onChange={(e) =>
+                    setNewDoc({ ...newDoc, file: e.target.files[0] })
+                  }
+                  className="border rounded w-full p-2"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 w-full"
+              >
+                Upload
+              </button>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

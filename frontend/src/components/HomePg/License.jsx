@@ -30,7 +30,7 @@ const License = () => {
   const [selectedDoc, setSelectedDoc] = useState(null);
 
   return (
-    <div className="bg-gray-50 py-12 px-6">
+    <div className="bg-gray-50 pb-10">
       {/* Header Section */}
       <section className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
