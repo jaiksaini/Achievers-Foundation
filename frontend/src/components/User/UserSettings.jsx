@@ -85,55 +85,6 @@ const UserSettings = () => {
             </div>
           </div>
         </div>
-        {/* Right Side - Change Password */}
-        <div className="bg-white rounded-xl shadow p-6">
-          <h3 className="text-lg font-semibold mb-4">Change Login Password</h3>
-
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Current Password
-              </label>
-              <div className="flex items-center border rounded px-3">
-                <FaLock className="text-gray-400 mr-2" />
-                <input
-                  type="password"
-                  placeholder="Enter current password"
-                  className="w-full p-2 outline-none"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                New Password
-              </label>
-              <div className="flex items-center border rounded px-3">
-                <FaLock className="text-gray-400 mr-2" />
-                <input
-                  type="password"
-                  placeholder="Enter new password"
-                  className="w-full p-2 outline-none"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Confirm New Password
-              </label>
-              <div className="flex items-center border rounded px-3">
-                <FaLock className="text-gray-400 mr-2" />
-                <input
-                  type="password"
-                  placeholder="Re-enter new password"
-                  className="w-full p-2 outline-none"
-                />
-              </div>
-            </div>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
-              Update Password
-            </button>
-          </form>
-        </div>
       </div>
     </div>
   );

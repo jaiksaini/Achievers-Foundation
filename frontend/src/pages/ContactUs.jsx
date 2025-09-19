@@ -29,20 +29,13 @@ const ContactUs = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-3 text-gray-700">
               <FaPhoneAlt className="text-lg" />
-              <a
-                href="tel:+919026470888"
-                title="+91 90264 70888"
-                className="hover:text-black"
-              >
-                +91 90264 70888
-              </a>
+              <span>+91 90264 70888</span>
             </div>
             <div className="flex items-center gap-3 text-gray-700">
               <FaEnvelope className="text-lg" />
               <span
-                className="truncate max-w-[220px] md:max-w-xs hover:text-black hover:underline cursor-pointer"
+                className="truncate max-w-[220px] md:max-w-xs"
                 title="academicsachieversfoundation@gmail.com"
-                href="mailto:academicsachieversfoundation@gmail.com"
               >
                 academicsachieversfoundation@gmail.com
               </span>
