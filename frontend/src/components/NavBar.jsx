@@ -61,9 +61,10 @@ const NavBar = () => {
               key={idx}
               to={link.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${isActive
-                  ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                  : "text-gray-700 hover:text-blue-600"
+                `text-sm font-medium transition ${
+                  isActive
+                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                    : "text-gray-700 hover:text-blue-600"
                 }`
               }
             >
@@ -92,22 +93,21 @@ const NavBar = () => {
                 {role === "admin"
                   ? "Admin Dashboard"
                   : role === "user"
-                    ? "User Dashboard"
-                    : "Member Dashboard"}
+                  ? "User Dashboard"
+                  : "Member Dashboard"}
               </button>
-
 
               {user ? (
                 <button
                   onClick={logout}
-                  className="bg-white text-secondary px-4 py-1 rounded-md border-2 border-white hover:bg-secondary hover:bg-pink-500  transition"
+                  className="inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 ml-2 text-sm font-semibold text-white hover:bg-red-700 shadow-sm transition"
                 >
                   Logout
                 </button>
               ) : (
                 <button
                   onClick={memberlogout}
-                  className="bg-white text-secondary px-4 py-1 rounded-md border-2 border-white hover:bg-secondary hover:bg-pink-500  transition"
+                  className="inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 ml-2 text-sm font-semibold text-white hover:bg-red-700 shadow-sm transition"
                 >
                   Logout
                 </button>
@@ -154,9 +154,10 @@ const NavBar = () => {
                 key={idx}
                 to={link.path}
                 className={({ isActive }) =>
-                  `block rounded-md px-2 py-2 text-sm font-medium ${isActive
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-700 hover:bg-gray-100"
+                  `block rounded-md px-2 py-2 text-sm font-medium ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`
                 }
               >
@@ -173,16 +174,34 @@ const NavBar = () => {
                 Sign in
               </button>
             ) : (
-              <button
-                onClick={handleDashboard}
-                className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
-              >
-                {role === "admin"
-                  ? "Admin Dashboard"
-                  : role === "user"
+              <>
+                <button
+                  onClick={handleDashboard}
+                  className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
+                >
+                  {role === "admin"
+                    ? "Admin Dashboard"
+                    : role === "user"
                     ? "User Dashboard"
                     : "Member Dashboard"}
-              </button>
+                </button>
+
+                {user ? (
+                  <button
+                    onClick={logout}
+                    className="w-full inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 shadow-sm transition"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    onClick={memberlogout}
+                    className="w-full inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 shadow-sm transition"
+                  >
+                    Logout
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>

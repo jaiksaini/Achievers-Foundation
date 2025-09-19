@@ -15,8 +15,8 @@ import Members from "./pages/Members";
 import Documents from "./pages/Documents";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
-import Signup from "./pages/Signup";
-import SingInPg from "./pages/SingInPg";
+import Signup from "./pages/AuthPages/Signup";
+import SingInPg from "./pages/AuthPages/SingInPg";
 import AdmDashboard from "./pages/AdmDashboard";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminMembers from "./components/Admin/AdminMembers";
@@ -38,19 +38,16 @@ import UserDonations from "./components/User/UserDonations";
 import UserSettings from "./components/User/UserSettings";
 import LoginAsMember from "./pages/LoginAsMember";
 import { useAuthStore } from "./store/useAuthStore";
-
+import ResetPassword from "./pages/AuthPages/ResetPassword";
+import CodeRecived from "./pages/AuthPages/CodeRecived";
 
 const App = () => {
-
-  const {checkAuth} = useAuthStore()
+  const { checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-
-
- 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -84,31 +81,31 @@ const App = () => {
             <Route path="/member/setting" element={<MemberSettings />} />
             <Route path="/member/idcard" element={<MemberIDCard />} />
           </Route>
-          <Route path="user" element={<Userdashboard/>}>
-            <Route path="/user/" element={<UserOverview/>} />
-            <Route path="/user/overview" element={<UserOverview/>} />
-            <Route path="/user/Donation" element={<UserDonations/>} />
-            <Route path="/user/setting" element={<UserSettings/>} />            
+          <Route path="user" element={<Userdashboard />}>
+            <Route path="/user/" element={<UserOverview />} />
+            <Route path="/user/overview" element={<UserOverview />} />
+            <Route path="/user/Donation" element={<UserDonations />} />
+            <Route path="/user/setting" element={<UserSettings />} />
           </Route>
           <Route path="donation" element={<Donation />} />
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
-        <Route path="member-signin" element={<LoginAsMember/>} />
-        <Route path="verify-email" element={<EmailVerification/>} />
+        <Route path="member-signin" element={<LoginAsMember />} />
+        <Route path="verify-email" element={<EmailVerification />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="code-recived" element={<CodeRecived />} />
       </>
     )
   );
 
   return (
     <>
-  <RouterProvider router={router} />
+      <RouterProvider router={router} />
 
-    <Toaster position="top-right" reverseOrder={false} />
-  </>
-
+      <Toaster position="top-right" reverseOrder={false} />
+    </>
   );
-  
 };
 
 export default App;

@@ -1,47 +1,68 @@
 import React from "react";
+import { useAuthStore } from "../../store/useAuthStore";
 import assets from "../../assets/assets";
-import { useAuthStore } from "../../store/useAuthStore"
 
-const memberIDCard = () => {
-
-  const { member } = useAuthStore()
-  // console.log(member);
-
+const MemberIDCard = () => {
+  const { member } = useAuthStore();
 
   const members = {
-    id: member?._id,
-    name: member?.name,
-    email: member?.email,
+    id: member?._id || "0000 1111 8888 0000",
+    name: member?.name || "NAME",
+    email: member?.email || "example@email.com",
     joined: member?.joinedAt,
-    avatar: member?.profilePic,
+    avatar: member?.profilePic || assets.user,
   };
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-6">My membersship ID</h2>
+      <h2 className="text-xl font-bold mb-6 text-center">My Membership ID</h2>
 
-      <div className="max-w-sm mx-auto bg-white rounded-xl shadow p-6 text-center">
-        <img
-          src={members.avatar}
-          alt={members.name}
-          className="w-24 h-24 mx-auto rounded-full object-cover border-4 border-blue-600"
-        />
-        <h3 className="mt-4 text-lg font-bold">{members.name}</h3>
-        <p className="text-gray-600">{members.email}</p>
-        <p className="mt-2 text-sm text-gray-500">
-          members Since:  {new Date(members.joined).toLocaleDateString()}
-        </p>
-
-        <div className="mt-4 p-3 bg-blue-100 rounded">
-          <p className="text-blue-800 font-mono">ID: {members.id}</p>
+      <div className="max-w-lg mx-auto bg-gradient-to-r from-green-50 to-green-100 rounded-xl shadow-xl border relative overflow-hidden">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-start">
+          <div>
+            <h3 className="text-lg font-bold text-green-900">
+              Academics Achievers Foundation
+            </h3>
+            <p className="text-sm text-gray-700 font-semibold">
+              REGISTRATION CARD
+            </p>
+          </div>
+          <div className="w-24 h-28 border bg-gray-200 flex items-center justify-center overflow-hidden">
+            <img src={members.avatar} className="w-full h-full object-cover" />
+          </div>
         </div>
 
-        {/* <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Download Card
-        </button> */}
+        {/* Details */}
+        <div className="px-6 py-2 text-left text-sm space-y-1">
+          <p>
+            <span className="font-semibold">Name: </span>
+            {members.name}
+          </p>
+          <p>
+            <span className="font-semibold">Email: </span>
+            {members.email}
+          </p>
+          <p>
+            <span className="font-semibold">Member Since: </span>
+            {new Date(members.joined).toLocaleDateString()}
+          </p>
+        </div>
+
+        {/* ID Number */}
+        <div className="mt-4 text-center">
+          <p className="text-2xl tracking-widest font-mono text-red-700 font-bold">
+            {members.id}
+          </p>
+        </div>
+
+        {/* Barcode (just a placeholder for styling) */}
+        <div className="mt-2 flex justify-center mb-4">
+          <div className="w-3/4 h-12 bg-[repeating-linear-gradient(to_right,_black_0,_black_2px,_white_2px,_white_4px)]"></div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default memberIDCard;
+export default MemberIDCard;
