@@ -9,6 +9,7 @@ import Director from "./Director.jpeg";
 import Founder from "./Founder.jpeg";
 const logo = "/logo.png";
 import ForgetPassword_img from "./ForgetPassword_img.svg";
+import EnterMail_img from "./EnterMail_img.svg";
 
 const assets = {
   homeBg,
@@ -22,6 +23,7 @@ const assets = {
   Director,
   Founder,
   ForgetPassword_img,
+  EnterMail_img,
 };
 
 export default assets;

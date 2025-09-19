@@ -40,6 +40,7 @@ import LoginAsMember from "./pages/LoginAsMember";
 import { useAuthStore } from "./store/useAuthStore";
 import ResetPassword from "./pages/AuthPages/ResetPassword";
 import CodeRecived from "./pages/AuthPages/CodeRecived";
+import NewPassword from "./pages/AuthPages/NewPassword";
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -95,6 +96,7 @@ const App = () => {
         <Route path="verify-email" element={<EmailVerification />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="code-recived" element={<CodeRecived />} />
+        <Route path="new-password" element={<NewPassword/>} />
       </>
     )
   );
