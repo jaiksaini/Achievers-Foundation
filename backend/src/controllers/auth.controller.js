@@ -2,12 +2,14 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import fs from "fs";
 import path from "path";
+import jwt from "jsonwebtoken";
 import generateTokens from "../utils/generateTokens.js";
 import setTokenCookies from "../utils/setTokenCookies.js";
 import refreshAccessToken from "../utils/refreshAccessToken.js";
 import UserRefreshTokenModel from "../models/UserRefreshToken.js";
 import sendEmailVerificationEmail from "../utils/sendEmailVerificationEmail.js";
 import EmailVerificationModel from "../models/emailVerification.js";
+import transporter from "../config/emailConfig.js";
 // import cloudinary from "../config/cloudinary.js";
 
 // -----------------------------------------------------
@@ -190,29 +192,24 @@ export const LogIn = async (req, res) => {
         email: user.email,
         name: user.name,
         role: user.role,
-        profilePic: user.profilePic
+        profilePic: user.profilePic,
       },
       status: "Success",
       message: "Logged in SuccessFully",
-      is_auth: "true"
+      is_auth: "true",
     });
     // console.log("succeessssssssssssssssssss");
-    
   } catch (error) {
     console.log(error);
-    return res
-      .status(401)
-      .json({
-        status: "Failed ",
-        message: " Failed to Login... (Catch Block)",
-      });
+    return res.status(401).json({
+      status: "Failed ",
+      message: " Failed to Login... (Catch Block)",
+    });
   }
 };
 
-
-
 // -----------------------------------------------------
-// Get New Access Token - its useless 
+// Get New Access Token - its useless
 
 export const getNewAccessToken = async (req, res) => {
   try {
@@ -249,7 +246,6 @@ export const getNewAccessToken = async (req, res) => {
   }
 };
 
-
 // -----------------------------------------------------
 // Get User Profile
 // -----------------------------------------------------
@@ -263,26 +259,27 @@ export const userProfile = async (req, res) => {
   }
 };
 
-
 // Logout..
 export const Logout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
 
-    const userRefreshToken = await UserRefreshTokenModel.findOne({ token: refreshToken });
+    const userRefreshToken = await UserRefreshTokenModel.findOne({
+      token: refreshToken,
+    });
 
     if (userRefreshToken) {
       // Blacklist the refresh token
       userRefreshToken.blacklisted = true;
       await userRefreshToken.save();
     } else {
-      console.log('Refresh token not found in database for blacklisting.');
+      console.log("Refresh token not found in database for blacklisting.");
     }
 
     // Clear access token and refresh token cookies
-    res.clearCookie("accessToken"); 
-    res.clearCookie("refreshToken"); 
-    res.clearCookie("is_auth"); 
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.clearCookie("is_auth");
     res.status(200).json({ status: "success", message: "Logout successful" });
   } catch (error) {
     console.error("Logout error:", error);
@@ -292,8 +289,6 @@ export const Logout = async (req, res) => {
     });
   }
 };
-
-
 
 // -----------------------------------------------------
 // Update User ProfilePic..
@@ -329,7 +324,7 @@ export const uploadProfile = async (req, res) => {
 // -----------------------------------------------------
 export const changeUserPassword = async (req, res) => {
   try {
-    const {  password, confirmPassword } = req.body;
+    const { password, confirmPassword } = req.body;
 
     // Check if both password and confirmPassword are provided
     if (!password || !confirmPassword) {
@@ -369,7 +364,6 @@ export const changeUserPassword = async (req, res) => {
   }
 };
 
-
 // -----------------------------------------------------
 // Send a Mail if user forgot his password..
 // -----------------------------------------------------
@@ -395,18 +389,16 @@ export const sendUserPasswordResetEmail = async (req, res) => {
       expiresIn: "15m",
     });
     // Reset Link
-    const resetLink = `https://buybookonline.onrender.com/newpassword/${user._id}/${token}`;
+    const resetLink = `http://localhost:5173/new-password/${user._id}/${token}`;
     // const resetLink = `${process.env.FRONTEND_HOST}/newpassword`;
-    console.log(resetLink);
+    // console.log(resetLink);
 
     // Send password reset email
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: user.email,
       subject: "Password Reset Link",
-      html:
-
-      `<p>Hello ${user.name},</p><p>Please <a href="${resetLink}">click here</a> to reset your password.</p>`,
+      html: `<p>Hello ${user.name},</p><p>Please <a href="${resetLink}">click here</a> to reset your password.</p>`,
     });
     // Send success response
     res.status(200).json({
@@ -425,7 +417,7 @@ export const sendUserPasswordResetEmail = async (req, res) => {
 // --------------------------------------------------------------------------------
 // Create a new Password following reset Password link followed via Email..
 // --------------------------------------------------------------------------------
-export const  userPasswordReset = async (req, res) => {
+export const userPasswordReset = async (req, res) => {
   try {
     const { password, confirmPassword } = req.body;
     const { id, token } = req.params;
@@ -465,9 +457,7 @@ export const  userPasswordReset = async (req, res) => {
       from: process.env.EMAIL_FROM,
       to: user.email,
       subject: "Password Reset Successful",
-      html: 
-
-      `<p>Hello ${user.name},</p><p>Your password has been reset successfully.</p>`
+      html: `<p>Hello ${user.name},</p><p>Your password has been reset successfully.</p>`,
     });
 
     res
@@ -487,7 +477,6 @@ export const  userPasswordReset = async (req, res) => {
     });
   }
 };
-
 
 // -----------------------------------------------------
 // Update userRole from user to Member..

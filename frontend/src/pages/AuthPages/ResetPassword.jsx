@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import assets from "../../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-
+  const { forgetPasswordEmailCheck , setOtp } = useAuthStore()
   const [formData, setFormData] = useState({
     email: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    forgetPasswordEmailCheck(formData);
-    // Navigate to OTP verification page
+    await forgetPasswordEmailCheck(formData);
+
     navigate("/code-recived");
   };
 
@@ -55,8 +56,9 @@ const ResetPassword = () => {
             <button
               className="w-full mt-4 py-3 text-white font-semibold bg-black hover:bg-[#434444] rounded-md transition-all duration-300 flex items-center justify-center"
               type="submit"
+              disabled={setOtp}
             >
-              Send OTP
+              {setOtp? "Sending" : "Send OTP"}
             </button>
           </form>
         </div>

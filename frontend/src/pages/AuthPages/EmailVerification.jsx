@@ -12,7 +12,7 @@ const EmailVerification = () => {
   });
 
 
-  const { verifyEmail, setOtp } = useAuthStore();
+  const { verifyEmail, setOtp  } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

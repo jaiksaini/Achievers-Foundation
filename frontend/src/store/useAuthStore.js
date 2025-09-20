@@ -13,6 +13,8 @@ export const useAuthStore = create((set) => ({
   isLogin: false,
   isUploading: false,
   isChanging: false,
+  setnewPassword: false,
+  isSending:false,
 
   checkAuth: async () => {
     if (Cookies.get("is_auth") !== "true") {
@@ -255,5 +257,30 @@ export const useAuthStore = create((set) => ({
       set({ isChanging: false });
     }
   },
+
+  forgetPasswordEmailCheck: async (data) => {
+    set({setOtp:true})
+    try {
+      await axiosInstance.post("/api/user/reset-password-link", data);
+      toast.success("Reset password link sent successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send link.");
+    }finally{
+      set({setOtp:false})
+    }
+  },
+// Reseting a password if user forgot password 
+  newPassword: async (id, token, data) => {
+    set({setnewPassword:true})
+    try {
+      await axiosInstance.post(`/api/user/reset-password/${id}/${token}`, data);
+      toast.success("Password reset successfully! Please log in.");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to reset password.");
+    }finally{
+      set({setnewPassword:false})
+    }
+  },
+
   
 }));

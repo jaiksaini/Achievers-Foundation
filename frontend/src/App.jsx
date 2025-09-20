@@ -96,7 +96,7 @@ const App = () => {
         <Route path="verify-email" element={<EmailVerification />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="code-recived" element={<CodeRecived />} />
-        <Route path="new-password" element={<NewPassword/>} />
+        <Route path="new-password/:id/:token" element={<NewPassword/>} />
       </>
     )
   );

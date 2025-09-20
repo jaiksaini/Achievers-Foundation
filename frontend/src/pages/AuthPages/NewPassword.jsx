@@ -28,7 +28,7 @@ const NewPassword = () => {
 
     newPassword(id, token, formData)
     // Navigate to login page after successful password reset
-    navigate("/login");
+    navigate("/signin");
   };
 
   return (
