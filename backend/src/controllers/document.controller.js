@@ -1,4 +1,6 @@
 import Document from "../models/documentModel.js";
+import path from "path";
+import fs from "fs"
 
 // -----------------------------------------------------
 // Upload Document
@@ -11,13 +13,22 @@ export const uploadDocument = async (req, res) => {
         .json({ status: "failed", message: "No file uploaded" });
     }
 
+
     const { title, description } = req.body;
+    if(!title || !description){
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Title and Description are Required" });
+      
+    }
+
+
 
     const document = await Document.create({
       title,
       description,
-      fileUrl: `/uploads/documents/${req.file.filename}`, // store relative path
-      key: req.file.filename, // optional unique reference
+      fileUrl: `/uploads/documents/${req.file.filename}`, 
+      // key: req.file.filename, // optional unique reference
     });
 
     res.status(201).json({
@@ -67,7 +78,7 @@ export const deleteDocument = async (req, res) => {
     }
 
     // Remove file from server
-    const filePath = path.join("src/uploads/documents", document.key);
+    const filePath = path.join("src/uploads/documents", document.fileUrl);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }

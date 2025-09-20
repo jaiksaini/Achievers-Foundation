@@ -7,6 +7,7 @@ import passport from "passport";
 import express from "express";
 const router = express.Router();
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
+import {uploadDocument as UD} from "../config/multerConfig.js"
 
 
 // Public Route
@@ -14,10 +15,12 @@ router.get( "/documents",  listDocuments);
 
 
 router.post(
-  "/documents",
+  "/document",
   accessTokenAutoRefresh,
   passport.authenticate("jwt", { session: false }),
-  uploadDocument
+  UD.single("file"),
+  uploadDocument,
+  
 );
 
 router.delete(

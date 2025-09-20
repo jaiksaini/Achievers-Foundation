@@ -4,13 +4,16 @@ import assets from "../../assets/assets";
 
 const MemberIDCard = () => {
   const { member } = useAuthStore();
+  const BACKEND_URL = import.meta.env.VITE_API_URL; 
+  // console.log(`${BACKEND_URL}/${member.profilePic}` );
+  
 
   const members = {
     id: member?._id || "0000 1111 8888 0000",
     name: member?.name || "NAME",
     email: member?.email || "example@email.com",
     joined: member?.joinedAt,
-    avatar: member?.profilePic || assets.user,
+    avatar: member?.profilePic ? `${BACKEND_URL}/${member.profilePic}` : assets.user,
   };
 
   return (
@@ -24,12 +27,14 @@ const MemberIDCard = () => {
             <h3 className="text-lg font-bold text-green-900">
               Academics Achievers Foundation
             </h3>
-            <p className="text-sm text-gray-700 font-semibold">
-              REGISTRATION CARD
-            </p>
+            <p className="text-sm text-gray-700 font-semibold">REGISTRATION CARD</p>
           </div>
           <div className="w-24 h-28 border bg-gray-200 flex items-center justify-center overflow-hidden">
-            <img src={members.avatar} className="w-full h-full object-cover" />
+            <img
+              src={members.avatar}
+              alt={members.name}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
@@ -45,7 +50,7 @@ const MemberIDCard = () => {
           </p>
           <p>
             <span className="font-semibold">Member Since: </span>
-            {new Date(members.joined).toLocaleDateString()}
+            {members.joined ? new Date(members.joined).toLocaleDateString() : "-"}
           </p>
         </div>
 
@@ -56,7 +61,7 @@ const MemberIDCard = () => {
           </p>
         </div>
 
-        {/* Barcode (just a placeholder for styling) */}
+        {/* Barcode placeholder */}
         <div className="mt-2 flex justify-center mb-4">
           <div className="w-3/4 h-12 bg-[repeating-linear-gradient(to_right,_black_0,_black_2px,_white_2px,_white_4px)]"></div>
         </div>

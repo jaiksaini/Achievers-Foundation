@@ -10,12 +10,12 @@ const AdminDoc = () => {
     deleteDocument,
     addDocument,
   } = useDocumentStore();
+
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [newDoc, setNewDoc] = useState({
-    name: "",
+    title: "",
     description: "",
-    type: "pdf",
     file: null,
   });
 
@@ -26,7 +26,7 @@ const AdminDoc = () => {
 
   // Filter by search
   const filteredDocs = documents.filter((d) =>
-    d.name?.toLowerCase().includes(search.toLowerCase())
+    d.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleDelete = async (id) => {
@@ -37,20 +37,19 @@ const AdminDoc = () => {
 
   const handleAddDocument = async (e) => {
     e.preventDefault();
-    if (!newDoc.name || !newDoc.file) {
+    if (!newDoc.title || !newDoc.file) {
       alert("Please fill all fields and upload a file.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("name", newDoc.name);
-    formData.append("description", newDoc.description); // ✅ Added description
-    formData.append("type", newDoc.type);
+    formData.append("title", newDoc.title);
+    formData.append("description", newDoc.description);
     formData.append("file", newDoc.file);
 
-    await addDocument(formData); // Call from your store
+    await addDocument(formData);
     setShowModal(false);
-    setNewDoc({ name: "", description: "", type: "pdf", file: null });
+    setNewDoc({ title: "", description: "", file: null });
   };
 
   return (
@@ -105,7 +104,7 @@ const AdminDoc = () => {
                   <tr key={doc._id} className="hover:bg-gray-50 border">
                     <td className="p-3 flex items-center gap-3">
                       <FaFileAlt className="text-blue-500 text-xl" />
-                      {doc.name}
+                      {doc.title}
                     </td>
                     <td className="p-3 border text-gray-600">
                       {doc.description || "—"}
@@ -146,7 +145,7 @@ const AdminDoc = () => {
                 <div className="flex items-center gap-3">
                   <FaFileAlt className="text-blue-500 text-2xl" />
                   <div>
-                    <p className="font-semibold">{doc.name}</p>
+                    <p className="font-semibold">{doc.title}</p>
                     <p className="text-sm text-gray-500">
                       {doc.description || "—"}
                     </p>
@@ -184,19 +183,18 @@ const AdminDoc = () => {
             <h2 className="text-xl font-bold mb-4">Add New Document</h2>
             <form className="space-y-4" onSubmit={handleAddDocument}>
               <div>
-                <label className="block text-sm font-medium mb-1">Name</label>
+                <label className="block text-sm font-medium mb-1">Title</label>
                 <input
                   type="text"
-                  value={newDoc.name}
+                  value={newDoc.title}
                   onChange={(e) =>
-                    setNewDoc({ ...newDoc, name: e.target.value })
+                    setNewDoc({ ...newDoc, title: e.target.value })
                   }
                   className="border rounded w-full p-2"
-                  placeholder="Enter document name"
+                  placeholder="Enter document title"
                 />
               </div>
 
-              {/* ✅ Description field */}
               <div>
                 <label className="block text-sm font-medium mb-1">
                   Description
@@ -213,27 +211,12 @@ const AdminDoc = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Type</label>
-                <select
-                  value={newDoc.type}
-                  onChange={(e) =>
-                    setNewDoc({ ...newDoc, type: e.target.value })
-                  }
-                  className="border rounded w-full p-2"
-                >
-                  <option value="pdf">PDF</option>
-                  <option value="doc">DOC</option>
-                  <option value="docx">DOCX</option>
-                  <option value="ppt">PPT</option>
-                </select>
-              </div>
-              <div>
                 <label className="block text-sm font-medium mb-1">
                   Upload File
                 </label>
                 <input
                   type="file"
-                  accept=".pdf,.doc,.docx,.ppt,.pptx"
+                  accept=".pdf"
                   onChange={(e) =>
                     setNewDoc({ ...newDoc, file: e.target.files[0] })
                   }

@@ -2,9 +2,12 @@ import { create } from "zustand";
 import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
 
-export const useDocumentStore = create((set) => ({
+
+export const useDocumentStore = create((set , get) => ({
   documents: [],
   isFetching: false,
+  isUploading:false,
+
 
   getAllDocuments: async () => {
     set({ isFetching: true });
@@ -29,4 +32,23 @@ export const useDocumentStore = create((set) => ({
       toast.error("Failed to delete document");
     }
   },
+
+  addDocument: async(data) =>{
+    set({isUploading:true})
+    try {
+      const res = await axiosInstance.post("/api/document/document",data);
+      toast.success("Document Uploaded Successfully")
+      // console.log(res.data);
+      
+    } catch (error) {
+      toast.error( "Uploading Failed.. Please try again later")
+      console.log("Error : ", error);
+      // console.log(res.data);
+      
+      
+    }finally{
+      set({isUploading:false})
+    }
+  },
+
 }));
