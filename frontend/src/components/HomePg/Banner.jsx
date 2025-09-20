@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore"
 
 const Banner = () => {
-  const { user } = useAuthStore();
+  const { user, member } = useAuthStore();
   return (
     <section className="relative isolate h-1/20 sm:h-[50vh] lg:h-[60vh] overflow-hidden">
       <img
@@ -37,12 +37,22 @@ const Banner = () => {
             </>
           ) : (
             <>
-              <Link
-                to="/joinus"
-                className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
-              >
-                Join as a Member
-              </Link>
+              {member ? (
+                <Link
+                  to="/member/"
+                  className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
+                >
+                  Member Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/joinus"
+                  className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
+                >
+                  Join as a Member
+                </Link>
+              )}
+
               <Link
                 to="/donation"
                 className="bg-white text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-gray-200"

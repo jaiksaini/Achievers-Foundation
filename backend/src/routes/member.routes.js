@@ -12,7 +12,8 @@ import {
   MemberLogIn,
   memberProfile,
   uploadProfile,
-  MemberLogout
+  MemberLogout,
+  changeUserPassword
 } from "../controllers/member.controller.js";
 
 import passport from "passport";
@@ -89,6 +90,13 @@ router.post(
   accessTokenAutoRefreshMember,
   passport.authenticate("member-jwt", { session: false }),
   MemberLogout
+);
+
+router.put(
+  "/change-password",
+  accessTokenAutoRefreshMember,
+  passport.authenticate("member-jwt", { session: false }),
+  changeUserPassword
 );
 
 export default router;

@@ -342,6 +342,9 @@ export const MemberLogIn = async (req, res) => {
   }
 };
 
+// ---------------------------------------------
+// Member Login
+// ---------------------------------------------
 export const memberProfile = async (req, res) => {
   try {
     const member = await Member.findById(req.user._id).select("-password"); 
@@ -354,7 +357,9 @@ export const memberProfile = async (req, res) => {
   }
 };
 
-
+// ---------------------------------------------
+// Member Profilepic
+// ---------------------------------------------
 export const uploadProfile = async (req, res) => {
   try {
     const memberId = req.params.id;
@@ -381,7 +386,9 @@ export const uploadProfile = async (req, res) => {
   }
 };
 
-
+// ---------------------------------------------
+// Member Logout
+// ---------------------------------------------
 export const MemberLogout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
@@ -406,6 +413,53 @@ export const MemberLogout = async (req, res) => {
     res.status(500).json({
       status: "failed",
       message: "Unable to logout, please try again later",
+    });
+  }
+};
+
+
+
+// -----------------------------------------------------
+// if User wants to change his password after Login..
+// -----------------------------------------------------
+export const changeUserPassword = async (req, res) => {
+  try {
+    const {  password, confirmPassword } = req.body;
+
+    // Check if both password and confirmPassword are provided
+    if (!password || !confirmPassword) {
+      return res.status(400).json({
+        status: "failed",
+        message: "New Password and Confirm New Password are required",
+      });
+    }
+
+    // Check if password and confirmPassword match
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        status: "failed",
+        message: "New Password and Confirm New Password don't match",
+      });
+    }
+
+    // Generate salt and hash new password
+    const salt = await bcrypt.genSalt(10);
+    const newHashPassword = await bcrypt.hash(password, salt);
+
+    // Update user's password
+    await Member.findByIdAndUpdate(req.user._id, {
+      $set: { password: newHashPassword },
+    });
+
+    // Send success response
+    res
+      .status(200)
+      .json({ status: "success", message: "Password changed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "failed",
+      message: "Unable to change password, please try again later",
     });
   }
 };

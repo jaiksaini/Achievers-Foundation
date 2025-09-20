@@ -6,7 +6,7 @@ import { useAuthStore } from "../store/useAuthStore";
 
 const AboutUs = () => {
   // const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user , member} = useAuthStore();
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -148,12 +148,23 @@ const AboutUs = () => {
             See Members
           </Link>
         ) : (
-          <Link
-            to="/joinus"
-            className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"
-          >
-            Join as a Member
-          </Link>
+          <>
+            {member ? (
+              <Link
+                to="/member/"
+                className="px-6 py-3 bg-yellow-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+              >
+                Member Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/joinus"
+                className="px-6 py-3 bg-yellow-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+              >
+                Join as a Member
+              </Link>
+            )}
+          </>
         )}
       </section>
     </div>

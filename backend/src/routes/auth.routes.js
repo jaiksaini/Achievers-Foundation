@@ -11,7 +11,7 @@ import {
   changeUserPassword,
   sendUserPasswordResetEmail,
   userPasswordReset,
-  UpdateUserRole,
+  // UpdateUserRole,
 } from "../controllers/auth.controller.js";
 import passport from "passport";
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.js";
@@ -45,18 +45,18 @@ router.post(
   Logout
 );
 
-router.post(
+router.put(
   "/change-password",
   accessTokenAutoRefresh,
   passport.authenticate("jwt", { session: false }),
   changeUserPassword
 );
-router.post(
-  "/update-role",
-  accessTokenAutoRefresh,
-  passport.authenticate("jwt", { session: false }),
-  UpdateUserRole
-);
+// router.post(
+//   "/update-role",
+//   accessTokenAutoRefresh,
+//   passport.authenticate("jwt", { session: false }),
+//   UpdateUserRole
+// );
 router.post(
   "/upload/:id",
   accessTokenAutoRefresh,

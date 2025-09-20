@@ -8,8 +8,8 @@ import { useAuthStore } from "../store/useAuthStore";
 
 const Members = () => {
   const navigate = useNavigate();
-  const {members ,getApprovedMembers ,isLoading} = useMemberStore()
-  const { user } = useAuthStore();
+  const { members, getApprovedMembers, isLoading } = useMemberStore()
+  const { user, member } = useAuthStore();
 
   useEffect(() => {
     getApprovedMembers();
@@ -27,20 +27,31 @@ const Members = () => {
           community today!
         </p>
         {user?.role === "admin" ? (
-            <Link
-              to="/admin/members"
-              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
-            >
-              See Members
-            </Link>
-          ) : (
-            <Link
-              to="/joinus"
-              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
-            >
-              Join as a Member
-            </Link>
-          )}
+          <Link
+            to="/admin/members"
+            className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+          >
+            See Members
+          </Link>
+        ) : (
+          <>
+            {member ? (
+              <Link
+                to="/member/"
+                className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+              >
+                Member Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/joinus"
+                className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+              >
+                Join as a Member
+              </Link>
+            )}
+          </>
+        )}
       </section>
 
       {isLoading && (
@@ -78,20 +89,31 @@ const Members = () => {
           events, and work together for a brighter future.
         </p>
         {user?.role === "admin" ? (
-            <Link
-              to="/admin/members"
-              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
-            >
-              See Members
-            </Link>
-          ) : (
-            <Link
-              to="/joinus"
-              className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
-            >
-              Join as a Member
-            </Link>
-          )}
+          <Link
+            to="/admin/members"
+            className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+          >
+            See Members
+          </Link>
+        ) : (
+          <>
+            {member ? (
+              <Link
+                to="/member/"
+                className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+              >
+                Member Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/joinus"
+                className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
+              >
+                Join as a Member
+              </Link>
+            )}
+          </>
+        )}
       </section>
     </div>
   );

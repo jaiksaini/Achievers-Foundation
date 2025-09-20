@@ -3,8 +3,12 @@ import { FaUser, FaEnvelope, FaCamera, FaLock } from "react-icons/fa";
 import { useAuthStore } from "../../store/useAuthStore";
 
 const MemberSettings = () => {
-  const { member, uploadProfilePicMember, isUploading } = useAuthStore();
+  const { member, uploadProfilePicMember, isUploading , memberchangepassword , isChanging } = useAuthStore();
   const [preview, setPreview] = useState(member?.profilePic || "#");
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
@@ -22,6 +26,13 @@ const MemberSettings = () => {
 
   // const profilePic = member?.profilePic;
   // console.log(profilePic);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await memberchangepassword(formData);
+
+  };
+
 
   return (
     <div className="p-2">
@@ -84,11 +95,11 @@ const MemberSettings = () => {
           </div>
         </div>
         {/* Right Side - Change Password */}
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white rounded-xl shadow p-6 space-x-7">
           <h3 className="text-lg font-semibold mb-4">Change Login Password</h3>
 
-          <form className="space-y-4">
-            <div>
+          <form className="space-y-8" onSubmit={handleSubmit}>
+            {/* <div>
               <label className="block text-sm font-medium mb-1">
                 Current Password
               </label>
@@ -100,7 +111,7 @@ const MemberSettings = () => {
                   className="w-full p-2 outline-none"
                 />
               </div>
-            </div>
+            </div> */}
             <div>
               <label className="block text-sm font-medium mb-1">
                 New Password
@@ -111,6 +122,10 @@ const MemberSettings = () => {
                   type="password"
                   placeholder="Enter new password"
                   className="w-full p-2 outline-none"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -124,15 +139,18 @@ const MemberSettings = () => {
                   type="password"
                   placeholder="Re-enter new password"
                   className="w-full p-2 outline-none"
+                  value={formData.confirmPassword}
+                  onChange={(e) =>
+                    setFormData({ ...formData, confirmPassword: e.target.value })
+                  }
                 />
               </div>
             </div>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
-              Update Password
+            <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700" disabled={isChanging}>
+              {isChanging ? "Updating":"Update Password"}
             </button>
           </form>
-        </div>
-      </div>
+        </div>      </div>
     </div>
   );
 };

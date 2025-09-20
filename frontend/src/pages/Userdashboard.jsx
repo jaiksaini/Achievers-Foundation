@@ -6,7 +6,7 @@ import {
   FaBars,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
-import assets from "../assets/assets";
+// import assets from "../assets/assets";
 
 const Userdashboard  = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

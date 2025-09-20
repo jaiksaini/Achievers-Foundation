@@ -329,7 +329,7 @@ export const uploadProfile = async (req, res) => {
 // -----------------------------------------------------
 export const changeUserPassword = async (req, res) => {
   try {
-    const { password, confirmPassword } = req.body;
+    const {  password, confirmPassword } = req.body;
 
     // Check if both password and confirmPassword are provided
     if (!password || !confirmPassword) {
@@ -492,28 +492,28 @@ export const  userPasswordReset = async (req, res) => {
 // -----------------------------------------------------
 // Update userRole from user to Member..
 // -----------------------------------------------------
-export const UpdateUserRole = async (req, res) => {
-  const userId = req.params.id; // Extract user ID from URL parameters
+// export const UpdateUserRole = async (req, res) => {
+//   const userId = req.params.id; // Extract user ID from URL parameters
 
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { role: "member" },
-      { new: true }
-    );
+//   try {
+//     const updatedUser = await User.findByIdAndUpdate(
+//       userId,
+//       { role: "member" },
+//       { new: true }
+//     );
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+//     if (!updatedUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
 
-    res.status(200).json({
-      message: "User role updated to 'author' successfully",
-      user: updatedUser,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "An error occurred while updating the user role",
-      error: error.message,
-    });
-  }
-};
+//     res.status(200).json({
+//       message: "User role updated to 'author' successfully",
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "An error occurred while updating the user role",
+//       error: error.message,
+//     });
+//   }
+// };

@@ -12,7 +12,7 @@ import { NavLink } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
 const Footer = () => {
-  const { user } = useAuthStore();
+  const { user, member } = useAuthStore();
 
   return (
     <footer className="bg-black text-gray-300">
@@ -81,11 +81,23 @@ const Footer = () => {
                       Donate
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink to="/joinus" className="hover:text-white">
-                      Become a Member
+
+                  {member ? (
+                    <NavLink
+                      to="/member/"
+                      className="hover:text-white"
+                    >
+                      Member Dashboard
                     </NavLink>
-                  </li>
+                  ) : (
+                    <NavLink
+                      to="/joinus"
+                      className="hover:text-white"
+                    >
+                      Join as a Member
+                    </NavLink>
+                  )}
+
                 </>
               )}
 

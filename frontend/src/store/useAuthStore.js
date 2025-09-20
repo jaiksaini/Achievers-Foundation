@@ -12,39 +12,7 @@ export const useAuthStore = create((set) => ({
   setOtp: false,
   isLogin: false,
   isUploading: false,
-
-  // getUserProfile: async () => {
-  //   try {
-  //     const res = await axiosInstance.get("/api/user/user-profile", {
-  //       withCredentials: true,
-  //     });
-
-  //     if (res.data?.user) {
-  //       set({ user: res.data.user, isAuthenticated: true });
-  //     } else {
-  //       set({ user: null, isAuthenticated: false });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error Getting Profile ", error);
-  //     set({ user: null, isAuthenticated: false });
-  //   }
-  // },
-
-  // getMemberProfile: async () => {
-  //   try {
-  //     const res = await axiosInstance.get("/api/member/member-profile", {
-  //       withCredentials: true,
-  //     });
-  //     if (res.data?.member) {
-  //       set({ member: res.data.member, isAuthenticated: true });
-  //     } else {
-  //       set({ member: null, isAuthenticated: false });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error Getting Member Profile", error);
-  //     set({ member: null, isAuthenticated: false });
-  //   }
-  // },
+  isChanging: false,
 
   checkAuth: async () => {
     if (Cookies.get("is_auth") !== "true") {
@@ -209,7 +177,6 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-
   uploadProfilePicMember: async (memberId, file) => {
     set({ isUploading: true });
 
@@ -227,7 +194,7 @@ export const useAuthStore = create((set) => ({
 
       set({ member: res.data.member });
       // console.log(res.data);
-      
+
       toast.success("Profile picture updated");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to upload picture");
@@ -235,8 +202,6 @@ export const useAuthStore = create((set) => ({
       set({ isUploading: false });
     }
   },
-
-
 
   memberlogout: async () => {
     try {
@@ -255,4 +220,40 @@ export const useAuthStore = create((set) => ({
       toast.error("Failed to log out.");
     }
   },
+
+  changepassword: async (data) => {
+    set({ isChanging: true });
+    try {
+      await axiosInstance.put(
+        "/api/user/change-password",
+        data, 
+        { withCredentials: true } 
+      );
+      toast.success("Password Changed Successfully");
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Request Failed.. Please try Later");
+    } finally {
+      set({ isChanging: false });
+    }
+  },
+
+  
+  memberchangepassword: async (data) => {
+    set({ isChanging: true });
+    try {
+      await axiosInstance.put(
+        "/api/member/change-password",
+        data, 
+        { withCredentials: true } 
+      );
+      toast.success("Password Changed Successfully");
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Request Failed.. Please try Later");
+    } finally {
+      set({ isChanging: false });
+    }
+  },
+  
 }));
