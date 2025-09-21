@@ -43,6 +43,10 @@ const Signup = () => {
     }
   };
 
+  const handleGoogleLogin = () =>{
+    window.location.href = "https://buybookonline.onrender.com/auth/google";
+  }
+
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">
       <div className="justify-center items-center  hidden md:flex">
@@ -111,18 +115,19 @@ const Signup = () => {
           </div>
 
           <div className="space-y-3">
-            <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
+            <button onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FcGoogle className="text-xl mr-2" />
               <span>
                 SignUp with <strong>Google</strong>
               </span>
             </button>
-            <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
+            {/* <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FaMicrosoft className="text-blue-500 text-xl mr-2" />
               <span>
                 SignUp with <strong>Microsoft</strong>
               </span>
-            </button>
+            </button> */}
           </div>
 
           <p className="text-center text-gray-600 mt-6">

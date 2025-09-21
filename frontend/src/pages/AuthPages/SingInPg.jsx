@@ -28,6 +28,10 @@ const SingInPg = () => {
     }
   }, [isAuthenticated, navigate]);
 
+  const handleGoogleLogin = () =>{
+    window.location.href = "http://localhost:8000/auth/google";
+  }
+
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row items-center justify-center bg-gray-50">
       <div className="flex flex-col justify-center items-center md:w-[35vw] p-6 md:p-0">
@@ -87,18 +91,19 @@ const SingInPg = () => {
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
           <div className="space-y-3">
-            <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
+            <button onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FcGoogle className="text-xl mr-2" />
               <span>
                 Sign In with <strong>Google</strong>{" "}
               </span>
             </button>
-            <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
+            {/* <button className="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
               <FaMicrosoft className="text-blue-500 text-xl mr-2" />
               <span>
                 Sign In with <strong>Microsoft</strong>
               </span>
-            </button>
+            </button> */}
           </div>
 
           {/* New Member Sign In Button */}
