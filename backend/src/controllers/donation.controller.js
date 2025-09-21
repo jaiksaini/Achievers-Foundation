@@ -16,58 +16,7 @@ const razorpay = new Razorpay({
 // -----------------------------------------------------
 // Create Donation Order
 // -----------------------------------------------------
-// export const createDonation = async (req, res) => {
-//   try {
-//     const { donorId, amount, paymentMethod, phone, address } = req.body;
 
-//     if (!donorId || !amount || !paymentMethod) {
-//       return res.status(400).json({
-//         status: "failed",
-//         message: "DonorId, Amount, and Payment Method are required",
-//       });
-//     }
-
-//     // Create Razorpay order
-//     const options = {
-//       amount: amount * 100, // convert to paise
-//       currency: "INR",
-//       receipt: `receipt_${Date.now()}`,
-//     };
-
-//     const order = await razorpay.orders.create(options);
-
-//     const user = await User.findById(donorId);
-//     if (user) {
-//       if (!user.phone && phone) user.phone = phone;
-//       if (!user.address && address) user.address = address;
-//       await user.save();
-//     }
-
-//     // Save donation with pending status
-//     const donation = await new Donation({
-//       donor: donorId,
-//       donorModel: req.user.constructor.modelName,
-//       amount,
-//       paymentMethod,
-
-//       status: "pending",
-//       transactionId: order.id, // ✅ store Razorpay orderId here
-//     }).save();
-
-//     res.status(201).json({
-//       status: "success",
-//       message: "Donation order created",
-//       order,
-//       donation,
-//     });
-//   } catch (error) {
-//     console.error("Error creating donation:", error);
-//     res.status(500).json({
-//       status: "failed",
-//       message: "Unable to create donation order",
-//     });
-//   }
-// };
 
 export const createDonation = async (req, res) => {
   try {
@@ -192,7 +141,7 @@ export const verifyDonation = async (req, res) => {
       await transporter.sendMail({
         from: process.env.Email_USER,
         to: donor.email,
-        subject: "Donation Receipt - Bharat Charity Trust",
+        subject: "Donation Receipt - AAEAR Foundation",
         text: "Thank you for your generous donation. Please find your receipt attached.",
         attachments: [
           {

@@ -44,7 +44,7 @@ const Signup = () => {
   };
 
   const handleGoogleLogin = () =>{
-    window.location.href = "https://buybookonline.onrender.com/auth/google";
+    window.location.href = "http://localhost:8000/auth/google";
   }
 
   return (
