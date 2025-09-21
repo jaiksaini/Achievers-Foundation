@@ -5,7 +5,8 @@ const sendEmailVerificationEmail = async (req, user) => {
   const otp = Math.floor(1000 + Math.random() * 9000);
 
   await new EmailVerificationModel({
-    userId: user._id , otp : otp
+    userId: user._id,
+    otp: otp,
   }).save();
 
   await transporter.sendMail({
@@ -243,7 +244,8 @@ const sendEmailVerificationEmail = async (req, user) => {
                 <p>If you didn't request this code, please ignore this email or contact our support team immediately.</p>
                 
                 <p>Welcome aboard!<br>
-                <span class="highlight">The BuyBookOnline</span> Team ✨</p>
+                <span class="highlight">Achievers
+Education and Research Foundation</span> ✨</p>
                 
                 <div class="social-icons">
                     <span>📱</span>
@@ -254,7 +256,7 @@ const sendEmailVerificationEmail = async (req, user) => {
             <div class="footer">
                 <p>This is an automated message from our secure verification system.</p>
                 <p>© All rights reserved.</p>
-                <p>🔐 Protected by BuyBookOnline Security</p>
+                <p>🔐 Protected by Academics Achievers Foundation Security</p>
             </div>
         </div>
     </div>

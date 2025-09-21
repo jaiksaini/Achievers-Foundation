@@ -41,14 +41,14 @@ import ResetPassword from "./pages/AuthPages/ResetPassword";
 import CodeRecived from "./pages/AuthPages/CodeRecived";
 import NewPassword from "./pages/AuthPages/NewPassword";
 
-
 const ProtectedRoute = ({ element, allowedFor, user, member, loading }) => {
   if (loading) {
-
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin mb-4"></div>
-        <p className="text-lg font-medium text-gray-700">Checking authentication...</p>
+        <p className="text-lg font-medium text-gray-700">
+          Checking authentication...
+        </p>
       </div>
     );
   }
@@ -58,7 +58,8 @@ const ProtectedRoute = ({ element, allowedFor, user, member, loading }) => {
   if (allowedFor === "admin" && user?.role === "admin") return element;
   if (allowedFor === "user" && user?.role === "user") return element;
   if (allowedFor === "member" && member) return element;
-  if (allowedFor === "donate" && (user?.role === "user" || member)) return element;
+  if (allowedFor === "donate" && (user?.role === "user" || member))
+    return element;
 
   return <Navigate to="/" replace />;
 };
@@ -78,17 +79,6 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        {/* PUBLIC ROUTES */}
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={<Home />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="members" element={<Members />} />
-          <Route path="documents" element={<Documents />} />
-          <Route path="about" element={<AboutUs />} />
-          <Route path="contact" element={<ContactUs />} />
-          <Route path="joinus" element={<JoinUs />} />
-        </Route>
-
         {/* AUTH ROUTES */}
         <Route path="signup" element={<Signup />} />
         <Route path="signin" element={<SingInPg />} />
@@ -98,82 +88,96 @@ const App = () => {
         <Route path="code-recived" element={<CodeRecived />} />
         <Route path="new-password/:id/:token" element={<NewPassword />} />
 
-        {/* DONATION ROUTE */}
-        <Route
-          path="donation"
-          element={
-            <ProtectedRoute
-              user={user}
-              member={member}
-              loading={loading}
-              allowedFor="donate"
-              element={<Donation />}
-            />
-          }
-        />
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<Home />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="members" element={<Members />} />
+          <Route path="documents" element={<Documents />} />
+          <Route path="about" element={<AboutUs />} />
+          <Route path="contact" element={<ContactUs />} />
+          <Route path="joinus" element={<JoinUs />} />
 
-        {/* ADMIN ROUTES */}
-        <Route
-          path="admin"
-          element={
-            <ProtectedRoute
-              user={user}
-              member={member}
-              loading={loading}
-              allowedFor="admin"
-              element={<AdmDashboard />}
-            />
-          }
-        >
-          <Route path="/admin/" element={<AdminDashboard />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/members" element={<AdminMembers />} />
-          <Route path="/admin/members/requests" element={<MemberRequests />} />
-          <Route path="/admin/document" element={<AdminDoc />} />
-          <Route path="/admin/donations" element={<AdminDonations />} />
-          <Route path="/admin/settings" element={<AdminSetting />} />
-        </Route>
-
-        {/* MEMBER ROUTES */}
-        <Route
-          path="member"
-          element={
-            <ProtectedRoute
-              user={user}
-              member={member}
-              loading={loading}
-              allowedFor="member"
-              element={<MemDashboard />}
-            />
-          }
-        >
-          <Route path="/member/" element={<MemberOverview />} />
-          <Route path="/member/overview" element={<MemberOverview />} />
+          {/* DONATION ROUTE */}
           <Route
-            path="/member/donationhistory"
-            element={<MemberDonationHistory />}
+            path="donation"
+            element={
+              <ProtectedRoute
+                user={user}
+                member={member}
+                loading={loading}
+                allowedFor="donate"
+                element={<Donation />}
+              />
+            }
           />
-          <Route path="/member/setting" element={<MemberSettings />} />
-          <Route path="/member/idcard" element={<MemberIDCard />} />
-        </Route>
 
-        {/* USER ROUTES */}
-        <Route
-          path="user"
-          element={
-            <ProtectedRoute
-              user={user}
-              member={member}
-              loading={loading}
-              allowedFor="user"
-              element={<Userdashboard />}
+          {/* ADMIN ROUTES */}
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoute
+                user={user}
+                member={member}
+                loading={loading}
+                allowedFor="admin"
+                element={<AdmDashboard />}
+              />
+            }
+          >
+            <Route path="/admin/" element={<AdminDashboard />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/members" element={<AdminMembers />} />
+            <Route
+              path="/admin/members/requests"
+              element={<MemberRequests />}
             />
-          }
-        >
-          <Route path="/user/" element={<UserOverview />} />
-          <Route path="/user/overview" element={<UserOverview />} />
-          <Route path="/user/Donation" element={<UserDonations />} />
-          <Route path="/user/setting" element={<UserSettings />} />
+            <Route path="/admin/document" element={<AdminDoc />} />
+            <Route path="/admin/donations" element={<AdminDonations />} />
+            <Route path="/admin/settings" element={<AdminSetting />} />
+          </Route>
+
+          {/* MEMBER ROUTES */}
+          <Route
+            path="member"
+            element={
+              <ProtectedRoute
+                user={user}
+                member={member}
+                loading={loading}
+                allowedFor="member"
+                element={<MemDashboard />}
+              />
+            }
+          >
+            <Route path="/member/" element={<MemberOverview />} />
+            <Route path="/member/overview" element={<MemberOverview />} />
+            <Route
+              path="/member/donationhistory"
+              element={<MemberDonationHistory />}
+            />
+            <Route path="/member/setting" element={<MemberSettings />} />
+            <Route path="/member/idcard" element={<MemberIDCard />} />
+          </Route>
+
+          {/* USER ROUTES */}
+          <Route
+            path="user"
+            element={
+              <ProtectedRoute
+                user={user}
+                member={member}
+                loading={loading}
+                allowedFor="user"
+                element={<Userdashboard />}
+              />
+            }
+          >
+            <Route path="/user/" element={<UserOverview />} />
+            <Route path="/user/overview" element={<UserOverview />} />
+            <Route path="/user/Donation" element={<UserDonations />} />
+            <Route path="/user/setting" element={<UserSettings />} />
+          </Route>
         </Route>
       </>
     )
