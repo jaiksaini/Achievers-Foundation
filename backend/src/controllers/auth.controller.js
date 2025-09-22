@@ -506,3 +506,41 @@ export const userPasswordReset = async (req, res) => {
 //     });
 //   }
 // };
+
+export const ContactAdmin = async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+
+    if (!email) {
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Email is Required" });
+    }
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_FROM, // send to your admin email
+      subject: "Contact Us - New Message",
+      html: `
+        <h3>New Contact Request</h3>
+        <p><strong>Name:</strong> ${name || "Not provided"}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+    });
+
+    return res.status(200).json({
+      status: "success",
+      message: "Your message has been sent successfully",
+    });
+  } catch (error) {
+    console.error("ContactAdmin Error:", error);
+    return res.status(500).json({
+      status: "failed",
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+

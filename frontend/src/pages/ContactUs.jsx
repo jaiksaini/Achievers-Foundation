@@ -7,8 +7,28 @@ import {
   FaInstagram,
   FaDiscord,
 } from "react-icons/fa";
+import { useAuthStore } from "../store/useAuthStore";
+import { useState } from "react";
 
 const ContactUs = () => {
+
+  const {isContacting, contactAdmin} = useAuthStore();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message:"",
+  });
+
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await contactAdmin(formData)
+  };
+
+
   return (
     <section className="py-12 min-h-screen px-6 md:px-16 bg-white">
       <div className="text-center mb-10">
@@ -61,18 +81,22 @@ const ContactUs = () => {
           </div>
         </div>
 
-        <form className="space-y-6 relative">
+        <form className="space-y-6 relative" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                First Name
+                Your Name
               </label>
               <input
                 type="text"
                 className="mt-1 w-full border-b border-gray-300 focus:border-black outline-none py-2"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
               />
             </div>
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700">
                 Last Name
               </label>
@@ -80,7 +104,7 @@ const ContactUs = () => {
                 type="text"
                 className="mt-1 w-full border-b border-gray-300 focus:border-black outline-none py-2"
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -91,6 +115,10 @@ const ContactUs = () => {
               <input
                 type="email"
                 className="mt-1 w-full border-b border-gray-300 focus:border-black outline-none py-2"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
             <div>
@@ -100,6 +128,10 @@ const ContactUs = () => {
               <input
                 type="text"
                 className="mt-1 w-full border-b border-gray-300 focus:border-black outline-none py-2"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
               />
             </div>
           </div>
@@ -112,14 +144,19 @@ const ContactUs = () => {
               rows="4"
               className="mt-1 w-full border-b border-gray-300 focus:border-black outline-none py-2"
               placeholder="Write your message..."
+              value={formData.message}
+              onChange={(e) =>
+                setFormData({ ...formData, message: e.target.value })
+              }
             ></textarea>
           </div>
 
           <button
             type="submit"
             className="absolute right-0 bottom-0 flex px-6 py-3 bg-black text-white rounded-lg shadow-md hover:opacity-90 transition "
+            disabled={isContacting}
           >
-            Send Message
+            {isContacting? "Sending...":"Send Message"}
           </button>
           <button className="flex px-6 mt-10 py-3 bg-white text-white">
             &nbsp; &nbsp; &nbsp;

@@ -15,6 +15,7 @@ export const useAuthStore = create((set) => ({
   isChanging: false,
   setnewPassword: false,
   isSending:false,
+  isContacting:false,
 
   checkAuth: async () => {
     if (Cookies.get("is_auth") !== "true") {
@@ -279,6 +280,20 @@ export const useAuthStore = create((set) => ({
       toast.error(error.response?.data?.message || "Failed to reset password.");
     }finally{
       set({setnewPassword:false})
+    }
+  },
+
+
+  contactAdmin : async(data) =>{
+    set({isContacting:true})
+    try {
+      const res = await axiosInstance.post("/api/user/contact", data);
+      toast.success("Response Sent..")
+    } catch (error) {
+      console.log("Error : ", error);  
+      toast.error("Error in Contacting to Admin")  
+    }finally{
+      set({isContacting:false})
     }
   },
 

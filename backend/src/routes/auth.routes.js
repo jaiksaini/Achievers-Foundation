@@ -11,6 +11,7 @@ import {
   changeUserPassword,
   sendUserPasswordResetEmail,
   userPasswordReset,
+  ContactAdmin,
   // UpdateUserRole,
 } from "../controllers/auth.controller.js";
 import passport from "passport";
@@ -63,6 +64,10 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   uploadProfilePic.single("profilePic"),
   uploadProfile
+);
+
+router.post(
+  "/contact", ContactAdmin
 );
 
 export default router;

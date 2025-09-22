@@ -13,7 +13,7 @@ const generateTokens = async(user) =>{
             payload,
             process.env.JWT_ACCESS_TOKEN_SECRET_KEY,
             {
-                expiresIn:"1m"  // expires in 1 minute
+                expiresIn:"1d"  // expires in 1 minute
             }
         )
 
