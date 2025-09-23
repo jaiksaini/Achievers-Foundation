@@ -36,7 +36,7 @@ const AdminSetting = () => {
   };
 
   return (
-    <div className="p-2 min-h-[77vh]">
+    <div className="min-h-[78vh]">
       <div className="grid gap-6 md:grid-cols-2">
         {/* Left Side - Profile Settings */}
         <div className="bg-white rounded-xl shadow p-6">

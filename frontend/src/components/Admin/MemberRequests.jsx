@@ -17,7 +17,7 @@ const MemberRequests = () => {
   }, [getPendingMembers]);
 
   return (
-    <div className="p-2">
+    <div className="min-h-[78vh]">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-3 mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800">

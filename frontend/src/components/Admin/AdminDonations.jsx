@@ -28,7 +28,7 @@ const AdminDonations = () => {
   const totalAmount = filteredDonations.reduce((sum, d) => sum + d.amount, 0);
 
   return (
-    <div className="p-2 space-y-6 min-h-[78vh]">
+    <div className="space-y-6 min-h-[78vh]">
       <h2 className="text-2xl font-bold">Donations</h2>
 
       {/* Stats Cards */}

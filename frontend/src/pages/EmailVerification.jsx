@@ -5,29 +5,22 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
 const EmailVerification = () => {
-  const navigate = useNavigate()
-  const [ formData, setformData]  = useState({
+  const navigate = useNavigate();
+  const [formData, setformData] = useState({
     email: "",
-    otp: ""
+    otp: "",
   });
-
 
   const { verifyEmail, setOtp } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
-     const response = await verifyEmail(formData);
-    if(response){
+    const response = await verifyEmail(formData);
+    if (response) {
       navigate("/");
     }
-     
-    
   };
-
-
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
@@ -40,7 +33,7 @@ const EmailVerification = () => {
           Verify Your Email
         </h2>
         <p className="text-sm text-gray-600 mb-6">
-          We’ve sent a 6-digit verification code to your email. Please enter the
+          We’ve sent a 4-digit verification code to your email. Please enter the
           code below to verify your account.
         </p>
 
@@ -48,7 +41,6 @@ const EmailVerification = () => {
           <input
             type="email"
             placeholder="Enter Your Mail Address"
-            
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={formData.email}
             onChange={(e) =>
@@ -57,12 +49,12 @@ const EmailVerification = () => {
           />
           <input
             type="text"
-            placeholder="Enter 6-digit code"
-            maxLength={6}
+            placeholder="Enter 4-digit code"
+            maxLength={4}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={formData.otp}
             onChange={(e) => {
-              setformData({ ...formData, otp: e.target.value })
+              setformData({ ...formData, otp: e.target.value });
             }}
           />
           <button

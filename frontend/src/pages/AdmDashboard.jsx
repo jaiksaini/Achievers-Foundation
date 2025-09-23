@@ -6,6 +6,7 @@ import {
   FaFileAlt,
   FaCog,
   FaBars,
+  FaSeedling,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import assets from "../assets/assets";
@@ -17,6 +18,7 @@ const Dashboard = () => {
     { to: "/admin/dashboard", label: "Dashboard", icon: <FaTachometerAlt /> },
     { to: "/admin/members", label: "Members", icon: <FaUsers /> },
     { to: "/admin/document", label: "Documents", icon: <FaFileAlt /> },
+    { to: "/admin/projects", label: "Projects", icon: <FaSeedling /> },
     { to: "/admin/donations", label: "Donations", icon: <FaDonate /> },
     { to: "/admin/settings", label: "Settings", icon: <FaCog /> },
   ];

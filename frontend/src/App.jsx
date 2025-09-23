@@ -40,6 +40,8 @@ import LoginAsMember from "./pages/LoginAsMember";
 import ResetPassword from "./pages/AuthPages/ResetPassword";
 import CodeRecived from "./pages/AuthPages/CodeRecived";
 import NewPassword from "./pages/AuthPages/NewPassword";
+import Projects from "./pages/Projects";
+import AdminProjects from "./components/Admin/AdminProjects";
 
 const ProtectedRoute = ({ element, allowedFor, user, member, loading }) => {
   if (loading) {
@@ -94,6 +96,7 @@ const App = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
           <Route path="members" element={<Members />} />
           <Route path="documents" element={<Documents />} />
+          <Route path="projects" element={<Projects/>} />
           <Route path="about" element={<AboutUs />} />
           <Route path="contact" element={<ContactUs />} />
           <Route path="joinus" element={<JoinUs />} />
@@ -133,6 +136,7 @@ const App = () => {
               element={<MemberRequests />}
             />
             <Route path="/admin/document" element={<AdminDoc />} />
+            <Route path="/admin/projects" element={<AdminProjects />} />
             <Route path="/admin/donations" element={<AdminDonations />} />
             <Route path="/admin/settings" element={<AdminSetting />} />
           </Route>
