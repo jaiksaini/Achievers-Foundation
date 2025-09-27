@@ -4,7 +4,7 @@ import {
   SignUp,
   LogIn,
   verifyEmail,
-  getNewAccessToken,
+  // getNewAccessToken,
   userProfile,
   Logout,
   uploadProfile,
@@ -25,7 +25,7 @@ import { uploadProfilePic } from "../config/multerConfig.js";
 router.post("/signup", SignUp);
 router.post("/login", LogIn);
 router.post("/verify-email", verifyEmail);
-router.post("/get-new-access-token", getNewAccessToken);
+// router.post("/get-new-access-token", getNewAccessToken);
 router.post("/reset-password-link", sendUserPasswordResetEmail);
 router.post("/reset-password/:id/:token", userPasswordReset);
 
