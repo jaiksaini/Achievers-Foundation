@@ -30,6 +30,8 @@ export const useAuthStore = create((set) => ({
       });
 
       if (userRes.data?.user) {
+        console.log(userRes.data);
+        
         set({
           user: userRes.data.user,
           member: null,
@@ -71,8 +73,8 @@ export const useAuthStore = create((set) => ({
 
       toast.success("Signup Successful");
     } catch (error) {
-      // toast.error(error.response.data.message);
-      toast.error("Signup Failed");
+      toast.error(error.response.data.message || "Signup Failed");
+      // toast.error("Signup Failed");
     } finally {
       set({ isSignup: false });
     }

@@ -614,10 +614,10 @@ export const SignUp = async (req, res) => {
       },
     });
 
-    res.status(201).json({
+     res.status(201).json({
       status: "success",
       message: "Signup successful",
-      user: { id: newUser.id, email: newUser.email },
+      user: { id: newUser.id, email: newUser.email , is_auth : true },
     });
 
     await sendEmailVerificationEmail(req, newUser);

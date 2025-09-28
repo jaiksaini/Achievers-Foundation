@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id          Int                 @id @default(autoincrement())
+  name        String
+  email       String              @unique
+  password    String
+  profilePic  String              @default("https://avatar.iran.liara.run/public/1")
+  role        Role                @default(USER)
+  is_verified Boolean             @default(false)
+  phone       String?
+  address     String?
+  donations   Donation[]          @relation("UserDonations")
+  refreshTokens UserRefreshToken[]
+  emailVerifications EmailVerification[]
+
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model Member {
+  id          Int                    @id @default(autoincrement())
+  name        String
+  email       String                 @unique
+  password    String?
+  phone       String?
+  address     String?
+  profilePic  String                 @default("https://avatar.iran.liara.run/public/1")
+  donations   Donation[]             @relation("MemberDonations")
+  refreshTokens MemberRefreshToken[]
+
+  status      MemberStatus           @default(PENDING)
+  joinedAt    DateTime               @default(now())
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model Donation {
+  id            Int           @id @default(autoincrement())
+  amount        Float
+  paymentMethod PaymentMethod
+  status        DonationStatus @default(PENDING)
+  transactionId String?
+  date          DateTime       @default(now())
+
+  // Relations
+  userId   Int? 
+  user     User?   @relation("UserDonations", fields: [userId], references: [id])
+
+  memberId Int?
+  member   Member? @relation("MemberDonations", fields: [memberId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Document {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  fileUrl     String
+  uploadedAt  DateTime @default(now())
+}
+
+model UserRefreshToken {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  token       String
+  blacklisted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  expiresAt DateTime
+}
+
+model MemberRefreshToken {
+  id          Int      @id @default(autoincrement())
+  memberId    Int
+  member      Member   @relation(fields: [memberId], references: [id])
+  token       String
+  blacklisted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model EmailVerification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  otp       String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum MemberStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PaymentMethod {
+  CARD
+  UPI
+}
+
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+

@@ -227,26 +227,24 @@
 //             </div>
 //             <div class="content">
 //                 <p>Hello <span class="highlight">${user.name}</span>! 👋</p>
-                
+
 //                 <p>We're thrilled to welcome you to our community! To get started, please verify your email using this secure code:</p>
-                
+
 //                 <div class="otp-container">
 //                     <span class="otp-code">${otp}</span>
 //                 </div>
-                
+
 //                 <div class="info-box">
 //                     <p>⏰ <strong>Important:</strong> This code will expire in <span class="highlight">10 minutes</span></p>
 //                     <p>🔒 Never share this verification code with anyone, including our support team.</p>
 //                 </div>
-                
-              
-                
+
 //                 <p>If you didn't request this code, please ignore this email or contact our support team immediately.</p>
-                
+
 //                 <p>Welcome aboard!<br>
 //                 <span class="highlight">Achievers
 // Education and Research Foundation</span> ✨</p>
-                
+
 //                 <div class="social-icons">
 //                     <span>📱</span>
 //                     <span>💌</span>
@@ -267,22 +265,16 @@
 
 // export default sendEmailVerificationEmail;
 
-
-
-
-
-
-
-
-
-
 import transporter from "../config/emailConfig.js";
-import prisma from "../config/prisma.js"; 
+import prisma from "../config/prisma.js";
 
 const sendEmailVerificationEmail = async (req, user) => {
   try {
     // Generate 4-digit OTP
     const otp = Math.floor(1000 + Math.random() * 9000);
+
+    console.log(user);
+    
 
     // Store OTP in MySQL (via Prisma)
     await prisma.emailVerification.create({
