@@ -20,8 +20,9 @@ export const useDonationStore = create((set) => ({
       const { data: res } = await axiosInstance.post(
         "/api/donation/create-order",
         {
-          donorId: userId,
-          amount: formData.amount,
+          donorId: Number(userId),
+          donorType: "USER",
+          amount: Number(formData.amount),
           paymentMethod: formData.paymentMethod,
           phone: formData.phone,
           address: formData.address,
@@ -95,6 +96,8 @@ export const useDonationStore = create((set) => ({
     try {
       const res = await axiosInstance.get("/api/donation/recent-donations");
       set({ recentDonations: res.data.donations, isLoading: false });
+      // console.log(res.data.donations);
+      
     } catch (error) {
       console.error("Error fetching donations:", error);
       toast.error("Failed to fetch donations");

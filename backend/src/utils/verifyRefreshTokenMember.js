@@ -1,13 +1,12 @@
-import jwt from "jsonwebtoken"
-// import UserRefreshTokenModel from "../models/UserRefreshToken.js"
-import MemberRefreshTokenModel from "../models/MemberRefreshToken.js"
+// import jwt from "jsonwebtoken"
+// import MemberRefreshTokenModel from "../models/MemberRefreshToken.js"
 
 
 // const verifyRefreshTokenMember = async (refreshToken) => {
 //     try {
 //       const privateKey = process.env.JWT_REFRESH_TOKEN_SECRET_KEY;
-  
 //       const memberRefreshToken = await MemberRefreshTokenModel.findOne({ token: refreshToken });
+  
 //       if (!memberRefreshToken) {
 //         throw new Error("Refresh token not found in DB");
 //       }
@@ -20,15 +19,33 @@ import MemberRefreshTokenModel from "../models/MemberRefreshToken.js"
 //         message: "Valid Refresh Token",
 //       };
 //     } catch (err) {
-//       throw new Error("Invalid Refresh Token in file verifyrefreshToken");
+//       console.error("verifyRefreshTokenMember error  (memberFile):", err.message);
+//       return { error: true, message: err.message }; // don't throw generic
 //     }
 //   };
   
 
+
+// export default verifyRefreshTokenMember;
+
+
+
+
+
+
+
+
+
+
+
+import jwt from "jsonwebtoken"
+import prisma from "../config/prisma.js";
+
+
 const verifyRefreshTokenMember = async (refreshToken) => {
     try {
       const privateKey = process.env.JWT_REFRESH_TOKEN_SECRET_KEY;
-      const memberRefreshToken = await MemberRefreshTokenModel.findOne({ token: refreshToken });
+      const memberRefreshToken = await prisma.memberRefreshToken.findUnique({ token: refreshToken });
   
       if (!memberRefreshToken) {
         throw new Error("Refresh token not found in DB");
@@ -43,7 +60,7 @@ const verifyRefreshTokenMember = async (refreshToken) => {
       };
     } catch (err) {
       console.error("verifyRefreshTokenMember error  (memberFile):", err.message);
-      return { error: true, message: err.message }; // don't throw generic
+      return { error: true, message: err.message }; 
     }
   };
   

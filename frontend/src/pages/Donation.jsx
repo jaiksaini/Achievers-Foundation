@@ -17,8 +17,8 @@ const Donation = () => {
   });
 
   const { user, member } = useAuthStore();
-  const userId = user?._id;
-  const memberId = member?._id
+  const userId = user?.id;
+  const memberId = member?.id
   // console.log(memberId);
 
 
@@ -154,9 +154,9 @@ const Donation = () => {
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({ ...formData, paymentMethod: "card" })
+                    setFormData({ ...formData, paymentMethod: "CARD" })
                   }
-                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${formData.paymentMethod === "card"
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${formData.paymentMethod === "CARD"
                     ? "bg-blue-600 text-white"
                     : ""
                     }`}
@@ -166,9 +166,9 @@ const Donation = () => {
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({ ...formData, paymentMethod: "upi" })
+                    setFormData({ ...formData, paymentMethod: "UPI" })
                   }
-                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${formData.paymentMethod === "upi"
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md border ${formData.paymentMethod === "UPI"
                     ? "bg-blue-600 text-white"
                     : ""
                     }`}
@@ -201,14 +201,12 @@ const Donation = () => {
             <ul className="space-y-3 text-sm text-gray-700">
               {recentDonations.map((donation) => (
                 <li
-                  key={donation._id}
+                  key={donation.id}
                   className="flex justify-between border-b pb-2"
                 >
                   <span>
                     {donation.donor?.name || "Anonymous"} <br />
-                    <span className="text-xs text-gray-500">
-                      {donation.donor?.email}
-                    </span>
+
                   </span>
                   <span className="text-blue-600 font-semibold">
                     ₹{donation.amount}
