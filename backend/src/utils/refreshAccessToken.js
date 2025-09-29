@@ -76,7 +76,7 @@ const refreshAccessToken = async (req, res) => {
 
     // Check if user exists
     const user = await prisma.user.findUnique({
-      where: { id: tokenDetails._id },
+      where: { id: tokenDetails.id },
     });
     if (!user) {
       throw new Error("User not found in refreshAccessToken");

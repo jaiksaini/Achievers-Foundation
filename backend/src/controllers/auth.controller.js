@@ -799,12 +799,12 @@ export const Logout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
 
-    const userRefreshToken = await prisma.refreshToken.findUnique({
+    const userRefreshToken = await prisma.userRefreshToken.findUnique({
       where: { token: refreshToken },
     });
 
     if (userRefreshToken) {
-      await prisma.refreshToken.update({
+      await prisma.userRefreshToken.update({
         where: { token: refreshToken },
         data: { blacklisted: true },
       });

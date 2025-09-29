@@ -62,7 +62,7 @@ passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
       const user = await prisma.user.findUnique({
-        where: { id: jwt_payload._id }, // Prisma uses 'id'
+        where: { id: jwt_payload.id }, // Prisma uses 'id'
         select: {
           id: true,
           name: true,
@@ -89,7 +89,7 @@ passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
       const member = await prisma.member.findUnique({
-        where: { id: jwt_payload._id }, // Prisma uses 'id'
+        where: { id: jwt_payload.id }, // Prisma uses 'id'
         select: {
           id: true,
           name: true,

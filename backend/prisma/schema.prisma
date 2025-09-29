@@ -82,7 +82,7 @@ model UserRefreshToken {
   id          Int      @id @default(autoincrement())
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
-  token       String
+  token       String  @unique
   blacklisted Boolean  @default(false)
   createdAt   DateTime @default(now())
   expiresAt DateTime
