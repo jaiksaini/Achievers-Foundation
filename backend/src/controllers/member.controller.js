@@ -636,7 +636,7 @@ export const getAllMembers = async (req, res) => {
 export const getApprovedMembers = async (req, res) => {
   try {
     const members = await prisma.member.findMany({
-      where: { status: "approved" },
+      where: { status: "APPROVED" },
       orderBy: { joinedAt: "desc" },
     });
     res.status(200).json({ status: "success", count: members.length, members });
@@ -652,7 +652,7 @@ export const getApprovedMembers = async (req, res) => {
 export const getPendingMembers = async (req, res) => {
   try {
     const members = await prisma.member.findMany({
-      where: { status: "pending" },
+      where: { status: "PENDING" },
       orderBy: { createdAt: "desc" },
     });
     res.status(200).json({ status: "success", count: members.length, members });

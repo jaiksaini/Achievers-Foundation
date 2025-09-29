@@ -13,21 +13,18 @@
 //         .json({ status: "failed", message: "No file uploaded" });
 //     }
 
-
 //     const { title, description } = req.body;
 //     if(!title || !description){
 //       return res
 //         .status(400)
 //         .json({ status: "failed", message: "Title and Description are Required" });
-      
+
 //     }
-
-
 
 //     const document = await Document.create({
 //       title,
 //       description,
-//       fileUrl: `/uploads/documents/${req.file.filename}`, 
+//       fileUrl: `/uploads/documents/${req.file.filename}`,
 //       // key: req.file.filename, // optional unique reference
 //     });
 
@@ -98,19 +95,9 @@
 //   }
 // };
 
-
-
-
-
-
-
-
-
-import prisma from "../config/prisma.js"
+import prisma from "../config/prisma.js";
 import path from "path";
 import fs from "fs";
-
-
 
 // -----------------------------------------------------
 // Upload Document
@@ -194,7 +181,10 @@ export const deleteDocument = async (req, res) => {
     }
 
     // Remove file from server
-    const filePath = path.join("src/uploads/documents", path.basename(document.fileUrl));
+    const filePath = path.join(
+      "src/uploads/documents",
+      path.basename(document.fileUrl)
+    );
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }

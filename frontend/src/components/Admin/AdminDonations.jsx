@@ -88,7 +88,7 @@ const AdminDonations = () => {
                 </td>
                 <td className="p-3 border-b">
                   <button
-                    onClick={() => downloadReceipt(d._id)}
+                    onClick={() => downloadReceipt(d.id)}
                     disabled={isDownloading}
                     className={`px-3 py-1 rounded text-white flex items-center gap-2 ${
                       isDownloading
@@ -117,11 +117,11 @@ const AdminDonations = () => {
       <div className="md:hidden grid gap-4">
         {filteredDonations.map((d) => (
           <div
-            key={d._id}
+            key={d.id}
             className="bg-white rounded shadow p-4 flex flex-col gap-3"
           >
             <div className="flex justify-between items-center">
-              <p className="font-semibold">{d?.donor?.name}</p>
+              <p className="font-semibold">{d?.user?.name || d?.member?.name || "Anonymous"}</p>
               <p className="text-green-600 font-bold">₹{d.amount}</p>
             </div>
             <p className="text-sm text-gray-500">{d?.donor?.email}</p>
@@ -129,7 +129,7 @@ const AdminDonations = () => {
               {new Date(d.date).toLocaleDateString()}
             </p>
             <button
-              onClick={() => downloadReceipt(d._id)}
+              onClick={() => downloadReceipt(d.id)}
               disabled={isDownloading}
               className={`px-3 py-2 rounded text-white flex items-center gap-2 justify-center ${
                 isDownloading

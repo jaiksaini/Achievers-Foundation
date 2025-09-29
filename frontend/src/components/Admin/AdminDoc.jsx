@@ -116,7 +116,7 @@ const AdminDoc = () => {
                     </td>
                     <td className="p-3 border text-center">
                       <button
-                        onClick={() => handleDelete(doc._id)}
+                        onClick={() => handleDelete(doc.id)}
                         className="text-red-600 hover:text-red-800 flex items-center gap-1"
                       >
                         <FaTrash /> Delete
@@ -139,7 +139,7 @@ const AdminDoc = () => {
           <div className="md:hidden grid gap-4">
             {filteredDocs.map((doc) => (
               <div
-                key={doc._id}
+                key={doc.id}
                 className="bg-white rounded shadow p-4 flex flex-col gap-3"
               >
                 <div className="flex items-center gap-3">
@@ -156,7 +156,7 @@ const AdminDoc = () => {
                   <span>{new Date(doc.uploadedAt).toLocaleDateString()}</span>
                 </div>
                 <button
-                  onClick={() => handleDelete(doc._id)}
+                  onClick={() => handleDelete(doc.id)}
                   className="bg-red-600 text-white px-3 py-1 rounded-md text-sm hover:bg-red-700 flex items-center gap-2"
                 >
                   <FaTrash /> Delete
