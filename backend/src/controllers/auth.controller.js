@@ -544,35 +544,6 @@
 //   }
 // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import prisma from "../config/prisma.js";
 import bcrypt from "bcrypt";
 import fs from "fs";
@@ -614,10 +585,10 @@ export const SignUp = async (req, res) => {
       },
     });
 
-     res.status(201).json({
+    res.status(201).json({
       status: "success",
       message: "Signup successful",
-      user: { id: newUser.id, email: newUser.email , is_auth : true },
+      user: { id: newUser.id, email: newUser.email, is_auth: true },
     });
 
     await sendEmailVerificationEmail(req, newUser);
@@ -946,7 +917,9 @@ export const userPasswordReset = async (req, res) => {
 
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) {
-      return res.status(404).json({ status: "failed", message: "User not found" });
+      return res
+        .status(404)
+        .json({ status: "failed", message: "User not found" });
     }
 
     const new_secret = user.id + process.env.JWT_ACCESS_TOKEN_SECRET_KEY;

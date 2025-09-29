@@ -57,10 +57,10 @@ const ProtectedRoute = ({ element, allowedFor, user, member, loading }) => {
 
   if (!user && !member) return <Navigate to="/signin" replace />;
 
-  if (allowedFor === "admin" && user?.role === "admin") return element;
-  if (allowedFor === "user" && user?.role === "user") return element;
+  if (allowedFor === "admin" && user?.role === "ADMIN") return element;
+  if (allowedFor === "user" && user?.role === "USER") return element;
   if (allowedFor === "member" && member) return element;
-  if (allowedFor === "donate" && (user?.role === "user" || member))
+  if (allowedFor === "donate" && (user?.role === "USER" || member))
     return element;
 
   return <Navigate to="/" replace />;

@@ -9,8 +9,12 @@ const NavBar = () => {
   const { isAuthenticated, logout, user, memberlogout } = useAuthStore();
 
   // check role from user object
-  const role = user?.role; // can be "admin" or "user" if using User model
+  const role = user?.role;
+  // console.log(role);
+  // can be "admin" or "user" if using User model
   const isMember = !role; // if no role field exists → treat as Member
+  // console.log(isMember);
+  
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -23,9 +27,9 @@ const NavBar = () => {
 
   // handle dashboard navigation
   const handleDashboard = () => {
-    if (role === "admin") {
+    if (role === "ADMIN") {
       navigate("/admin/dashboard", { replace: true });
-    } else if (role === "user") {
+    } else if (role === "USER") {
       navigate("/user/overview", { replace: true });
     } else if (isMember) {
       navigate("/member/overview", { replace: true });
@@ -62,10 +66,9 @@ const NavBar = () => {
               key={idx}
               to={link.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${
-                  isActive
-                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                    : "text-gray-700 hover:text-blue-600"
+                `text-sm font-medium transition ${isActive
+                  ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                  : "text-gray-700 hover:text-blue-600"
                 }`
               }
             >
@@ -91,11 +94,11 @@ const NavBar = () => {
                 type="button"
                 className="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
               >
-                {role === "admin"
+                {role === "ADMIN"
                   ? "Admin Dashboard"
-                  : role === "user"
-                  ? "User Dashboard"
-                  : "Member Dashboard"}
+                  : role === "USER"
+                    ? "User Dashboard"
+                    : "Member Dashboard"}
               </button>
 
               {user ? (
@@ -155,10 +158,9 @@ const NavBar = () => {
                 key={idx}
                 to={link.path}
                 className={({ isActive }) =>
-                  `block rounded-md px-2 py-2 text-sm font-medium ${
-                    isActive
-                      ? "bg-blue-50 text-blue-600"
-                      : "text-gray-700 hover:bg-gray-100"
+                  `block rounded-md px-2 py-2 text-sm font-medium ${isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-700 hover:bg-gray-100"
                   }`
                 }
               >
@@ -180,11 +182,11 @@ const NavBar = () => {
                   onClick={handleDashboard}
                   className="mt-3 w-full inline-flex items-center justify-center rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition"
                 >
-                  {role === "admin"
+                  {role === "ADMIN"
                     ? "Admin Dashboard"
-                    : role === "user"
-                    ? "User Dashboard"
-                    : "Member Dashboard"}
+                    : role === "USER"
+                      ? "User Dashboard"
+                      : "Member Dashboard"}
                 </button>
 
                 {user ? (
