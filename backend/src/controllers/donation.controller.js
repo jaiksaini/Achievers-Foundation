@@ -432,8 +432,9 @@ const razorpay = new Razorpay({
 // -----------------------------------------------------
 export const createDonation = async (req, res) => {
   try {
-    const { donorId, amount, paymentMethod, phone, address, donorType } =
+    const { donorId,  paymentMethod, phone, address, donorType } =
       req.body;      
+      const amount = parseFloat(req.body.amount)
 
     if (!donorId || !amount || !paymentMethod) {
       return res.status(400).json({

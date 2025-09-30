@@ -347,7 +347,7 @@
 // // ---------------------------------------------
 // export const memberProfile = async (req, res) => {
 //   try {
-//     const member = await Member.findById(req.user._id).select("-password"); 
+//     const member = await Member.findById(req.user._id).select("-password");
 //     if (!member) {
 //       return res.status(404).json({ status: "Failed", message: "Member not found" });
 //     }
@@ -404,9 +404,9 @@
 //     }
 
 //     // Clear access token and refresh token cookies
-//     res.clearCookie("accessToken"); 
-//     res.clearCookie("refreshToken"); 
-//     res.clearCookie("is_auth"); 
+//     res.clearCookie("accessToken");
+//     res.clearCookie("refreshToken");
+//     res.clearCookie("is_auth");
 //     res.status(200).json({ status: "success", message: "Logout successful" });
 //   } catch (error) {
 //     console.error("Logout error:", error);
@@ -416,8 +416,6 @@
 //     });
 //   }
 // };
-
-
 
 // // -----------------------------------------------------
 // // if User wants to change his password after Login..
@@ -464,15 +462,7 @@
 //   }
 // };
 
-
-
-
-
 //* COntrollers with MySql
-
-
-
-
 
 import prisma from "../config/prisma.js";
 import bcrypt from "bcrypt";
@@ -518,7 +508,7 @@ export const applyForMembership = async (req, res) => {
     }
 
     const newMember = await prisma.member.create({
-      data: { name, email, phone, address, status: "pending" },
+      data: { name, email, phone, address, status: "PENDING" },
     });
 
     res.status(201).json({
@@ -540,28 +530,46 @@ export const applyForMembership = async (req, res) => {
 export const approveMember = async (req, res) => {
   try {
     const { id } = req.params;
+    const memberId = parseInt(id, 10);
 
-    const member = await prisma.member.findUnique({ where: { id } });
+    if (isNaN(memberId)) {
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Invalid member ID" });
+    }
+
+    const member = await prisma.member.findUnique({ where: { id: memberId } });
     if (!member) {
-      return res.status(404).json({ status: "failed", message: "Member not found" });
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Member not found" });
     }
 
     const plainPassword = generatePassword();
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const updatedMember = await prisma.member.update({
-      where: { id },
+      where: { id: memberId },
       data: {
         password: hashedPassword,
-        status: "approved",
+        status: "APPROVED",
         joinedAt: new Date(),
       },
     });
 
-    const templatePath = path.join(process.cwd(), "src", "templates", "approvalTemplate.hbs");
+    const templatePath = path.join(
+      process.cwd(),
+      "src",
+      "templates",
+      "approvalTemplate.hbs"
+    );
     const templateSource = fs.readFileSync(templatePath, "utf8");
     const template = hbs.compile(templateSource);
-    const html = template({ name: updatedMember.name, email: updatedMember.email, password: plainPassword });
+    const html = template({
+      name: updatedMember.name,
+      email: updatedMember.email,
+      password: plainPassword,
+    });
 
     await transporter.sendMail({
       from: `"NGO Team" <${process.env.EMAIL_USER}>`,
@@ -577,7 +585,9 @@ export const approveMember = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in approveMember:", error);
-    res.status(500).json({ status: "failed", message: "Unable to approve member" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to approve member" });
   }
 };
 
@@ -587,13 +597,29 @@ export const approveMember = async (req, res) => {
 export const rejectMember = async (req, res) => {
   try {
     const { id } = req.params;
+    const memberId = parseInt(id, 10);
+    console.log(memberId);
+    
 
-    const member = await prisma.member.findUnique({ where: { id } });
-    if (!member) {
-      return res.status(404).json({ status: "failed", message: "Member not found" });
+    if (isNaN(memberId)) {
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Invalid member ID" });
     }
 
-    const templatePath = path.join(process.cwd(), "src", "templates", "rejectionTemplate.hbs");
+    const member = await prisma.member.findUnique({ where: { id: memberId } });
+    if (!member) {
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Member not found" });
+    }
+
+    const templatePath = path.join(
+      process.cwd(),
+      "src",
+      "templates",
+      "rejectionTemplate.hbs"
+    );
     const templateSource = fs.readFileSync(templatePath, "utf8");
     const template = hbs.compile(templateSource);
     const html = template({ name: member.name });
@@ -605,7 +631,7 @@ export const rejectMember = async (req, res) => {
       html,
     });
 
-    await prisma.member.delete({ where: { id } });
+    await prisma.member.delete({ where: { id:memberId } });
 
     res.status(200).json({
       status: "success",
@@ -613,7 +639,9 @@ export const rejectMember = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in rejectMember:", error);
-    res.status(500).json({ status: "failed", message: "Unable to reject member" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to reject member" });
   }
 };
 
@@ -622,11 +650,15 @@ export const rejectMember = async (req, res) => {
 //* ---------------------------------------------
 export const getAllMembers = async (req, res) => {
   try {
-    const members = await prisma.member.findMany({ orderBy: { createdAt: "desc" } });
+    const members = await prisma.member.findMany({
+      orderBy: { createdAt: "desc" },
+    });
     res.status(200).json({ status: "success", count: members.length, members });
   } catch (error) {
     console.error("Error in getAllMembers:", error);
-    res.status(500).json({ status: "failed", message: "Unable to fetch members" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to fetch members" });
   }
 };
 
@@ -642,7 +674,9 @@ export const getApprovedMembers = async (req, res) => {
     res.status(200).json({ status: "success", count: members.length, members });
   } catch (error) {
     console.error("Error in getApprovedMembers:", error);
-    res.status(500).json({ status: "failed", message: "Unable to fetch approved members" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to fetch approved members" });
   }
 };
 
@@ -658,7 +692,9 @@ export const getPendingMembers = async (req, res) => {
     res.status(200).json({ status: "success", count: members.length, members });
   } catch (error) {
     console.error("Error in getPendingMembers:", error);
-    res.status(500).json({ status: "failed", message: "Unable to fetch pending members" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to fetch pending members" });
   }
 };
 
@@ -668,16 +704,29 @@ export const getPendingMembers = async (req, res) => {
 export const deleteMember = async (req, res) => {
   try {
     const { id } = req.params;
-    const member = await prisma.member.delete({ where: { id } });
+    const memberId = parseInt(id, 10);
+
+    if (isNaN(memberId)) {
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Invalid member ID" });
+    }
+    const member = await prisma.member.delete({ where: { id: memberId } });
 
     if (!member) {
-      return res.status(404).json({ status: "failed", message: "Member not found" });
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Member not found" });
     }
 
-    res.status(200).json({ status: "success", message: "Member deleted successfully" });
+    res
+      .status(200)
+      .json({ status: "success", message: "Member deleted successfully" });
   } catch (error) {
     console.error("Error in deleteMember:", error);
-    res.status(500).json({ status: "failed", message: "Unable to delete member" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to delete member" });
   }
 };
 
@@ -689,23 +738,35 @@ export const MemberLogIn = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ status: "failed", message: "Email and Password are required" });
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Email and Password are required" });
     }
 
     const member = await prisma.member.findUnique({ where: { email } });
     if (!member) {
-      return res.status(401).json({ status: "failed", message: "Invalid email or password" });
+      return res
+        .status(401)
+        .json({ status: "failed", message: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, member.password);
     if (!isMatch) {
-      return res.status(401).json({ status: "failed", message: "Invalid email or password" });
+      return res
+        .status(401)
+        .json({ status: "failed", message: "Invalid email or password" });
     }
 
     const { accessToken, refreshToken, accessTokenExp, refreshTokenExp } =
       await generateTokensMember(member);
 
-    setTokensCookies(res, accessToken, refreshToken, accessTokenExp, refreshTokenExp);
+    setTokensCookies(
+      res,
+      accessToken,
+      refreshToken,
+      accessTokenExp,
+      refreshTokenExp
+    );
 
     res.status(200).json({
       member: {
@@ -722,7 +783,9 @@ export const MemberLogIn = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in MemberLogIn:", error);
-    res.status(500).json({ status: "failed", message: "Failed to login (server error)" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Failed to login (server error)" });
   }
 };
 
@@ -745,7 +808,10 @@ export const memberProfile = async (req, res) => {
       },
     });
 
-    if (!member) return res.status(404).json({ status: "failed", message: "Member not found" });
+    if (!member)
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Member not found" });
     res.json({ member });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -823,7 +889,9 @@ export const changeUserPassword = async (req, res) => {
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).json({ status: "failed", message: "Passwords don't match" });
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Passwords don't match" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -834,9 +902,13 @@ export const changeUserPassword = async (req, res) => {
       data: { password: newHashPassword },
     });
 
-    res.status(200).json({ status: "success", message: "Password changed successfully" });
+    res
+      .status(200)
+      .json({ status: "success", message: "Password changed successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ status: "failed", message: "Unable to change password" });
+    res
+      .status(500)
+      .json({ status: "failed", message: "Unable to change password" });
   }
 };
