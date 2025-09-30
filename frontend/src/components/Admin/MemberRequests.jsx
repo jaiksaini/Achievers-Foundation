@@ -51,7 +51,7 @@ const MemberRequests = () => {
             ) : pendingRequest.length > 0 ? (
               pendingRequest.map((req, index) => (
                 <tr
-                  key={req._id}
+                  key={req.id}
                   className={`${
                     index % 2 === 0 ? "bg-gray-100" : "bg-white"
                   } hover:bg-gray-100 transition`}
@@ -69,13 +69,13 @@ const MemberRequests = () => {
                   <td className="p-4 text-gray-600">{req.email}</td>
                   <td className="p-4 text-center space-x-2">
                     <button
-                      onClick={() => approveMember(req._id)}
+                      onClick={() => approveMember(req.id)}
                       className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
                     >
                       Approve
                     </button>
                     <button
-                      onClick={() => rejectMember(req._id)}
+                      onClick={() => rejectMember(req.id)}
                       className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
                     >
                       Reject
@@ -106,7 +106,7 @@ const MemberRequests = () => {
         ) : pendingRequest.length > 0 ? (
           pendingRequest.map((req) => (
             <div
-              key={req._id}
+              key={req.id}
               className="bg-white rounded-lg shadow-md p-4 flex flex-col gap-3"
             >
               <div className="flex items-center gap-3">
@@ -122,13 +122,13 @@ const MemberRequests = () => {
               </div>
               <div className="flex flex-col sm:flex-row gap-2 mt-2">
                 <button
-                  onClick={() => approveMember(req._id)}
+                  onClick={() => approveMember(req.id)}
                   className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition w-full sm:w-auto"
                 >
                   Approve
                 </button>
                 <button
-                  onClick={() => rejectMember(req._id)}
+                  onClick={() => rejectMember(req.id)}
                   className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition w-full sm:w-auto"
                 >
                   Reject

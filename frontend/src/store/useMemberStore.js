@@ -41,7 +41,7 @@ export const useMemberStore = create((set, get) => ({
       toast.success(res.data.message);
 
       // remove approved member from pending list
-      const updatedPending = get().pendingRequest.filter((m) => m._id !== id);
+      const updatedPending = get().pendingRequest.filter((m) => m.id !== id);
       set({ pendingRequest: updatedPending });
 
       // optional: refresh full members list
@@ -58,7 +58,7 @@ export const useMemberStore = create((set, get) => ({
       toast.success(res.data.message);
 
       // remove rejected member from pending list
-      const updatedPending = get().pendingRequest.filter((m) => m._id !== id);
+      const updatedPending = get().pendingRequest.filter((m) => m.id !== id);
       set({ pendingRequest: updatedPending });
     } catch (error) {
       console.error("Error rejecting member:", error);
@@ -70,7 +70,7 @@ export const useMemberStore = create((set, get) => ({
     try {
       await axiosInstance.delete(`/api/member/${id}`);
       // Remove member from local state
-      const updated = get().members.filter((m) => m._id !== id);
+      const updated = get().members.filter((m) => m.id !== id);
       set({ members: updated });
       toast.success("Member deleted successfully");
     } catch (error) {

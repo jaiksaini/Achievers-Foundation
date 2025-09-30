@@ -9,7 +9,7 @@ const MemberIDCard = () => {
   
 
   const members = {
-    id: member?._id || "0000 1111 8888 0000",
+    id: member?.id || "0000 1111 8888 0000",
     name: member?.name || "NAME",
     email: member?.email || "example@email.com",
     joined: member?.joinedAt,

@@ -12,12 +12,12 @@ const MemberSettings = () => {
 
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
-    if (file && member?._id) {
+    if (file && member?.id) {
       const imageURL = URL.createObjectURL(file);
       setPreview(imageURL);
 
       try {
-        await uploadProfilePicMember(member._id, file);
+        await uploadProfilePicMember(member.id, file);
       } catch (err) {
         console.error("Upload failed:", err);
       }

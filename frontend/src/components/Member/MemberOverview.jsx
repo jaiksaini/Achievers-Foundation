@@ -6,7 +6,7 @@ import {useAuthStore} from "../../store/useAuthStore"
 const MemberOverview = () => {
   const {member} = useAuthStore()
   const { totalDonations, fetchTotalDonations, loading, error } = useDonationStore();
-  const memberId = member?._id
+  const memberId = member?.id
   // console.log(memberId);
   
 

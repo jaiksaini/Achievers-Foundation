@@ -10,8 +10,8 @@ const MemberDonationHistory = () => {
   // console.log(member?._id);
 
   useEffect(() => {
-    if (member?._id) {
-      getMemberDonations(member._id);
+    if (member?.id) {
+      getMemberDonations(member.id);
     }
   }, [member]);
 
@@ -35,7 +35,7 @@ const MemberDonationHistory = () => {
             <tbody>
               {donations.length > 0 ? (
                 donations.map((d) => (
-                  <tr key={d._id} className="border-b hover:bg-gray-50">
+                  <tr key={d.id} className="border-b hover:bg-gray-50">
                     <td className="p-3">
                       {new Date(d.date).toLocaleDateString()}
                     </td>

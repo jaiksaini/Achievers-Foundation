@@ -94,7 +94,7 @@ const AdminMembers = () => {
                     <td className="p-4 text-gray-600">{member.address}</td>
                     <td className="p-4 text-center space-x-2">
                       <button
-                        onClick={() => handleDelete(member._id)}
+                        onClick={() => handleDelete(member.id)}
                         className="text-red-600 hover:text-red-800 flex items-center gap-1"
                       >
                         <FaTrash /> Remove
@@ -136,7 +136,7 @@ const AdminMembers = () => {
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">{member.address}</span>
                 <button
-                  onClick={() => handleDelete(member._id)}
+                  onClick={() => handleDelete(member.id)}
                   className="text-red-600 hover:text-red-800 flex items-center gap-1"
                 >
                   <FaTrash /> Remove
