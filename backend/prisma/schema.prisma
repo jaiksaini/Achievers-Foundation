@@ -129,4 +129,21 @@ enum DonationStatus {
   FAILED
 }
 
+model Category {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  projects Project[]
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  link        String
+  image       String
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 

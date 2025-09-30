@@ -9,6 +9,8 @@ import userRoutes from "./src/routes/auth.routes.js";
 import donarRoutes from "./src/routes/donation.route.js";
 import memberRoutes from "./src/routes/member.routes.js";
 import documentRoutes from "./src/routes/document.routes.js";
+import projectRoutes from "./src/routes/project.route.js";
+import categoryRoutes from "./src/routes/category.route.js"
 import "./src/config/passport-jwt-strategy.js";
 import "./src/config/googleStrategy.js";
 import setTokensCookies from "./src/utils/setTokenCookies.js";
@@ -37,6 +39,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/donation", donarRoutes);
 app.use("/api/member", memberRoutes);
 app.use("/api/document", documentRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/category", categoryRoutes);
 
 app.get(
   "/auth/google",

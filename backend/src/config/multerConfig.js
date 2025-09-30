@@ -32,3 +32,16 @@ const documentStorage = multer.diskStorage({
 });
 
 export const uploadDocument = multer({ storage: documentStorage });
+
+
+// ------------------ Project Image Upload ------------------
+const projectImagePath = "src/uploads/projects";
+ensureDir(projectImagePath);
+
+const projectStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, projectImagePath),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + path.extname(file.originalname)), // e.g., 1696112345678.jpg
+});
+
+export const uploadProjectImage = multer({ storage: projectStorage });
