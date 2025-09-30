@@ -38,7 +38,7 @@ const Contribution = () => {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4">
-          {user?.role === "admin" ? (
+          {user?.role === "ADMIN" ? (
             <Link
               to="/admin/dashboard"
               className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"

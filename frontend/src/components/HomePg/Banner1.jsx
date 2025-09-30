@@ -39,7 +39,7 @@ const Banner1 = () => {
             >
               Learn More
             </Link>
-            {user?.role === "admin" ? (
+            {user?.role === "ADMIN" ? (
             <Link
               to="/admin/dashboard"
               className="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"

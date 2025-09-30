@@ -140,7 +140,7 @@ const AboutUs = () => {
           Whether through volunteering, donating, or becoming a member, your
           support helps us continue our mission.
         </p>
-        {user?.role === "admin" ? (
+        {user?.role === "ADMIN" ? (
           <Link
             to="/admin/members"
             className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-yellow-300"

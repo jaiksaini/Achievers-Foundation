@@ -62,7 +62,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
-              {user?.role === "admin" ? (
+              {user?.role === "ADMIN" ? (
                 <>
                   <li>
                     <NavLink to="/admin/dashboard" className="hover:text-white">

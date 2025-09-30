@@ -26,7 +26,7 @@ const Members = () => {
           dedicated to making a difference. Join us and become part of our
           community today!
         </p>
-        {user?.role === "admin" ? (
+        {user?.role === "ADMIN" ? (
           <Link
             to="/admin/members"
             className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"
@@ -88,7 +88,7 @@ const Members = () => {
           By becoming a member, you can contribute to meaningful causes, join
           events, and work together for a brighter future.
         </p>
-        {user?.role === "admin" ? (
+        {user?.role === "ADMIN" ? (
           <Link
             to="/admin/members"
             className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-white hover:text-black hover:border transition"

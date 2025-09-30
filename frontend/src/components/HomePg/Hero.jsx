@@ -33,7 +33,7 @@ const Hero = () => {
             </p>
 
             <div className="mt-6">
-            {user?.role === "admin" ? (
+            {user?.role === "ADMIN" ? (
             <Link
               to="/admin/dashboard"
               className="bg-white text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-blue-400"

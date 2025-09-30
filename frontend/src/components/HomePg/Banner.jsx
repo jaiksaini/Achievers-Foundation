@@ -20,7 +20,7 @@ const Banner = () => {
         </h1>
         <div className="mt-6 flex flex-wrap gap-4 justify-center">
 
-          {user?.role === "admin" ? (
+          {user?.role === "ADMIN" ? (
             <>
               <Link
                 to="/admin/members"
