@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaCamera, FaLock } from "react-icons/fa";
 import { useAuthStore } from "../../store/useAuthStore";
 
+
+const BACKEND_URL = `http://localhost:8000`
+
 const AdminSetting = () => {
   const { user, uploadProfilePic, isUploading ,changepassword , isChanging} = useAuthStore();
   const [preview, setPreview] = useState(user?.profilePic || "#");
@@ -50,7 +53,7 @@ const AdminSetting = () => {
                   preview.startsWith("blob:")
                     ? preview
                     : user?.profilePic
-                    ? `${import.meta.env.VITE_API_URL}/${user.profilePic}`
+                    ? `${BACKEND_URL}/${user.profilePic}`
                     : "/default-avatar.png"
                 }
                 alt="Profile"

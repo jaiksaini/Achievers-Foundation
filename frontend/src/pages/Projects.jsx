@@ -1,73 +1,79 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useProjectAndCategoryStore } from "../store/useProjectandCategoryStore";
+
+const BACKEND_URL = `http://localhost:8000`
 
 const Projects = () => {
-  // Projects with Categories
-  const projects = [
-    {
-      title: "International Journal of Multidisciplinary Research and Explorer",
-      description:
-        "The International Journal of Multidisciplinary Research and Explorer (IJMRE) is an esteemed international peer-reviewed article journal published 4 times a year. Its primary objective is to provide authentic and reliable contributions to the field of research. With a strong editorial board composed of experts in various fields, IJMRE ensures a high-quality and fast review process.",
-      link: "https://ijmre.com/index.php/IJMRE",
-      image: "https://academicsachievers.in/public/img/ijmre.png",
-      category: "Research Journals",
-    },
-    {
-      title: "Journal of Recent Innovations in Computer Science and Technology",
-      description:
-        "Journal of Recent Innovations in Computer Science and Technology(JRICST) is a scholarly peer-reviewed journal published Quarterly, four (4) Times a year, focusing on theories, methods, and applications in Computer Science and innovation in Technology. It provides a challenging forum for researchers, industrial professionals, engineers, managers, and policymakers working in the field to contribute and disseminate innovative new work on Computer Science and innovation in Technology.",
-      link: "https://jricst.com/index.php/JRICST",
-      image: "https://academicsachievers.in/public/img/jricst.png",
-      category: "Research Journals",
-    },
-    {
-      title: "Digital Object Identifier (DOI) Engine",
-      description:
-        "A Digital Object Identifier (DOI) Engine is a doi registration agency which provides a serial code that uniquely identifies objects. Particularly for electronic publications like journal articles, the DOI Engine system is employed. In 2020, the DOI Engine system was introduced and this system does not belong to any other doi provider in any form. The DOI Engine name is recorded alongside object-specific metadata. It might also contain the location of the thing, like a URL. As they maintain the journals, published papers, books, and other available educational resources, digital online and virtual libraries are the repository of knowledge.",
-      link: "https://doie.org/",
-      image: "https://academicsachievers.in/public/img/doi_provider.png",
-      category: "Doi Provider",
-    },
-  ];
 
-  {
-    /* Category */
-  }
-  const categories = ["All", "Research Journals", "Doi Provider"];
+  
+  const {
+    projects,
+    categories,
+    getProjects,
+    getCategories,
+    isFetching,
+  } = useProjectAndCategoryStore();
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Filter projects by category
+  // Load projects & categories on mount
+  useEffect(() => {
+    getProjects();
+    getCategories();
+  }, [getProjects, getCategories]);
+
+  // console.log(projects);
+  
+
+  // Filter projects by selected category
   const filteredProjects =
     selectedCategory === "All"
       ? projects
-      : projects.filter((p) => p.category === selectedCategory);
+      : projects.filter((p) => {
+          const catName =
+            categories.find((c) => c.id === p.categoryId)?.name || "Uncategorized";
+          return catName === selectedCategory;
+        });
 
   return (
+    
     <div className="container mx-auto px-6 pt-6 pb-12">
       <h2 className="text-4xl font-bold text-center mb-6">Our Projects</h2>
 
       {/* Category Selector */}
       <div className="flex flex-wrap justify-center gap-4 mb-10">
+        <button
+          onClick={() => setSelectedCategory("All")}
+          className={`px-5 py-2 rounded-full font-medium transition ${
+            selectedCategory === "All"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          All
+        </button>
         {categories.map((cat) => (
           <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat.name)}
             className={`px-5 py-2 rounded-full font-medium transition ${
-              selectedCategory === cat
+              selectedCategory === cat.name
                 ? "bg-blue-600 text-white"
                 : "bg-gray-200 hover:bg-gray-300"
             }`}
           >
-            {cat}
+            {cat.name}
           </button>
         ))}
       </div>
 
-      {/* Project Grid */}
-      {filteredProjects.length > 0 ? (
+      {/* Projects List */}
+      {isFetching ? (
+        <p className="text-center text-gray-500">Loading projects...</p>
+      ) : filteredProjects.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-10">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} categories={categories} />
           ))}
         </div>
       ) : (
@@ -79,44 +85,55 @@ const Projects = () => {
   );
 };
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, categories }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const shortText = project.description.slice(0, 160) + "...";
+  const categoryName =
+    categories.find((c) => c.id === project.categoryId)?.name || "Uncategorized";
+
+  const shortText =
+    project.description?.length > 160
+      ? project.description.slice(0, 160) + "..."
+      : project.description;
 
   return (
     <div className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition duration-300">
       {/* Project Image */}
       <img
-        src={project.image}
-        alt={project.title}
+        src={`${BACKEND_URL}${project.image}`}
+        alt={project.name}
         className="w-full h-64 object-cover"
       />
 
       {/* Project Info */}
       <div className="p-8">
-        <h3 className="text-2xl font-semibold mb-4">{project.title}</h3>
+        <h3 className="text-2xl font-semibold mb-2">{project.name}</h3>
+        <p className="text-sm text-gray-500 mb-3">{categoryName}</p>
 
         <p className="text-gray-600 text-base leading-relaxed mb-4">
           {isExpanded ? project.description : shortText}
         </p>
 
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="text-blue-600 hover:underline mb-6"
-        >
-          {isExpanded ? "Show Less" : "Read More"}
-        </button>
-
-        <div>
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-5 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        {project.description?.length > 160 && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-blue-600 hover:underline mb-6"
           >
-            Visit Project →
-          </a>
-        </div>
+            {isExpanded ? "Show Less" : "Read More"}
+          </button>
+        )}
+
+        {project.link && (
+          <div>
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-5 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+              Visit Project →
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

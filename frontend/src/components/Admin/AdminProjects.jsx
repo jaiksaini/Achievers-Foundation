@@ -8,6 +8,8 @@ import {
 } from "react-icons/fa";
 import { useProjectAndCategoryStore } from "../../store/useProjectandCategoryStore";
 
+const BACKEND_URL = `http://localhost:8000`
+
 const AdminProjects = () => {
   const {
     projects,
@@ -27,7 +29,7 @@ const AdminProjects = () => {
 
   const [newProject, setNewProject] = useState({
     name: "",
-    category: "",
+    categoryId: "",
     description: "",
     image: null,
     link: "",
@@ -45,7 +47,7 @@ const AdminProjects = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewProject({ ...newProject, image: file }); // keep file itself, not URL
+      setNewProject({ ...newProject, image: file });
     }
   };
 
@@ -56,7 +58,7 @@ const AdminProjects = () => {
       !newProject.name ||
       !newProject.description ||
       !newProject.image ||
-      !newProject.category ||
+      !newProject.categoryId ||
       !newProject.link
     ) {
       alert("Please fill all fields!");
@@ -67,7 +69,7 @@ const AdminProjects = () => {
     setShowProjectModal(false);
     setNewProject({
       name: "",
-      category: "",
+      categoryId: "",
       description: "",
       image: null,
       link: "",
@@ -88,7 +90,7 @@ const AdminProjects = () => {
       alert("Please enter a category name!");
       return;
     }
-    if (categories.includes(newCategory)) {
+    if (categories.some((c) => c.name === newCategory)) {
       alert("Category already exists!");
       return;
     }
@@ -99,11 +101,11 @@ const AdminProjects = () => {
   };
 
   // Delete category
-  const handleDeleteCategory = (cat) => {
+  const handleDeleteCategory = (id, name) => {
     if (
-      window.confirm(`Delete category "${cat}"? This may affect some projects.`)
+      window.confirm(`Delete category "${name}"? This may affect some projects.`)
     ) {
-      deleteCategory(cat);
+      deleteCategory(id);
     }
   };
 
@@ -141,12 +143,17 @@ const AdminProjects = () => {
                 className="bg-white rounded-lg shadow-md p-4 flex flex-col"
               >
                 <img
-                  src={project.image}
+                  src={`${BACKEND_URL}${project.image}`}
                   alt={project.name}
                   className="w-full h-40 object-cover rounded-md"
                 />
                 <h3 className="mt-3 text-lg font-semibold">{project.name}</h3>
-                <p className="text-sm text-gray-500">{project.category}</p>
+                <p className="text-sm text-gray-500">
+                  {
+                    categories.find((c) => c.id === project.categoryId)?.name ||
+                    "Uncategorized"
+                  }
+                </p>
                 <p className="text-gray-600 mt-2 line-clamp-3">
                   {project.description}
                 </p>
@@ -207,16 +214,19 @@ const AdminProjects = () => {
                   Category
                 </label>
                 <select
-                  value={newProject.category}
+                  value={newProject.categoryId}
                   onChange={(e) =>
-                    setNewProject({ ...newProject, category: e.target.value })
+                    setNewProject({
+                      ...newProject,
+                      categoryId: e.target.value,
+                    })
                   }
                   className="border rounded w-full p-2"
                 >
                   <option value="">Select Category</option>
-                  {categories.map((cat, idx) => (
-                    <option key={idx} value={cat}>
-                      {cat}
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
                     </option>
                   ))}
                 </select>
@@ -306,14 +316,14 @@ const AdminProjects = () => {
 
             {/* Category List */}
             <ul className="space-y-2">
-              {categories.map((cat, idx) => (
+              {categories.map((cat) => (
                 <li
-                  key={idx}
+                  key={cat.id}
                   className="flex justify-between items-center bg-gray-100 px-3 py-2 rounded"
                 >
-                  <span>{cat}</span>
+                  <span>{cat.name}</span>
                   <button
-                    onClick={() => handleDeleteCategory(cat)}
+                    onClick={() => handleDeleteCategory(cat.id, cat.name)}
                     className="text-red-600 hover:text-red-800"
                   >
                     <FaTrash />
@@ -329,4 +339,3 @@ const AdminProjects = () => {
 };
 
 export default AdminProjects;
-
