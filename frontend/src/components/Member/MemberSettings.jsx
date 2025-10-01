@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaCamera, FaLock } from "react-icons/fa";
 import { useAuthStore } from "../../store/useAuthStore";
 
+
+const BACKEND_URL = `http://localhost:8000`
 const MemberSettings = () => {
   const { member, uploadProfilePicMember, isUploading , memberchangepassword , isChanging } = useAuthStore();
   const [preview, setPreview] = useState(member?.profilePic || "#");
@@ -48,7 +50,7 @@ const MemberSettings = () => {
                   preview.startsWith("blob:")
                     ? preview
                     : member?.profilePic
-                    ? `${import.meta.env.VITE_API_URL}/${member.profilePic}`
+                    ? `${BACKEND_URL}/${member.profilePic}`
                     : "/default-avatar.png"
                 }
                 alt="Profile"

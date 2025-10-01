@@ -360,7 +360,7 @@ export const memberProfile = async (req, res) => {
 // ---------------------------------------------
 export const uploadProfile = async (req, res) => {
   try {
-    const memberId = req.params.id;
+    const memberId = parseInt(req.params.id);
     const member = await prisma.member.findUnique({ where: { id: memberId } });
 
     if (!member) return res.status(404).json({ message: "Member not found" });
