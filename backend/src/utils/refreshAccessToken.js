@@ -1,9 +1,7 @@
 // import User from "../models/userModel.js"
 // import UserRefreshTokenModel from "../models/UserRefreshToken.js"
-// import generateTokens from "./generateTokens.js" 
+// import generateTokens from "./generateTokens.js"
 // import verifyRefreshToken from "./verifyRefreshToken.js"
-
-
 
 // const refreshAccessToken = async (req, res) =>{
 //     try {
@@ -31,9 +29,7 @@
 //             throw new Error("Unauthorized Access  in file refreshAccessToken")
 //         }
 
-
 //         // Generate new Tokens
-
 
 //         const {accessToken , refreshToken , accessTokenExp  , refreshTokenExp} = await generateTokens(user)
 
@@ -50,13 +46,9 @@
 //     }
 // }
 
-
 // export default refreshAccessToken;
 
-
-
-
-import prisma from "../config/prisma.js"; 
+import prisma from "../config/prisma.js";
 import generateTokens from "./generateTokens.js";
 import verifyRefreshToken from "./verifyRefreshToken.js";
 
@@ -85,7 +77,7 @@ const refreshAccessToken = async (req, res) => {
     // Find refresh token in DB
     const userRefreshToken = await prisma.userRefreshToken.findFirst({
       where: {
-        userId: tokenDetails._id,
+        userId: tokenDetails.id,
       },
     });
 
@@ -98,12 +90,8 @@ const refreshAccessToken = async (req, res) => {
     }
 
     // Generate new tokens
-    const {
-      accessToken,
-      refreshToken,
-      accessTokenExp,
-      refreshTokenExp,
-    } = await generateTokens(user);
+    const { accessToken, refreshToken, accessTokenExp, refreshTokenExp } =
+      await generateTokens(user);
 
     return {
       newAccessToken: accessToken,
@@ -112,10 +100,7 @@ const refreshAccessToken = async (req, res) => {
       newRefreshTokenExp: refreshTokenExp,
     };
   } catch (error) {
-    console.error(
-      "Error in refreshAccessToken:",
-      error.message || error
-    );
+    console.error("Error in refreshAccessToken:", error.message || error);
     throw new Error(error.message || "Failed to refresh access token");
   }
 };

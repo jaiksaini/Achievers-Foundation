@@ -8,8 +8,8 @@ const UserDonations = () => {
   // console.log(user?._id);
 
   useEffect(() => {
-    if (user?._id) {
-      getUserDonations(user._id);
+    if (user?.id) {
+      getUserDonations(user.id);
     }
   }, [user]);
 

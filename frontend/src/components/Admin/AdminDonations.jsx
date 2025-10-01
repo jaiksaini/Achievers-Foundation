@@ -76,10 +76,10 @@ const AdminDonations = () => {
           </thead>
           <tbody>
             {filteredDonations.map((d) => (
-              <tr key={d._id} className="hover:bg-gray-50">
-                <td className="p-3 border-b">{d._id}</td>
-                <td className="p-3 border-b">{d?.donor?.name}</td>
-                <td className="p-3 border-b">{d?.donor?.email}</td>
+              <tr key={d.id} className="hover:bg-gray-50">
+                <td className="p-3 border-b">{d.id}</td>
+                <td className="p-3 border-b">{d?.user?.name || d?.member?.name || "Anonymous"}</td>
+                <td className="p-3 border-b">{d?.user?.email || d?.member?.email || "Anonymous"}</td>
                 <td className="p-3 border-b font-semibold text-green-600">
                   ₹{d.amount}
                 </td>
@@ -124,7 +124,7 @@ const AdminDonations = () => {
               <p className="font-semibold">{d?.user?.name || d?.member?.name || "Anonymous"}</p>
               <p className="text-green-600 font-bold">₹{d.amount}</p>
             </div>
-            <p className="text-sm text-gray-500">{d?.donor?.email}</p>
+            <p className="text-sm text-gray-500">{d?.user?.email || d?.member?.email || "Anonymous"}</p>
             <p className="text-sm text-gray-400">
               {new Date(d.date).toLocaleDateString()}
             </p>

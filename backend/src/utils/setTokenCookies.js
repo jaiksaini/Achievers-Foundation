@@ -1,6 +1,6 @@
 const setTokensCookies = (res, accessToken, refreshToken, newAccessTokenExp, newRefreshTokenExp) => {
   
-  newAccessTokenExp = Math.floor(Date.now() / 1000) +   60 * 60; // Set to 1 minute
+  newAccessTokenExp = Math.floor(Date.now() / 1000) +   60 * 60 *24; // Set to 1 day
   newRefreshTokenExp = Math.floor(Date.now() / 1000) + 5 * 24 * 60 * 60; // Set to 5 days 
 
   const accessTokenMaxAge = (newAccessTokenExp - Math.floor(Date.now() / 1000)) * 1000;

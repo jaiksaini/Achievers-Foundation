@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect  } from "react";
 import {
   BarChart,
   Bar,
@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useDonationStore } from "../../store/useDonationStore";
+import { useProjectAndCategoryStore } from "../../store/useProjectandCategoryStore";
 
 const AdminDashboard = () => {
   const {
@@ -18,6 +19,14 @@ const AdminDashboard = () => {
     getDashboardStats,
     isLoading,
   } = useDonationStore();
+
+  const {projects , getProjects}= useProjectAndCategoryStore();
+
+  useEffect(() => {
+    getProjects();
+  }, [getProjects]);
+
+  const projectCount = projects.length;
 
   // fetch on mount
   useEffect(() => {
@@ -60,7 +69,7 @@ const AdminDashboard = () => {
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-gray-500 text-sm">Active Projects</h2>
           <p className="text-3xl font-extrabold text-orange-500">
-            {totals?.activeProjects || 0}
+            {projectCount || 0}
           </p>
         </div>
       </div>

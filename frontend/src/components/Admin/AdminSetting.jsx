@@ -15,12 +15,12 @@ const AdminSetting = () => {
 
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
-    if (file && user?._id) {
+    if (file && user?.id) {
       const imageURL = URL.createObjectURL(file);
       setPreview(imageURL);
   
       try {
-        await uploadProfilePic(user._id, file);  
+        await uploadProfilePic(user.id, file);  
       } catch (err) {
         console.error("Upload failed:", err);
       }
